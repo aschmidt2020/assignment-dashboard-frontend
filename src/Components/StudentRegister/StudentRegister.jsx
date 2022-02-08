@@ -3,7 +3,7 @@ import useForm from "../CustomHooks/useForm";
 
 const StudentRegister = (props) => {
     const { formValues, handleChange, handleSubmit } = useForm(register);
-
+    
     return (
         <div>
             <input className="form-control" type="text" placeholder={props.username} aria-label="Disabled input example" disabled></input>

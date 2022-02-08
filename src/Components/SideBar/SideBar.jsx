@@ -24,29 +24,31 @@ const SideBar = (props) => {
 
     return (
         <div>
-            <nav className="d-flex flex-column flex-shrink-0 p-3 bg-white text-dark">
+            <nav className="d-flex flex-column flex-shrink-0 p-3">
+                {props.userInfo && <span className="navbar-welcome-text">Welcome {props.userInfo.username}!</span>}
+                {!props.userInfo && <span className="navbar-welcome-text">Please log-in.</span>}
                 <ul className="nav flex-column" id="nav_accordion">
                     <div className="accordion accordion-flush" id="accordionFlushExample">
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="flush-headingOne">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
                             Courses
                         </button>
                         </h2>
-                        <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div id="flush-collapseOne" className="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <ul>
                         {props.courses && props.courses.map((course, index) => {
                             if(url && url.localeCompare(course.course.course_name.split(' ').join('')) === 0){
                                 return (
-                                    <li key={course.course.id} >
-                                        <button className="btn btn-dark" onClick={() => navigateCourse(course)}>{course.course.course_name}</button>
+                                    <li className="sidebar-course-list-active" key={course.course.id} >
+                                        <button className="btn sidebar-course-button" onClick={() => navigateCourse(course)}>{course.course.course_name}</button>
                                     </li>
                                 )
                             }
                             else {
                                 return (
-                                    <li key={course.course.id}>
-                                        <button onClick={() => navigateCourse(course)}>{course.course.course_name}</button>
+                                    <li className="sidebar-course-list" key={course.course.id}>
+                                        <button className="btn sidebar-course-button" onClick={() => navigateCourse(course)}>{course.course.course_name}</button>
                                     </li>
                                 )
                             }
@@ -59,8 +61,9 @@ const SideBar = (props) => {
                         </div>
                     </div>
                     </div>
-                    <li className="nav-item">
-                        {props.userInfo && <span><button onClick={() => navigateEnroll()}> Add A Course</button></span>}
+                    <li className="nav-item bottom-button">
+                        {props.userInfo && <span><button className="btn btn-outline-dark" style={{'marginLeft':'1em', 'marginRight':'1em'}} onClick={() => navigateEnroll()}> Add Course</button></span>}
+                        <Link to="/" className="btn btn-outline-dark" data-toggle="popover" title="Home" data-content="Home" trigger="hover">&nbsp;&nbsp;&nbsp; Home &nbsp;&nbsp;&nbsp;</Link>
                     </li>
                 </ul>
         </nav>

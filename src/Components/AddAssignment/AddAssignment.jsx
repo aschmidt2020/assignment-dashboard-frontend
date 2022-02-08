@@ -40,7 +40,7 @@ const AddAssignment = (props) => {
 
     return (
         <span id="add-assignment">
-            <Button variant="btn btn-outline-primary" onClick={handleShow} style={{ "marginLeft": "6em" }}>
+            <Button variant="btn btn-outline-primary" onClick={handleShow} style={{ "marginRight": "1em" }}>
                 Add Assignment
             </Button>
 

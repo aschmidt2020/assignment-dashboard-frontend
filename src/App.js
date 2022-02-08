@@ -7,6 +7,7 @@ import Dashboard from './Components/Dashboard/Dashboard';
 import SideBar from './Components/SideBar/SideBar';
 import CourseViewer from './Components/CourseViewer/CourseViewer';
 import EnrollButton from './Components/EnrollButton/EnrollButton';
+import './App.css'
 
 function App() {
   const [user, setUser] = useState();
@@ -180,22 +181,26 @@ function App() {
 
   }
   return (
+    <div className='container-fluid'>
+      <div className='row'>
+          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments}/>
+          <div className='col-2 sidebar-border' style={{'height':'90vh'}} >
+            <SideBar userInfo={userInfo} courses={courses}/>
+          </div>
 
-    <div className='row'>
-        <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments}/>
-        <div className='col-2'>
-          <SideBar userInfo={userInfo} courses={courses}/>
+          <div className='col-6'>
+            <Routes>
+              <Route exact path='/' element={<Dashboard userInfo={userInfo} courses={courses} assignments={assignments}/>}/>
+              <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments}/>}/>
+              <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses}/>}/>
+            </Routes>
+          </div>
+
+          <div className='col-4'>
+            view pane
+          </div>
         </div>
-
-        <div className='col-10'>
-          <Routes>
-            <Route exact path='/' element={<Dashboard courses={courses} assignments={assignments}/>}/>
-            <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments}/>}/>
-            <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses}/>}/>
-          </Routes>
-        </div>
-      </div>
-
+    </div>
   );
 }
 

@@ -1,0 +1,47 @@
+.btn:focus {
+    box-shadow: none !important;
+    -webkit-box-shadow: none!important; 
+}
+
+/* sidebar settings */
+.accordion-button:focus {
+    box-shadow: none !important;
+    -webkit-box-shadow: none!important; 
+}
+
+.sidebar-course-list {
+    list-style: none;
+    margin: 0.5em;
+    background-color: #f9f9f9;
+
+}
+
+.sidebar-course-list-active {
+    list-style: none;
+    margin: 0.5em;
+    background-color: darkgray;
+}
+
+.sidebar-course-button {
+    background-color: transparent;
+}
+
+.sidebar-border {
+    border-right: 1px solid grey;
+}
+
+.bottom-button {
+    position: absolute;
+    bottom: 5em;
+
+}
+
+/* dashboard settings */
+.assignment-list {
+    list-style: none;
+    margin: 1em;
+}
+
+.assignment-button {
+    width: 100%;
+}
