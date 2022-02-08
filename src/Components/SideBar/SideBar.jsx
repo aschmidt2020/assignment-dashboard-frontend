@@ -2,18 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate} from "react-router-dom";
 
 const SideBar = (props) => {
+    const [url, setUrl] = useState('');
 
     const navigate = useNavigate();
     
-    // useEffect(() => {
-    //     let current_window = window.location.href;
+    useEffect(() => {
+        let current_window = window.location.href.split('/')
+        setUrl(current_window[4])
 
-    //     // eslint-disable-next-line
-    //   }, [window.location.href])
+        // eslint-disable-next-line
+      }, [window.location.href])
 
     function navigateCourse(course) {
         debugger
-        navigate(`/course/${course.course.course_name}`, { state: {...course}});
+        navigate(`/course/${course.course.course_name.split(' ').join('')}`, { state: {...course}});
     }
 
     return (
@@ -30,7 +32,7 @@ const SideBar = (props) => {
                         <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <ul>
                         {props.courses && props.courses.map((course, index) => {
-                            if(window.location.href.includes(course.course.course_name)){
+                            if(url.localeCompare(course.course.course_name.split(' ').join('')) === 0){
                                 return (
                                     <li key={course.course.id} >
                                         <button className="btn btn-dark" onClick={() => navigateCourse(course)}>{course.course.course_name}</button>

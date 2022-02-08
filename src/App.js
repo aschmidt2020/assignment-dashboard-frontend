@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Dashboard from './Components/Dashboard/Dashboard';
 import SideBar from './Components/SideBar/SideBar';
+import CourseViewer from './Components/CourseViewer/CourseViewer';
 
 function App() {
   const [user, setUser] = useState();
@@ -188,7 +189,7 @@ function App() {
         <div className='col-10'>
           <Routes>
             <Route exact path='/' element={<Dashboard courses={courses} assignments={assignments}/>}/>
-            {/* <Route path='/course/:courseName' element={<CollectionViewer />}/> */}
+            <Route path='/course/:courseName' element={<CourseViewer />}/>
           </Routes>
         </div>
       </div>
