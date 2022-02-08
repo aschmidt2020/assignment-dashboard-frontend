@@ -182,7 +182,7 @@ function App() {
   return (
 
     <div className='row'>
-        <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout}/>
+        <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments}/>
         <div className='col-2'>
           <SideBar userInfo={userInfo} courses={courses}/>
         </div>

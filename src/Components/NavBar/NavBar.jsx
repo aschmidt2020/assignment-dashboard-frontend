@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import AddAssignment from "../AddAssignment/AddAssignment";
 import LoginForm from "../LoginForm/LoginForm";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 
@@ -23,6 +24,10 @@ const NavBar = (props) => {
                         <li className="nav-item">
                         {!props.userInfo && <span> <LoginForm login={props.login} /> <RegistrationForm register={props.register} /> </span>}
                         {props.userInfo && <button type="button" className="btn btn-outline-danger" onClick={props.logout}>Log Out</button>}
+                        </li>
+
+                        <li className="nav-item">
+                        {props.userInfo && props.userInfo.is_staff && <span> <AddAssignment  courses={props.courses} getAssignments={props.getAssignments}/> </span>}
                         </li>
 
                         

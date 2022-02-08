@@ -7,6 +7,9 @@ const Dashboard = (props) => {
 
     useEffect(() => {
         if(props.assignments != undefined){
+            let assignments3 = [];
+            let assignments7 = [];
+            let assignments = [];
             let threeDays = new Date();
             threeDays.setDate(threeDays.getDate() + 3);
     
@@ -15,36 +18,24 @@ const Dashboard = (props) => {
 
             for (let i=0; i < props.assignments.length; i++) {
                 let assignment_date = new Date(props.assignments[i].assignment.assignment_due_date + "T00:00:00");
+                debugger
                 if(assignment_date <= threeDays){
-                    if(assignmentsNext3 != undefined){
-                        let tempAssignments = [...assignmentsNext3, props.assignments[i]];
-                        setAssignmentsNext3([tempAssignments]);
-                    }
-                    else{
-                        setAssignmentsNext3([props.assignments[i]]);
-                    }
-                    
+                    assignments3.push(props.assignments[i])
                 }
                 else if(assignment_date > threeDays && assignment_date <= sevenDays){
-                    if(assignmentsNext7 != undefined){
-                        let tempAssignments = [...assignmentsNext7, props.assignments[i]];
-                        setAssignmentsNext7([tempAssignments]);
-                    }
-                    else{
-                        setAssignmentsNext7([props.assignments[i]]);
-                    }
+                    assignments7.push(props.assignments[i])
                 }
                 else{
-                    if(assignmentsLater != undefined){
-                        let tempAssignments = [...assignmentsLater, props.assignments[i]];
-                        setAssignmentsLater([tempAssignments]);
-                    }
-                    else{
-                        setAssignmentsLater([props.assignments[i]]);
-                    }
+                    assignments.push(props.assignments[i])
                 }
               }
+            
+              setAssignmentsNext3(assignments3);
+              setAssignmentsNext7(assignments7);
+              setAssignmentsLater(assignments)
             }
+        
+        
       // eslint-disable-next-line
     }, [props.assignments])
 
