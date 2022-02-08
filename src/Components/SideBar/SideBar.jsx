@@ -41,14 +41,16 @@ const SideBar = (props) => {
                             if(url && url.localeCompare(course.course.course_name.split(' ').join('')) === 0){
                                 return (
                                     <li className="sidebar-course-list-active" key={course.course.id} >
-                                        <button className="btn sidebar-course-button" onClick={() => navigateCourse(course)}>{course.course.course_name}</button>
+                                        <button className="btn sidebar-course-button" style={{"textAlign": 'left'}} onClick={() => navigateCourse(course)}>
+                                            {course.course.course_name}
+                                        </button>
                                     </li>
                                 )
                             }
                             else {
                                 return (
                                     <li className="sidebar-course-list" key={course.course.id}>
-                                        <button className="btn sidebar-course-button" onClick={() => navigateCourse(course)}>{course.course.course_name}</button>
+                                        <button className="btn sidebar-course-button" style={{"textAlign": 'left'}} onClick={() => navigateCourse(course)}>{course.course.course_name}</button>
                                     </li>
                                 )
                             }

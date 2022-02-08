@@ -94,10 +94,12 @@ const CourseViewer = (props) => {
 
     return (
         <div>
-            {assignments && assignments.map((assignment, index) => {
+            {assignments && assignments.length ===0 &&  <p>No assignments for this class!</p>}
+
+            {assignments && assignments.length > 0 &&assignments.map((assignment, index) => {
                 return(
                     <div key={assignment.assignment.id}>
-                    <p>{assignment.assignment.assignment_name}</p>
+                     <p>{assignment.assignment.assignment_name}</p>
                     {props.userInfo.is_staff ===true && <button onClick={() => deleteAssignment(assignment.assignment.id)}>Delete Assignment</button>}
                     {props.userInfo.is_staff ===true && 
                     <span id="add-assignment">

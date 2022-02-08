@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import UpdateAssignmentStatus from '../UpdateAssignmentStatus/UpdateAssignmentStatus';
 
 const Dashboard = (props) => {
-    const [assignmentsNext3, setAssignmentsNext3] = useState();
-    const [assignmentsNext7, setAssignmentsNext7] = useState();
-    const [assignmentsLater, setAssignmentsLater] = useState();
+    const [assignmentsNext3, setAssignmentsNext3] = useState(undefined);
+    const [assignmentsNext7, setAssignmentsNext7] = useState(undefined);
+    const [assignmentsLater, setAssignmentsLater] = useState(undefined);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -44,7 +45,6 @@ const Dashboard = (props) => {
       // eslint-disable-next-line
     }, [props.assignments])
 
-    
 
     return ( 
         <div>
@@ -58,7 +58,7 @@ const Dashboard = (props) => {
                 <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                 <div className="accordion-body">
                 <ul>
-                    {assignmentsNext3 && assignmentsNext3.map((assignment, index) => {
+                    {assignmentsNext3 && assignmentsNext3.length > 0 && assignmentsNext3.map((assignment, index) => {
                                 return (
                                     <li className="assignment-list" key={assignment.assignment.id}>
                                         <span id="view-assignment-3">
@@ -86,20 +86,32 @@ const Dashboard = (props) => {
 
                                                 </Modal.Body>
                                                 <Modal.Footer>
-                                                <Button variant="btn btn-outline-dark" onClick={handleClose}>
+                                                {props.userInfo.is_staff===true && 
+                                                    <Button variant="btn btn-outline-dark" onClick={handleClose}>
                                                     Close
-                                                </Button>
-                                                <Button type="submit" variant="btn btn-outline-primary" onClick={handleClose}>
-                                                    Submit
-                                                </Button>
+                                                    </Button>
+                                                }
+                                                {props.userInfo.is_staff===false &&
+                                                    <div>
+                                                        <Button variant="btn btn-outline-dark" onClick={handleClose}>
+                                                            Close
+                                                        </Button>
+                                                        <Button type="submit" variant="btn btn-outline-primary" onClick={handleClose}>
+                                                            Submit
+                                                        </Button>
+                                                    </div>
+                                                }
                                                 </Modal.Footer>
                                             </Modal>
-                                        </span>        
+                                        </span> 
+                                       <UpdateAssignmentStatus assignment={assignment} studentInfo={props.studentInfo} />
                                     </li>
                                 )
             
                         }
                         )}
+
+                        {assignmentsNext3 && assignmentsNext3.length ===0 && <p> No assignments!</p>}
                     </ul>
                 </div>
                 </div>
@@ -114,7 +126,7 @@ const Dashboard = (props) => {
                 <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div className="accordion-body">
                 <ul>
-                    {assignmentsNext7 && assignmentsNext7.map((assignment, index) => {
+                    {assignmentsNext7 && assignmentsNext7.length>0 && assignmentsNext7.map((assignment, index) => {
                                 return (
                                     <li className="assignment-list" key={assignment.assignment.id}>
                                     <span id="view-assignment-7">
@@ -142,20 +154,32 @@ const Dashboard = (props) => {
 
                                                 </Modal.Body>
                                                 <Modal.Footer>
-                                                <Button variant="btn btn-outline-dark" onClick={handleClose}>
+                                                {props.userInfo.is_staff===true && 
+                                                    <Button variant="btn btn-outline-dark" onClick={handleClose}>
                                                     Close
-                                                </Button>
-                                                <Button type="submit" variant="btn btn-outline-primary" onClick={handleClose}>
-                                                    Submit
-                                                </Button>
+                                                    </Button>
+                                                }
+                                                {props.userInfo.is_staff===false &&
+                                                    <div>
+                                                        <Button variant="btn btn-outline-dark" onClick={handleClose}>
+                                                            Close
+                                                        </Button>
+                                                        <Button type="submit" variant="btn btn-outline-primary" onClick={handleClose}>
+                                                            Submit
+                                                        </Button>
+                                                    </div>
+                                                }
                                                 </Modal.Footer>
                                             </Modal>
                                         </span> 
+                                        <UpdateAssignmentStatus assignment={assignment} studentInfo={props.studentInfo}/>
                                         </li>
                                 )
             
                         }
                         )}
+
+                        {assignmentsNext7 && assignmentsNext7.length ===0 && <p> No assignments!</p>}
                     </ul>
                 </div>
                 </div>
@@ -170,7 +194,7 @@ const Dashboard = (props) => {
                 <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div className="accordion-body">
                 <ul>
-                    {assignmentsLater && assignmentsLater.map((assignment, index) => {
+                    {assignmentsLater && assignmentsLater.length > 0 && assignmentsLater.map((assignment, index) => {
                             return (
                                 <li className="assignment-list" key={assignment.assignment.id}>
                                 <span id="view-assignment-7">
@@ -216,11 +240,13 @@ const Dashboard = (props) => {
                                     </Modal.Footer>
                                 </Modal>
                             </span> 
+                            <UpdateAssignmentStatus assignment={assignment} studentInfo={props.studentInfo}/>
                             </li>
                             )
         
                     }
                     )}
+                    {assignmentsLater && assignmentsLater.length ===0 && <p> No assignments!</p>}
                 </ul>
                 </div>
                 </div>
