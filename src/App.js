@@ -3,13 +3,16 @@ import NavBar from './Components/NavBar/NavBar';
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { Routes, Route, useNavigate } from "react-router-dom";
-
+import Dashboard from './Components/Dashboard/Dashboard';
+import SideBar from './Components/SideBar/SideBar';
 
 function App() {
-  const [user, setUser] = useState(undefined);
-  const [userInfo, setUserInfo] = useState(undefined);
-  const [staffInfo, setStaffInfo] = useState(undefined);
-  const [studentInfo, setStudentInfo] = useState(undefined);
+  const [user, setUser] = useState();
+  const [userInfo, setUserInfo] = useState();
+  const [educatorInfo, setEducatorInfo] = useState();
+  const [studentInfo, setStudentInfo] = useState();
+  const [courses, setCourses] = useState();
+  const [assignments, setAssignments] = useState();
 
   useEffect(() => {
     //getAllCollections();
@@ -23,21 +26,73 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if(userInfo != undefined){
-      if(userInfo.is_staff===true){
-        getEducatorInfo();
-      }
-      else{
-        getStudentInfo();
-      }
-    }
+    getEnrolledCourses();
     // eslint-disable-next-line
-  }, [userInfo])
+  }, [studentInfo, educatorInfo])
 
-  // async function getAllCollections () {
-  //   let response = await axios.get('http://127.0.0.1:8000/api/flashcard/allcollections/');
-  //   setCollections(response.data)
-  // }
+  async function getEnrolledCourses () {
+    if(studentInfo != undefined){
+      const jwt = localStorage.getItem("token");
+      await axios({
+        method: "get",
+        url: `http://127.0.0.1:8000/api/assignment/student/getcourses/${studentInfo.id}/`,
+        headers: {
+          Authorization: "Bearer " + jwt
+        },
+      }).then(response => {
+        setCourses(response.data);
+        getAssignments();
+      }).catch(error => {
+        alert(error)
+      })
+    }
+    else if(educatorInfo != undefined){
+      const jwt = localStorage.getItem("token");
+      await axios({
+        method: "get",
+        url: `http://127.0.0.1:8000/api/assignment/educator/getcourses/${educatorInfo.id}/`,
+        headers: {
+          Authorization: "Bearer " + jwt
+        },
+      }).then(response => {
+        setCourses(response.data);
+        getAssignments();
+      }).catch(error => {
+        alert(error)
+      })
+    }
+  }
+
+  async function getAssignments () {
+    if(studentInfo != undefined){
+      const jwt = localStorage.getItem("token");
+      await axios({
+        method: "get",
+        url: `http://127.0.0.1:8000/api/assignment/student/getassignemnts/${studentInfo.id}/`,
+        headers: {
+          Authorization: "Bearer " + jwt
+        },
+      }).then(response => {
+        setAssignments(response.data);
+      }).catch(error => {
+        alert(error)
+      })
+    }
+    else if(educatorInfo != undefined){
+      const jwt = localStorage.getItem("token");
+      await axios({
+        method: "get",
+        url: `http://127.0.0.1:8000/api/assignment/educator/getassignments/${educatorInfo.id}/`,
+        headers: {
+          Authorization: "Bearer " + jwt
+        },
+      }).then(response => {
+        setAssignments(response.data);
+      }).catch(error => {
+        alert(error)
+      })
+    }
+  }
 
   async function login(username, password) {
     await axios({
@@ -66,33 +121,39 @@ function App() {
       },
     }).then(response => {
       setUserInfo(response.data);
+      if(response.data.is_staff ===true){
+        getEducatorInfo(response.data.id);
+      }
+      else{
+        getStudentInfo(response.data.id);
+      }
     })
   }
 
-  async function getStudentInfo() {
+  async function getStudentInfo(user_id) {
     const jwt = localStorage.getItem("token");
     await axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/assignment/student/${userInfo.id}/`,
+      url: `http://127.0.0.1:8000/api/assignment/student/${user_id}/`,
       headers: {
         Authorization: "Bearer " + jwt
       },
     }).then(response => {
       setStudentInfo(response.data);
-      setStaffInfo(undefined)
+      setEducatorInfo(undefined)
     })
   }
 
-  async function getEducatorInfo() {
+  async function getEducatorInfo(user_id) {
     const jwt = localStorage.getItem("token");
     await axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/assignment/educator/${userInfo.id}/`,
+      url: `http://127.0.0.1:8000/api/assignment/educator/${user_id}/`,
       headers: {
         Authorization: "Bearer " + jwt
       },
     }).then(response => {
-      setStaffInfo(response.data);
+      setEducatorInfo(response.data);
       setStudentInfo(undefined)
     })
   }
@@ -117,10 +178,21 @@ function App() {
 
   }
   return (
-    <div >
-      <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout}/>
-      <h1>Hello World</h1>
-    </div>
+
+    <div className='row'>
+        <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout}/>
+        <div className='col-2'>
+          <SideBar userInfo={userInfo} courses={courses}/>
+        </div>
+
+        <div className='col-10'>
+          <Routes>
+            <Route exact path='/' element={<Dashboard courses={courses} assignments={assignments}/>}/>
+            {/* <Route path='/course/:courseName' element={<CollectionViewer />}/> */}
+          </Routes>
+        </div>
+      </div>
+
   );
 }
 
