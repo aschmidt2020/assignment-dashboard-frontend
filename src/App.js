@@ -6,6 +6,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Dashboard from './Components/Dashboard/Dashboard';
 import SideBar from './Components/SideBar/SideBar';
 import CourseViewer from './Components/CourseViewer/CourseViewer';
+import EnrollButton from './Components/EnrollButton/EnrollButton';
 
 function App() {
   const [user, setUser] = useState();
@@ -190,6 +191,7 @@ function App() {
           <Routes>
             <Route exact path='/' element={<Dashboard courses={courses} assignments={assignments}/>}/>
             <Route path='/course/:courseName' element={<CourseViewer />}/>
+            <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses}/>}/>
           </Routes>
         </div>
       </div>

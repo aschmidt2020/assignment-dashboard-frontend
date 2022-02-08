@@ -29,7 +29,7 @@ const CourseViewer = (props) => {
 
     return (
         <div>
-            {assignments !=undefined && assignments.map((assignment, index) => {
+            {assignments && assignments.map((assignment, index) => {
                 return(
                     <p>{assignment.assignment.assignment_name}</p>
                 )

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate} from "react-router-dom";
+import EnrollButton from '../EnrollButton/EnrollButton';
 
 const SideBar = (props) => {
     const [url, setUrl] = useState('');
@@ -14,8 +15,11 @@ const SideBar = (props) => {
       }, [window.location.href])
 
     function navigateCourse(course) {
-        debugger
         navigate(`/course/${course.course.course_name.split(' ').join('')}`, { state: {...course}});
+    }
+
+    function navigateEnroll(){
+        navigate(`/course/enroll`);
     }
 
     return (
@@ -32,7 +36,7 @@ const SideBar = (props) => {
                         <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <ul>
                         {props.courses && props.courses.map((course, index) => {
-                            if(url.localeCompare(course.course.course_name.split(' ').join('')) === 0){
+                            if(url && url.localeCompare(course.course.course_name.split(' ').join('')) === 0){
                                 return (
                                     <li key={course.course.id} >
                                         <button className="btn btn-dark" onClick={() => navigateCourse(course)}>{course.course.course_name}</button>
@@ -56,7 +60,7 @@ const SideBar = (props) => {
                     </div>
                     </div>
                     <li className="nav-item">
-                        {/* {props.userInfo && <span><Addcourse /></span>} */}
+                        {props.userInfo && <span><button onClick={() => navigateEnroll()}> Add A Course</button></span>}
                     </li>
                 </ul>
         </nav>
