@@ -6,7 +6,6 @@ const Dashboard = (props) => {
     const [assignmentsLater, setAssignmentsLater] = useState();
 
     useEffect(() => {
-        debugger
         if(props.assignments != undefined){
             let threeDays = new Date();
             threeDays.setDate(threeDays.getDate() + 3);
@@ -46,8 +45,6 @@ const Dashboard = (props) => {
                 }
               }
             }
-            debugger
-
       // eslint-disable-next-line
     }, [props.assignments])
 
@@ -60,7 +57,17 @@ const Dashboard = (props) => {
         {assignmentsNext3 && assignmentsNext3.map((assignment, index) => {
                     return (
                         <li key={assignment.assignment.id}>
-                            <button >{assignment.assignment.assignment_name}</button>
+                            <div className='row'>
+                                <div className='col'>
+                                    <h5>{assignment.assignment.assignment_name}</h5>
+                                    <p><small>{assignment.assignment.assignment_desc}</small></p>
+                                    <p>{assignment.assignment.assignment_instructions}</p>
+                                </div>
+                                <div className='col'>
+                                    <p><small>{assignment.course.course_name}</small></p>
+                                    <p>{assignment.assignment.assignment_due_date}</p>
+                                </div>
+                            </div>
                         </li>
                     )
   
@@ -74,7 +81,17 @@ const Dashboard = (props) => {
         {assignmentsNext7 && assignmentsNext7.map((assignment, index) => {
                     return (
                         <li key={assignment.assignment.id}>
-                            <button >{assignment.assignment.assignment_name}</button>
+                            <div className='row'>
+                                <div className='col'>
+                                    <h5>{assignment.assignment.assignment_name}</h5>
+                                    <p><small>{assignment.assignment.assignment_desc}</small></p>
+                                    <p>{assignment.assignment.assignment_instructions}</p>
+                                </div>
+                                <div className='col'>
+                                    <p><small>{assignment.course.course_name}</small></p>
+                                    <p>{assignment.assignment.assignment_due_date}</p>
+                                </div>
+                            </div>
                         </li>
                     )
   
@@ -87,8 +104,18 @@ const Dashboard = (props) => {
             {assignmentsLater && assignmentsLater.map((assignment, index) => {
                     return (
                         <li key={assignment.assignment.id}>
-                            <button >{assignment.assignment.assignment_name}</button>
-                        </li>
+                        <div className='row'>
+                            <div className='col'>
+                                <h5>{assignment.assignment.assignment_name}</h5>
+                                <p><small>{assignment.assignment.assignment_desc}</small></p>
+                                <p>{assignment.assignment.assignment_instructions}</p>
+                            </div>
+                            <div className='col'>
+                                <p><small>{assignment.course.course_name}</small></p>
+                                <p>{assignment.assignment.assignment_due_date}</p>
+                            </div>
+                        </div>
+                    </li>
                     )
   
             }
