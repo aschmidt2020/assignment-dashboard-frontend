@@ -71,6 +71,38 @@ const EnrollButton = (props) => {
                 }
         }
 
+        async function removeCourse(course_id){
+            debugger
+            if(props.userInfo.is_staff === true){
+                const jwt = localStorage.getItem("token");
+                await axios({
+                    method: "delete",
+                    url: `http://127.0.0.1:8000/api/assignment/educator/removeclass/${props.educatorInfo.id}/${course_id}/`,
+                    headers: {
+                        Authorization: "Bearer " + jwt
+                    },
+                }).then(response => {
+                    props.getEnrolledCourses();
+                }).catch(error => {
+                    alert(error)
+                })
+                    }
+            else{
+                const jwt = localStorage.getItem("token");
+                await axios({
+                    method: "delete",
+                    url: `http://127.0.0.1:8000/api/assignment/student/unregisterclass/${props.studentInfo.id}/${course_id}/`,
+                    headers: {
+                    Authorization: "Bearer " + jwt
+                    },
+                }).then(response => {
+                    props.getEnrolledCourses();
+                }).catch(error => {
+                    alert(error)
+                })
+                    }
+            }
+
         return ( 
             <ul>
                  {allCourses && allCourses.map((course, index) => {
@@ -78,6 +110,7 @@ const EnrollButton = (props) => {
                         <div>
                             <li>{course.course_name}</li>
                             {currentCourseNames.indexOf(course.course_name) === -1 && <button onClick={() => addCourse(course.id)}>Add Course</button>}
+                            {currentCourseNames.indexOf(course.course_name) !== -1 && <button onClick={() => removeCourse(course.id)}>Remove Course</button>}
                         </div>
                     )
                     }
