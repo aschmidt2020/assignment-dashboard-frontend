@@ -190,7 +190,7 @@ function App() {
         <div className='col-10'>
           <Routes>
             <Route exact path='/' element={<Dashboard courses={courses} assignments={assignments}/>}/>
-            <Route path='/course/:courseName' element={<CourseViewer />}/>
+            <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments}/>}/>
             <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses}/>}/>
           </Routes>
         </div>
