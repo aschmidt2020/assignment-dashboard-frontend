@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 const useForm = (callback) => {
     const [formValues, setFormValues] = useState({});
 
+    const handleReset = () => {
+        setFormValues({});
+    }
+
     const handleChange = (event) => {
         event.persist();
         setFormValues({...formValues, [event.target.name]: event.target.value});
@@ -13,7 +17,7 @@ const useForm = (callback) => {
         callback();
     }
 
-    return { formValues, handleChange, handleSubmit };
+    return { formValues, handleChange, handleSubmit, handleReset };
 }
 
 export default useForm;

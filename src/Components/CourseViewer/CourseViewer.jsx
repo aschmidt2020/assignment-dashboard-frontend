@@ -16,11 +16,19 @@ const CourseViewer = (props) => {
     const [assignmentInstr, setAssignmentInstr] = useState();
 
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    // const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
 
     function handleShow(index){
         setShow(true);
+        setAssignmentName(assignments[index].assignment.assignment_name);
+        setAssignmentDesc(assignments[index].assignment.assignment_desc);
+        setAssignmentDueDate(assignments[index].assignment.assignment_due_date);
+        setAssignmentInstr(assignments[index].assignment.assignment_instructions);
+    }
+
+    function handleClose(index) {
+        setShow(false);
         setAssignmentName(assignments[index].assignment.assignment_name);
         setAssignmentDesc(assignments[index].assignment.assignment_desc);
         setAssignmentDueDate(assignments[index].assignment.assignment_due_date);
@@ -97,7 +105,7 @@ const CourseViewer = (props) => {
                             Update Assignment
                         </Button>
 
-                        <Modal show={show} onHide={handleClose}>
+                        <Modal show={show} onHide={()=> handleClose(index)}>
                             <Modal.Header closeButton>
                             <Modal.Title>Update Assignment</Modal.Title>
                             </Modal.Header>
@@ -129,11 +137,11 @@ const CourseViewer = (props) => {
 
                             </Modal.Body>
                             <Modal.Footer>
-                            <Button variant="btn btn-outline-dark" onClick={handleClose}>
+                            <Button variant="btn btn-outline-dark" onClick={() => handleClose(index)}>
                                 Close
                             </Button>
                             <Button type="submit" variant="btn btn-outline-primary" onClick={()=>updateAssignment(assignment.assignment.id)}>
-                                Log In
+                                Update
                             </Button>
                             </Modal.Footer>
                         </Modal>

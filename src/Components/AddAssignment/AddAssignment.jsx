@@ -5,12 +5,17 @@ import useForm from "../CustomHooks/useForm";
 import axios from 'axios';
 
 const AddAssignment = (props) => {
-    const { formValues, handleChange, handleSubmit } = useForm(addAssignment);
+    const { formValues, handleChange, handleSubmit, handleReset } = useForm(addAssignment);
     const [selectedCourse, setSelectedCourse] = useState();
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    // const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    function handleClose() {
+        setShow(false);
+        handleReset();
+
+    }
     async function addAssignment() {
         const jwt = localStorage.getItem("token");
         await axios({
@@ -97,7 +102,7 @@ const AddAssignment = (props) => {
                     Close
                 </Button>
                 <Button type="submit" variant="btn btn-outline-primary" onClick={handleSubmit}>
-                    Log In
+                    Add
                 </Button>
                 </Modal.Footer>
             </Modal>

@@ -6,15 +6,18 @@ import useForm from "../CustomHooks/useForm";
 
 const RegistrationForm = (props) => {
 
-  const { formValues, handleChange, handleSubmit } = useForm(register);
+  const { formValues, handleChange, handleSubmit, handleReset } = useForm(register);
   const [show, setShow] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [staff, setStaff] = useState(false);
 
-  const handleClose = () => setShow(false);
+//   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-
+    function handleClose(){
+        setShow(false);
+        handleReset()
+    }
   function register() {
     debugger
     if (formValues.password === formValues.passwordCheck) {
