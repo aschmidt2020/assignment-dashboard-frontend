@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import NavBar from './Components/NavBar/NavBar';
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, NavigationType } from "react-router-dom";
 import Dashboard from './Components/Dashboard/Dashboard';
 import SideBar from './Components/SideBar/SideBar';
 import CourseViewer from './Components/CourseViewer/CourseViewer';
 import EnrollButton from './Components/EnrollButton/EnrollButton';
 import './App.css'
+import StudentRegister from './Components/StudentRegister/StudentRegister';
+import EducatorRegister from './Components/EducatorRegister/EducatorRegister';
 
 function App() {
+  const navigate = useNavigate();
   const [user, setUser] = useState();
   const [userInfo, setUserInfo] = useState();
   const [educatorInfo, setEducatorInfo] = useState();
@@ -181,6 +184,9 @@ function App() {
     }).then(response => {
       setStudentInfo(response.data);
       setEducatorInfo(undefined)
+    }).catch(error => {
+      debugger
+      navigate(`/complete-registration-student`, { state: {...userInfo}});
     })
   }
 
@@ -195,6 +201,8 @@ function App() {
     }).then(response => {
       setEducatorInfo(response.data);
       setStudentInfo(undefined)
+    }).catch(error => {
+      navigate(`/complete-registration-educator`, { state: {...userInfo}});
     })
   }
 
@@ -231,6 +239,8 @@ function App() {
               <Route exact path='/' element={<Dashboard userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>
               <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments}/>}/>
               <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses}/>}/>
+              <Route path='/complete-registration-student' element={<StudentRegister userInfo={userInfo} getStudentInfo={getStudentInfo}/>}/>
+              <Route path='/complete-registration-educator' element={<EducatorRegister userInfo={userInfo} getEducatorInfo={getEducatorInfo}/>}/>
             </Routes>
           </div>
 
