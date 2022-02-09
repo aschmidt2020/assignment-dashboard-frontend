@@ -10,6 +10,7 @@ import EnrollButton from './Components/EnrollButton/EnrollButton';
 import './App.css'
 import StudentRegister from './Components/StudentRegister/StudentRegister';
 import EducatorRegister from './Components/EducatorRegister/EducatorRegister';
+import DisplayArchived from './Components/DisplayArchived/DisplayArchived';
 
 function App() {
   const navigate = useNavigate();
@@ -72,7 +73,6 @@ function App() {
   }
 
   async function getAssignments () {
-    debugger
     if(studentInfo != undefined){
       const jwt = localStorage.getItem("token");
       await axios({
@@ -107,7 +107,6 @@ function App() {
   }
 
   async function getAssignmentsStatus () {
-    debugger
     if(studentInfo != undefined){
       const jwt = localStorage.getItem("token");
       await axios({
@@ -186,7 +185,6 @@ function App() {
       setStudentInfo(response.data);
       setEducatorInfo(undefined)
     }).catch(error => {
-      debugger
       navigate(`/complete-registration-student`, { state: {...userInfo}});
     })
   }
@@ -237,11 +235,12 @@ function App() {
 
           <div className='col-6'>
             <Routes>
-              <Route exact path='/' element={<Dashboard userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>
+              <Route exact path='/' element={<Dashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>
               <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments}/>}/>
               <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses}/>}/>
               <Route path='/complete-registration-student' element={<StudentRegister userInfo={userInfo} getStudentInfo={getStudentInfo}/>}/>
               <Route path='/complete-registration-educator' element={<EducatorRegister userInfo={userInfo} getEducatorInfo={getEducatorInfo}/>}/>
+              <Route path='/assignments/archived' element={<DisplayArchived assignments={assignments}/>}/>
             </Routes>
           </div>
 

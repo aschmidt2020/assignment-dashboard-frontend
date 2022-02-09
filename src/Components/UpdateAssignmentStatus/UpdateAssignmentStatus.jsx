@@ -16,7 +16,7 @@ const UpdateAssignmentStatus = (props) => {
 
     function handleClickCompleted(){
         setAssignmentStatus('Completed');
-        updateAssignmentStatus('In Progress')
+        updateAssignmentStatus('Completed')
 
     }
 
@@ -37,6 +37,7 @@ const UpdateAssignmentStatus = (props) => {
             }
         }).then(response => {
             props.getAssignments();
+            window.location.reload();
         }).catch(error => {
             alert(error)
         })

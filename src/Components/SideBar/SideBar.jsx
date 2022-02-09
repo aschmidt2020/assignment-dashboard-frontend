@@ -22,6 +22,10 @@ const SideBar = (props) => {
         navigate(`/course/enroll`);
     }
 
+    function navigateArchived(){
+        navigate(`/assignments/archived`);
+    }
+
     return (
         <div>
             <nav className="d-flex flex-column flex-shrink-0 p-3">
@@ -56,11 +60,24 @@ const SideBar = (props) => {
                             }
                             
                         }
-                            )}  
+                            )}
+
+                        
                         </ul>
                         
                         
                         </div>
+                    </div>
+                    </div>
+                    
+                    <div className='accordion accordion-flush'>
+
+                    <div class="accordion-item" style={{'marginTop':'2em'}}>
+                        <h2 class="accordion-header" id="headingFour">
+                        <button onClick={navigateArchived} class="btn btn-link" type="button">
+                            Archived Assignments
+                        </button>
+                        </h2>
                     </div>
                     </div>
                     <li className="nav-item bottom-button">
