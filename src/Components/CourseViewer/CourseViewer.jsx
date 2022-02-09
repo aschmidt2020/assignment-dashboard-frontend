@@ -7,7 +7,7 @@ import useForm from "../CustomHooks/useForm";
 
 const CourseViewer = (props) => {
     const {state} = useLocation();
-    const { id, course, educator } = state;
+    const { id, course, educator, student } = state;
     const [assignments, setAssignments] = useState();
 
     const [assignmentName, setAssignmentName] = useState();
@@ -44,11 +44,12 @@ const CourseViewer = (props) => {
         const jwt = localStorage.getItem("token");
         await axios({
             method: "get",
-            url: `http://127.0.0.1:8000/api/assignment/getassignments/course/${course_id}/`,
+            url: `http://127.0.0.1:8000/api/assignment/getassignments/course/course_id/${course_id}/`,
             headers: {
             Authorization: "Bearer " + jwt
             },
         }).then(response => {
+            debugger
             setAssignments(response.data);
         }).catch(error => {
             alert(error)
@@ -59,7 +60,7 @@ const CourseViewer = (props) => {
         const jwt = localStorage.getItem("token");
         await axios({
             method: "delete",
-            url: `http://127.0.0.1:8000/api/assignment/educator/deleteassignment/${assignment_id}/`,
+            url: `http://127.0.0.1:8000/api/assignment/educator/deleteassignment/assignment_id/${assignment_id}/`,
             headers: {
             Authorization: "Bearer " + jwt
             },
@@ -74,7 +75,7 @@ const CourseViewer = (props) => {
         const jwt = localStorage.getItem("token");
         await axios({
             method: "put",
-            url: `http://127.0.0.1:8000/api/assignment/educator/updateassignment/${assignment_id}/`,
+            url: `http://127.0.0.1:8000/api/assignment/educator/updateassignment/assignment_id/${assignment_id}/`,
             headers: {
             Authorization: "Bearer " + jwt
             },
@@ -98,9 +99,9 @@ const CourseViewer = (props) => {
 
             {assignments && assignments.length > 0 &&assignments.map((assignment, index) => {
                 return(
-                    <div key={assignment.assignment.id}>
-                     <p>{assignment.assignment.assignment_name}</p>
-                    {props.userInfo.is_staff ===true && <button onClick={() => deleteAssignment(assignment.assignment.id)}>Delete Assignment</button>}
+                    <div key={assignment.id}>
+                     <p>{assignment.assignment_name}</p>
+                    {props.userInfo.is_staff ===true && <button onClick={() => deleteAssignment(assignment.id)}>Delete Assignment</button>}
                     {props.userInfo.is_staff ===true && 
                     <span id="add-assignment">
                         <Button variant="btn btn-outline-primary" onClick={() => handleShow(index)} style={{ "marginLeft": "6em" }}>
@@ -113,7 +114,7 @@ const CourseViewer = (props) => {
                             </Modal.Header>
                             <Modal.Body>
 
-                            <form onSubmit={()=>updateAssignment(assignment.assignment.id)}>
+                            <form onSubmit={()=>updateAssignment(assignment.id)}>
                             
 
                                 <div className="input-group mb-3">
@@ -142,7 +143,7 @@ const CourseViewer = (props) => {
                             <Button variant="btn btn-outline-dark" onClick={() => handleClose(index)}>
                                 Close
                             </Button>
-                            <Button type="submit" variant="btn btn-outline-primary" onClick={()=>updateAssignment(assignment.assignment.id)}>
+                            <Button type="submit" variant="btn btn-outline-primary" onClick={()=>updateAssignment(assignment.id)}>
                                 Update
                             </Button>
                             </Modal.Footer>

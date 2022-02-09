@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import UpdateAssignmentStatus from '../UpdateAssignmentStatus/UpdateAssignmentStatus';
 
 const Dashboard = (props) => {
+    const [assignmentsAndStatus, setAssignmentsAndStatus] = useState();
     const [assignmentsNext3, setAssignmentsNext3] = useState(undefined);
     const [assignmentsNext7, setAssignmentsNext7] = useState(undefined);
     const [assignmentsLater, setAssignmentsLater] = useState(undefined);
@@ -11,8 +12,10 @@ const Dashboard = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    // sort assignments
     useEffect(() => {
-        if(props.assignments != undefined){
+        debugger
+        if(assignmentsAndStatus != undefined && assignmentsAndStatus.length >0){
             let assignments3 = [];
             let assignments7 = [];
             let assignments = [];
@@ -22,17 +25,16 @@ const Dashboard = (props) => {
             let sevenDays = new Date();
             sevenDays.setDate(sevenDays.getDate() + 7)
 
-            for (let i=0; i < props.assignments.length; i++) {
-                let assignment_date = new Date(props.assignments[i].assignment.assignment_due_date + "T00:00:00");
-                debugger
+            for (let i=0; i < assignmentsAndStatus.length; i++) {
+                let assignment_date = new Date(assignmentsAndStatus[i].assignment.assignment_due_date + "T00:00:00");
                 if(assignment_date <= threeDays){
-                    assignments3.push(props.assignments[i])
+                    assignments3.push(assignmentsAndStatus[i])
                 }
                 else if(assignment_date > threeDays && assignment_date <= sevenDays){
-                    assignments7.push(props.assignments[i])
+                    assignments7.push(assignmentsAndStatus[i])
                 }
                 else{
-                    assignments.push(props.assignments[i])
+                    assignments.push(assignmentsAndStatus[i])
                 }
               }
             
@@ -43,7 +45,34 @@ const Dashboard = (props) => {
         
         
       // eslint-disable-next-line
-    }, [props.assignments])
+    }, [assignmentsAndStatus])
+
+    //compare assignments with assignment statuses
+    useEffect(() => {
+        debugger
+        let assignmentAndStatus = [];
+        if(props.assignments != undefined && props.assignments.length >0 && props.studentAssignmentStatus != undefined){
+            for (let i=0; i < props.assignments.length; i++) {
+                let indexStatus = props.studentAssignmentStatus.findIndex(assignment => assignment.assignment.id === props.assignments[i].id)
+                if(indexStatus > -1){
+                    assignmentAndStatus.push(props.studentAssignmentStatus[indexStatus])
+                }
+                else{
+                    assignmentAndStatus.push(
+                        {
+                        assignment: props.assignments[i],
+                        assignment_status: "Not Started",
+                        id: 0,
+                        student: props.studentInfo
+                        }
+                    )
+                }
+            
+            }}
+        setAssignmentsAndStatus(assignmentAndStatus)
+        
+      // eslint-disable-next-line
+    }, [props.assignments, props.studentAssignmentStatus])
 
 
     return ( 
@@ -57,17 +86,25 @@ const Dashboard = (props) => {
                 </h2>
                 <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                 <div className="accordion-body">
-                <ul>
-                    {assignmentsNext3 && assignmentsNext3.length > 0 && assignmentsNext3.map((assignment, index) => {
+                <span id="view-assignment-3">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Assignment</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {assignmentsNext3 && assignmentsNext3.length>0 && assignmentsNext3.map((assignment, index) => {
                                 return (
-                                    <li className="assignment-list" key={assignment.assignment.id}>
-                                        <span id="view-assignment-3">
-                                            <Button variant="btn btn-outline-secondary assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
-                                                <p style={{'textAlign':'left','marginBottom':'2px'}}>{assignment.assignment.assignment_name}</p>
-                                                <p style={{'textAlign':'left','marginBottom':'2px'}}>Due Date: {assignment.assignment.assignment_due_date}</p>
-                                            </Button>
+                                    <tr key={assignment.assignment.id}>
+                                        <td>
+                                        <Button variant="btn btn-outline-secondary assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                            {assignment.assignment.assignment_name}
+                                        </Button>
 
-                                            <Modal show={show} onHide={handleClose}>
+                                        <Modal show={show} onHide={handleClose}>
                                                 <Modal.Header closeButton>
                                                 <Modal.Title>Assignment</Modal.Title>
                                                 </Modal.Header>
@@ -79,7 +116,7 @@ const Dashboard = (props) => {
                                                         <p>{assignment.assignment.assignment_instructions}</p>
                                                     </div>
                                                     <div className='col'>
-                                                        <p><small>{assignment.course.course_name}</small></p>
+                                                        <p><small>{assignment.assignment.assignment_course.course_name}</small></p>
                                                         <p>{assignment.assignment.assignment_due_date}</p>
                                                     </div>
                                                 </div>
@@ -103,16 +140,22 @@ const Dashboard = (props) => {
                                                 }
                                                 </Modal.Footer>
                                             </Modal>
-                                        </span> 
-                                       <UpdateAssignmentStatus assignment={assignment} studentInfo={props.studentInfo} />
-                                    </li>
+                                        </td>
+                                        <td>{assignment.assignment.assignment_due_date}</td>
+                                        <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo}/></td>
+                                    </tr>
+                                    
+                                            
                                 )
-            
-                        }
-                        )}
+                                
+                            }
+                            )}
+                            {assignmentsNext3 && assignmentsNext3.length===0 && <td>No assignments!</td>}
+                        </tbody>
 
-                        {assignmentsNext3 && assignmentsNext3.length ===0 && <p> No assignments!</p>}
-                    </ul>
+                        
+                        </table>
+                    </span> 
                 </div>
                 </div>
             </div>
@@ -125,17 +168,25 @@ const Dashboard = (props) => {
                 </h2>
                 <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div className="accordion-body">
-                <ul>
-                    {assignmentsNext7 && assignmentsNext7.length>0 && assignmentsNext7.map((assignment, index) => {
+                        <span id="view-assignment-7">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Assignment</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {assignmentsNext7 && assignmentsNext7.length>0 && assignmentsNext7.map((assignment, index) => {
                                 return (
-                                    <li className="assignment-list" key={assignment.assignment.id}>
-                                    <span id="view-assignment-7">
-                                            <Button variant="btn btn-outline-secondary assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
-                                                <p style={{'textAlign':'left','marginBottom':'2px'}}>{assignment.assignment.assignment_name}</p>
-                                                <p style={{'textAlign':'left','marginBottom':'2px'}}>Due Date: {assignment.assignment.assignment_due_date}</p>
-                                            </Button>
+                                    <tr key={assignment.assignment.id}>
+                                        <td>
+                                        <Button variant="btn btn-outline-secondary assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                            {assignment.assignment.assignment_name}
+                                        </Button>
 
-                                            <Modal show={show} onHide={handleClose}>
+                                        <Modal show={show} onHide={handleClose}>
                                                 <Modal.Header closeButton>
                                                 <Modal.Title>Assignment</Modal.Title>
                                                 </Modal.Header>
@@ -147,7 +198,7 @@ const Dashboard = (props) => {
                                                         <p>{assignment.assignment.assignment_instructions}</p>
                                                     </div>
                                                     <div className='col'>
-                                                        <p><small>{assignment.course.course_name}</small></p>
+                                                        <p><small>{assignment.assignment.assignment_course.course_name}</small></p>
                                                         <p>{assignment.assignment.assignment_due_date}</p>
                                                     </div>
                                                 </div>
@@ -171,21 +222,26 @@ const Dashboard = (props) => {
                                                 }
                                                 </Modal.Footer>
                                             </Modal>
-                                        </span> 
-                                        <UpdateAssignmentStatus assignment={assignment} studentInfo={props.studentInfo}/>
-                                        </li>
+                                        </td>
+                                        <td>{assignment.assignment.assignment_due_date}</td>
+                                        <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo}/></td>
+                                    </tr>
+                                    
+                                            
                                 )
-            
-                        }
-                        )}
+                                
+                            }
+                            )}
+                        </tbody>
 
-                        {assignmentsNext7 && assignmentsNext7.length ===0 && <p> No assignments!</p>}
-                    </ul>
+                        
+                        </table>
+                    </span> 
                 </div>
                 </div>
             </div>
 
-            <div className="accordion-item">
+             <div className="accordion-item">
                 <h2 className="accordion-header" id="headingThree">
                 <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                     Due Later
@@ -193,68 +249,79 @@ const Dashboard = (props) => {
                 </h2>
                 <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div className="accordion-body">
-                <ul>
-                    {assignmentsLater && assignmentsLater.length > 0 && assignmentsLater.map((assignment, index) => {
-                            return (
-                                <li className="assignment-list" key={assignment.assignment.id}>
-                                <span id="view-assignment-7">
-                                <Button variant="btn btn-outline-secondary assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
-                                    <p style={{'textAlign':'left','marginBottom':'2px'}}>{assignment.assignment.assignment_name}</p>
-                                    <p style={{'textAlign':'left','marginBottom':'2px'}}>Due Date: {assignment.assignment.assignment_due_date}</p>
-                                </Button>
+                        <span id="view-assignment-later">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Assignment</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {assignmentsLater && assignmentsLater.length>0 && assignmentsLater.map((assignment, index) => {
+                                return (
+                                    <tr key={assignment.assignment.id}>
+                                        <td>
+                                        <Button variant="btn btn-outline-secondary assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                            {assignment.assignment.assignment_name}
+                                        </Button>
 
-                                <Modal show={show} onHide={handleClose}>
-                                    <Modal.Header closeButton>
-                                    <Modal.Title>Assignment</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                    <div className='row'>
-                                        <div className='col'>
-                                            <h5>{assignment.assignment.assignment_name}</h5>
-                                            <p><small>{assignment.assignment.assignment_desc}</small></p>
-                                            <p>{assignment.assignment.assignment_instructions}</p>
-                                        </div>
-                                        <div className='col'>
-                                            <p><small>{assignment.course.course_name}</small></p>
-                                            <p>{assignment.assignment.assignment_due_date}</p>
-                                        </div>
-                                    </div>
+                                        <Modal show={show} onHide={handleClose}>
+                                                <Modal.Header closeButton>
+                                                <Modal.Title>Assignment</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>
+                                                <div className='row'>
+                                                    <div className='col'>
+                                                        <h5>{assignment.assignment.assignment_name}</h5>
+                                                        <p><small>{assignment.assignment.assignment_desc}</small></p>
+                                                        <p>{assignment.assignment.assignment_instructions}</p>
+                                                    </div>
+                                                    <div className='col'>
+                                                        <p><small>{assignment.assignment.assignment_course.course_name}</small></p>
+                                                        <p>{assignment.assignment.assignment_due_date}</p>
+                                                    </div>
+                                                </div>
 
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        {props.userInfo.is_staff===true && 
-                                            <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                            Close
-                                            </Button>
-                                        }
-                                        {props.userInfo.is_staff===false &&
-                                            <div>
-                                                <Button variant="btn btn-outline-dark" onClick={handleClose}>
+                                                </Modal.Body>
+                                                <Modal.Footer>
+                                                {props.userInfo.is_staff===true && 
+                                                    <Button variant="btn btn-outline-dark" onClick={handleClose}>
                                                     Close
-                                                </Button>
-                                                <Button type="submit" variant="btn btn-outline-primary" onClick={handleClose}>
-                                                    Submit
-                                                </Button>
-                                            </div>
-                                        }
-                                    </Modal.Footer>
-                                </Modal>
-                            </span> 
-                            <UpdateAssignmentStatus assignment={assignment} studentInfo={props.studentInfo}/>
-                            </li>
-                            )
-        
-                    }
-                    )}
-                    {assignmentsLater && assignmentsLater.length ===0 && <p> No assignments!</p>}
-                </ul>
+                                                    </Button>
+                                                }
+                                                {props.userInfo.is_staff===false &&
+                                                    <div>
+                                                        <Button variant="btn btn-outline-dark" onClick={handleClose}>
+                                                            Close
+                                                        </Button>
+                                                        <Button type="submit" variant="btn btn-outline-primary" onClick={handleClose}>
+                                                            Submit
+                                                        </Button>
+                                                    </div>
+                                                }
+                                                </Modal.Footer>
+                                            </Modal>
+                                        </td>
+                                        <td>{assignment.assignment.assignment_due_date}</td>
+                                        <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} getAssignments={props.getAssignments} studentInfo={props.studentInfo}/></td>
+                                    </tr>
+                                    
+                                            
+                                )
+                                
+                            }
+                            )}
+                        </tbody>
+                        </table>
+                    </span> 
                 </div>
                 </div>
-            </div>
-            </div>
-        
-    
+                </div>
         </div>
+        </div>
+
      );
 }
     

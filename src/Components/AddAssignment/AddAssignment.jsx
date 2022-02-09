@@ -20,7 +20,7 @@ const AddAssignment = (props) => {
         const jwt = localStorage.getItem("token");
         await axios({
             method: "post",
-            url: `http://127.0.0.1:8000/api/assignment/educator/addassignment/${selectedCourse.id}/`,
+            url: `http://127.0.0.1:8000/api/assignment/educator/addassignment/course_id/${selectedCourse.id}/`,
             headers: {
             Authorization: "Bearer " + jwt
             },
@@ -65,7 +65,7 @@ const AddAssignment = (props) => {
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     {props.courses && props.courses.map((course) => {
                         return(
-                            <li><button onClick={() => setSelectedCourse(course.course)}>{course.course.course_name}</button></li>
+                            <li key={course.course.id}><button onClick={() => setSelectedCourse(course.course)}>{course.course.course_name}</button></li>
                         )
                     })}
 

@@ -77,7 +77,7 @@ const EnrollButton = (props) => {
                 const jwt = localStorage.getItem("token");
                 await axios({
                     method: "delete",
-                    url: `http://127.0.0.1:8000/api/assignment/educator/removeclass/${props.educatorInfo.id}/${course_id}/`,
+                    url: `http://127.0.0.1:8000/api/assignment/educator/removeclass/educator_id/${props.educatorInfo.id}/course_id/${course_id}/`,
                     headers: {
                         Authorization: "Bearer " + jwt
                     },
@@ -91,7 +91,7 @@ const EnrollButton = (props) => {
                 const jwt = localStorage.getItem("token");
                 await axios({
                     method: "delete",
-                    url: `http://127.0.0.1:8000/api/assignment/student/unregisterclass/${props.studentInfo.id}/${course_id}/`,
+                    url: `http://127.0.0.1:8000/api/assignment/student/unregisterclass/student_id/${props.studentInfo.id}/course_id/${course_id}/`,
                     headers: {
                     Authorization: "Bearer " + jwt
                     },

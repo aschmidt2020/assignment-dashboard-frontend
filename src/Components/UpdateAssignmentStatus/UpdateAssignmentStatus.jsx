@@ -25,7 +25,7 @@ const UpdateAssignmentStatus = (props) => {
         const jwt = localStorage.getItem("token");
         await axios({
             method: "put",
-            url: `http://127.0.0.1:8000/api/assignment/student/updateassignmentstatus/${props.assignment.assignment.id}/`,
+            url: `http://127.0.0.1:8000/api/assignment/student/updateassignmentstatus/assignment_id/${props.assignment.assignment.id}/`,
             headers: {
             Authorization: "Bearer " + jwt
             },
@@ -46,7 +46,7 @@ const UpdateAssignmentStatus = (props) => {
             {props.assignment &&
                 <div>
                     <button className="btn btn-outline-dark dropdown-toggle" type="button" id={props.assignment.assignment.id} data-bs-toggle="dropdown" aria-expanded="false">
-                    Update Status
+                    {props.currentLabel}
                     </button>
 
                     <ul className="dropdown-menu" aria-labelledby={props.assignment.assignment.id}>

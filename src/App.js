@@ -16,6 +16,8 @@ function App() {
   const [studentInfo, setStudentInfo] = useState();
   const [courses, setCourses] = useState();
   const [assignments, setAssignments] = useState();
+  const [studentAssignmentStatus, setStudentAssignmentStatus] = useState();
+
 
   useEffect(() => {
     //getAllCollections();
@@ -38,7 +40,7 @@ function App() {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/assignment/student/getcourses/${studentInfo.id}/`,
+        url: `http://127.0.0.1:8000/api/assignment/student/getcourses/student_id/${studentInfo.id}/`,
         headers: {
           Authorization: "Bearer " + jwt
         },
@@ -53,7 +55,7 @@ function App() {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/assignment/educator/getcourses/${educatorInfo.id}/`,
+        url: `http://127.0.0.1:8000/api/assignment/educator/getcourses/educator_id/${educatorInfo.id}/`,
         headers: {
           Authorization: "Bearer " + jwt
         },
@@ -72,12 +74,14 @@ function App() {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/assignment/student/getassignments/${studentInfo.id}/`,
+        url: `http://127.0.0.1:8000/api/assignment/student/getassignments/student_id/${studentInfo.id}/`,
         headers: {
           Authorization: "Bearer " + jwt
         },
       }).then(response => {
         setAssignments(response.data);
+        getAssignmentsStatus();
+
       }).catch(error => {
         alert(error)
       })
@@ -86,7 +90,7 @@ function App() {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/assignment/educator/getassignments/${educatorInfo.id}/`,
+        url: `http://127.0.0.1:8000/api/assignment/educator/getassignments/educator_id/${educatorInfo.id}/`,
         headers: {
           Authorization: "Bearer " + jwt
         },
@@ -96,6 +100,38 @@ function App() {
         alert(error)
       })
     }
+  }
+
+  async function getAssignmentsStatus () {
+    debugger
+    if(studentInfo != undefined){
+      const jwt = localStorage.getItem("token");
+      await axios({
+        method: "get",
+        url: `http://127.0.0.1:8000/api/assignment/student/getassignmentstatus/student_id/${studentInfo.id}/`,
+        headers: {
+          Authorization: "Bearer " + jwt
+        },
+      }).then(response => {
+        setStudentAssignmentStatus(response.data);
+      }).catch(error => {
+        alert(error)
+      })
+    }
+    // else if(educatorInfo != undefined){
+    //   const jwt = localStorage.getItem("token");
+    //   await axios({
+    //     method: "get",
+    //     url: `http://127.0.0.1:8000/api/assignment/educator/getassignments/educator_id?${educatorInfo.id}/`,
+    //     headers: {
+    //       Authorization: "Bearer " + jwt
+    //     },
+    //   }).then(response => {
+    //     setAssignments(response.data);
+    //   }).catch(error => {
+    //     alert(error)
+    //   })
+    // }
   }
 
   async function login(username, password) {
@@ -119,7 +155,7 @@ function App() {
   async function getUserInfo(user, token) {
     await axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/assignment/user/${user.user_id}/`,
+      url: `http://127.0.0.1:8000/api/assignment/user/user_id/${user.user_id}/`,
       headers: {
         Authorization: "Bearer " + token
       },
@@ -138,7 +174,7 @@ function App() {
     const jwt = localStorage.getItem("token");
     await axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/assignment/student/${user_id}/`,
+      url: `http://127.0.0.1:8000/api/assignment/student/user_id/${user_id}/`,
       headers: {
         Authorization: "Bearer " + jwt
       },
@@ -152,7 +188,7 @@ function App() {
     const jwt = localStorage.getItem("token");
     await axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/assignment/educator/${user_id}/`,
+      url: `http://127.0.0.1:8000/api/assignment/educator/user_id/${user_id}/`,
       headers: {
         Authorization: "Bearer " + jwt
       },
@@ -181,38 +217,31 @@ function App() {
     })
 
   }
-  if(userInfo != undefined){
-    return (
-      <div className='container-fluid'>
-        <div className='row'>
-            <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments}/>
-            <div className='col-2 sidebar-border' style={{'height':'90vh'}} >
-              <SideBar userInfo={userInfo} courses={courses}/>
-            </div>
-  
-            <div className='col-6'>
-              <Routes>
-                <Route exact path='/' element={<Dashboard userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments}/>}/>
-                <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments}/>}/>
-                <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses}/>}/>
-              </Routes>
-            </div>
-  
-            <div className='col-4'>
-              view pane
-            </div>
+ 
+  return (
+    <div className='container-fluid'>
+      <div className='row'>
+          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments}/>
+          <div className='col-2 sidebar-border' style={{'height':'90vh'}} >
+            <SideBar userInfo={userInfo} courses={courses}/>
           </div>
-      </div>
-    );
-  }
 
-  else {
-    return (
-      <div className="spinner-border text-secondary position-absolute top-50 start-50" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    )
-  }
+          <div className='col-6'>
+            <Routes>
+              <Route exact path='/' element={<Dashboard userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>
+              <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments}/>}/>
+              <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses}/>}/>
+            </Routes>
+          </div>
+
+          <div className='col-4'>
+            view pane
+          </div>
+        </div>
+    </div>
+  );
+
+
 }
 
 export default App;
