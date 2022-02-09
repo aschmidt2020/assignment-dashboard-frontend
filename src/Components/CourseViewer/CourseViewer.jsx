@@ -14,6 +14,9 @@ const CourseViewer = (props) => {
     const [assignmentDesc, setAssignmentDesc] = useState();
     const [assignmentDueDate, setAssignmentDueDate] = useState();
     const [assignmentInstr, setAssignmentInstr] = useState();
+    const [viewed, setViewed] = useState(0);
+    const [inProgress, setInProgress] = useState(0);
+    const [completed, setCompleted] = useState(0)
 
     const [show, setShow] = useState(false);
     // const handleClose = () => setShow(false);
@@ -25,6 +28,9 @@ const CourseViewer = (props) => {
         setAssignmentDesc(assignments[index].assignment.assignment_desc);
         setAssignmentDueDate(assignments[index].assignment.assignment_due_date);
         setAssignmentInstr(assignments[index].assignment.assignment_instructions);
+        setViewed(assignments[index].assignment.students_viewed);
+        setInProgress(assignments[index].assignment.students_in_progress);
+        setCompleted(assignments[index].assignment.students_completed)
     }
 
     function handleClose(index) {
@@ -33,6 +39,9 @@ const CourseViewer = (props) => {
         setAssignmentDesc(assignments[index].assignment.assignment_desc);
         setAssignmentDueDate(assignments[index].assignment.assignment_due_date);
         setAssignmentInstr(assignments[index].assignment.assignment_instructions);
+        setViewed(assignments[index].assignment.students_viewed);
+        setInProgress(assignments[index].assignment.students_in_progress);
+        setCompleted(assignments[index].assignment.students_completed)
     }
 
     useEffect(() => {
@@ -65,7 +74,8 @@ const CourseViewer = (props) => {
             Authorization: "Bearer " + jwt
             },
         }).then(response => {
-            props.getAssignments()
+            props.getAssignments();
+            props.getAssignmentsOneCourse();
         }).catch(error => {
             alert(error)
         })
@@ -84,10 +94,13 @@ const CourseViewer = (props) => {
                 assignment_desc: assignmentDesc,
                 assignment_due_date: assignmentDueDate,
                 assignment_instructions: assignmentInstr,
-                assignment_archived: "False"
+                students_completed: completed,
+                students_in_progress: inProgress,
+                students_viewed: viewed
             }
         }).then(response => {
-            props.getAssignments()
+            props.getAssignments();
+            props.getAssignmentsOneCourse();
         }).catch(error => {
             alert(error)
         })

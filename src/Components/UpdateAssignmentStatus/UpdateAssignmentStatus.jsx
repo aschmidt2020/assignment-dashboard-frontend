@@ -32,6 +32,7 @@ const UpdateAssignmentStatus = (props) => {
             data: {
                 assignment: props.assignment.assignment.id,
                 student: props.studentInfo.id,
+                assignment_prev_status: props.currentLabel,
                 assignment_status: status
             }
         }).then(response => {

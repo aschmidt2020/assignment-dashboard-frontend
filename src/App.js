@@ -99,6 +99,7 @@ function App() {
         },
       }).then(response => {
         setAssignments(response.data);
+        getAssignmentsStatus();
       }).catch(error => {
         alert(error)
       })
@@ -121,20 +122,20 @@ function App() {
         alert(error)
       })
     }
-    // else if(educatorInfo != undefined){
-    //   const jwt = localStorage.getItem("token");
-    //   await axios({
-    //     method: "get",
-    //     url: `http://127.0.0.1:8000/api/assignment/educator/getassignments/educator_id?${educatorInfo.id}/`,
-    //     headers: {
-    //       Authorization: "Bearer " + jwt
-    //     },
-    //   }).then(response => {
-    //     setAssignments(response.data);
-    //   }).catch(error => {
-    //     alert(error)
-    //   })
-    // }
+    else if(educatorInfo != undefined){
+      const jwt = localStorage.getItem("token");
+      await axios({
+        method: "get",
+        url: `http://127.0.0.1:8000/api/assignment/educator/getassignmentstatus/`,
+        headers: {
+          Authorization: "Bearer " + jwt
+        },
+      }).then(response => {
+        setStudentAssignmentStatus(response.data);
+      }).catch(error => {
+        alert(error)
+      })
+    }
   }
 
   async function login(username, password) {

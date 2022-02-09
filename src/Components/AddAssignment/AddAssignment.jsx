@@ -13,6 +13,7 @@ const AddAssignment = (props) => {
 
     function handleClose() {
         setShow(false);
+        setSelectedCourse(undefined);
         handleReset();
 
     }
@@ -25,14 +26,19 @@ const AddAssignment = (props) => {
             Authorization: "Bearer " + jwt
             },
             data: {
+                assignment_course: selectedCourse.id,
                 assignment_name: formValues.assignment_name,
                 assignment_desc: formValues.assignment_desc,
                 assignment_due_date: formValues.assignment_due_date,
                 assignment_instructions: formValues.assignment_instructions,
-                assignment_archived: "False"
+                students_completed: 0,
+                students_in_progress: 0,
+                students_viewed: 0
             }
         }).then(response => {
             props.getAssignments();
+            handleClose();
+            window.location.reload();
         }).catch(error => {
             alert(error)
         })
@@ -51,16 +57,10 @@ const AddAssignment = (props) => {
                 <Modal.Body>
 
                 <div className="dropdown">
-                
-                    {selectedCourse &&
-                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        {selectedCourse.course_name}
-                    </button>}
-                    {!selectedCourse && 
-                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    Select Course
+                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        {selectedCourse && <span>{selectedCourse.course_name}</span>}
+                        {!selectedCourse && <span>Select Course</span>}
                     </button>
-                    }
 
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     {props.courses && props.courses.map((course) => {

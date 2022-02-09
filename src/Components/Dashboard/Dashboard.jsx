@@ -74,7 +74,6 @@ const Dashboard = (props) => {
       // eslint-disable-next-line
     }, [props.assignments, props.studentAssignmentStatus])
 
-
     return ( 
         <div>
             <div className="accordion" id="accordionExample">
@@ -91,6 +90,7 @@ const Dashboard = (props) => {
                             <thead>
                                 <tr>
                                     <th>Assignment</th>
+                                    <th>Course</th>
                                     <th>Due Date</th>
                                     <th>Status</th>
                                 </tr>
@@ -141,8 +141,19 @@ const Dashboard = (props) => {
                                                 </Modal.Footer>
                                             </Modal>
                                         </td>
+                                        <td>{assignment.assignment.assignment_course.course_name}</td>
                                         <td>{assignment.assignment.assignment_due_date}</td>
-                                        <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo}/></td>
+                                        {props.userInfo.is_staff===false && 
+                                        <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
+                                        }
+                                        {props.userInfo.is_staff===true &&
+                                        <td>
+                                            Students: {assignment.assignment.assignment_course.number_of_students}
+                                            # Viewed: {assignment.assignment.students_viewed}
+                                            # In Progress: {assignment.assignment.students_in_progress}
+                                            # Completed: {assignment.assignment.students_completed}
+                                        </td>
+                                        }
                                     </tr>
                                     
                                             
@@ -173,6 +184,7 @@ const Dashboard = (props) => {
                             <thead>
                                 <tr>
                                     <th>Assignment</th>
+                                    <th>Course</th>
                                     <th>Due Date</th>
                                     <th>Status</th>
                                 </tr>
@@ -223,8 +235,19 @@ const Dashboard = (props) => {
                                                 </Modal.Footer>
                                             </Modal>
                                         </td>
+                                        <td>{assignment.assignment.assignment_course.course_name}</td>
                                         <td>{assignment.assignment.assignment_due_date}</td>
-                                        <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo}/></td>
+                                        {props.userInfo.is_staff===false && 
+                                        <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
+                                        }
+                                        {props.userInfo.is_staff===true &&
+                                        <td>
+                                            Students: {assignment.assignment.assignment_course.number_of_students}
+                                            # Viewed: {assignment.assignment.students_viewed}
+                                            # In Progress: {assignment.assignment.students_in_progress}
+                                            # Completed: {assignment.assignment.students_completed}
+                                        </td>
+                                        }
                                     </tr>
                                     
                                             
@@ -254,6 +277,7 @@ const Dashboard = (props) => {
                             <thead>
                                 <tr>
                                     <th>Assignment</th>
+                                    <th>Course</th>
                                     <th>Due Date</th>
                                     <th>Status</th>
                                 </tr>
@@ -304,8 +328,19 @@ const Dashboard = (props) => {
                                                 </Modal.Footer>
                                             </Modal>
                                         </td>
+                                        <td>{assignment.assignment.assignment_course.course_name}</td>
                                         <td>{assignment.assignment.assignment_due_date}</td>
-                                        <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} getAssignments={props.getAssignments} studentInfo={props.studentInfo}/></td>
+                                        {props.userInfo.is_staff===false && 
+                                        <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
+                                        }
+                                        {props.userInfo.is_staff===true &&
+                                        <td>
+                                            Students: {assignment.assignment.assignment_course.number_of_students}
+                                            # Viewed: {assignment.assignment.students_viewed}
+                                            # In Progress: {assignment.assignment.students_in_progress}
+                                            # Completed: {assignment.assignment.students_completed}
+                                        </td>
+                                        }
                                     </tr>
                                     
                                             
