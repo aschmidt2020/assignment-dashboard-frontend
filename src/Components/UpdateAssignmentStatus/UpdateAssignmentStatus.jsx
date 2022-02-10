@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Routes, Route, useNavigate, NavigationType } from "react-router-dom";
 
 const UpdateAssignmentStatus = (props) => {
     const [assignmentStatus, setAssignmentStatus] = useState();
+    const navigate = useNavigate();
 
     function handleClickViewed() {
         setAssignmentStatus('Viewed');
@@ -14,9 +16,10 @@ const UpdateAssignmentStatus = (props) => {
         updateAssignmentStatus('In Progress')
     }
 
-    function handleClickCompleted(){
+    function handleClickSubmit(assignment){
         setAssignmentStatus('Completed');
-        updateAssignmentStatus('Completed')
+        navigate(`/assignment/submit`, { state: {...assignment}});
+        // updateAssignmentStatus('Completed')
 
     }
 
@@ -54,7 +57,7 @@ const UpdateAssignmentStatus = (props) => {
                     <ul className="dropdown-menu" aria-labelledby={props.assignment.assignment.id}>
                         <li><button onClick={handleClickViewed}>Viewed</button></li>
                         <li><button onClick={handleClickInProgress}>In Progress</button></li>
-                        <li><button onClick={handleClickCompleted}>Completed</button></li>
+                        <li><button onClick={() => handleClickSubmit(props.assignment)}>Submit</button></li>
                     </ul>
                 </div>
             }
