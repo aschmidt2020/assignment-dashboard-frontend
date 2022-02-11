@@ -2,6 +2,7 @@ import { Link, useNavigate} from "react-router-dom";
 import AddAssignment from "../AddAssignment/AddAssignment";
 import LoginForm from "../LoginForm/LoginForm";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
+import SearchBar from "../SearchBar/SearchBar";
 
 const NavBar = (props) => {
     const navigate = useNavigate();
@@ -24,6 +25,7 @@ const NavBar = (props) => {
                             <Link to="/" data-toggle="popover" title="Home" data-content="Home" trigger="hover">
                             <h4>Assignment<small className="text-muted">Dashboard</small></h4>
                             </Link>
+                            <SearchBar assignments={props.assignments} courses={props.courses} getResults={props.getResults}/>
                         </a>
 
                     </div>
@@ -42,9 +44,6 @@ const NavBar = (props) => {
                             {!props.userInfo && <span> <LoginForm login={props.login} /> <RegistrationForm register={props.register} /> </span>}
                             {props.userInfo && <button type="button" className="btn btn-outline-danger" onClick={props.logout}>Log Out</button>}
                             </li>
-
-
-    
                         </ul>
                     </div>
                     </div>

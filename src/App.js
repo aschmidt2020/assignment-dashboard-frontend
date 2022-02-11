@@ -12,6 +12,7 @@ import StudentRegister from './Components/StudentRegister/StudentRegister';
 import EducatorRegister from './Components/EducatorRegister/EducatorRegister';
 import DisplayArchived from './Components/DisplayArchived/DisplayArchived';
 import SubmitAssignment from './Components/SubmitAssignment/SubmitAssignment';
+import SearchResults from './Components/SearchResults/SearchResults';
 
 function App() {
   const navigate = useNavigate();
@@ -23,6 +24,8 @@ function App() {
   const [courses, setCourses] = useState();
   const [assignments, setAssignments] = useState();
   const [studentAssignmentStatus, setStudentAssignmentStatus] = useState();
+  const [searchResultsAssignments, setSearchResultsAssignments] = useState([]);
+  const [searchResultsCourses, setSearchResultsCourses] = useState([])
 
 
   useEffect(() => {
@@ -40,6 +43,11 @@ function App() {
     getEnrolledCourses();
     // eslint-disable-next-line
   }, [studentInfo, educatorInfo])
+
+  function getResults (assignments, courses){
+    setSearchResultsAssignments(assignments);
+    setSearchResultsCourses(courses)
+  }
 
   async function getEnrolledCourses () {
     if(studentInfo != undefined){
@@ -226,11 +234,21 @@ function App() {
     })
 
   }
+
+  function search(searchTerm){
+    let searchTermLower = searchTerm.toLowerCase();
+    let searchResultsCourses = courses.filter(e => {
+      if(e.course.course_name.toLowerCase() === searchTerm){return true};
+    })
+    let searchResultsAssignments = assignments.filter(e => {
+      if(e.assignment_name.toLowerCase() === searchTerm){ return true};
+    })
+  }
  
   return (
     <div className='container-fluid'>
       <div className='row'>
-          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments}/>
+          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments} assignments={assignments} courses={courses} getResults={getResults}/>
           <div className='col-2 sidebar-border' style={{'height':'90vh'}} >
             <SideBar userInfo={userInfo} courses={courses}/>
           </div>
@@ -244,6 +262,7 @@ function App() {
               <Route path='/complete-registration-educator' element={<EducatorRegister userInfo={userInfo} getEducatorInfo={getEducatorInfo}/>}/>
               <Route path='/assignments/archived' element={<DisplayArchived assignments={assignments}/>}/>
               <Route path='/assignment/submit' element={<SubmitAssignment userInfo={userInfo}/>}/>
+              <Route path='/search-results' element={<SearchResults userInfo={userInfo} searchResultsAssignments={searchResultsAssignments} searchResultsCourses={searchResultsCourses}/>}/>
             </Routes>
           </div>
 
