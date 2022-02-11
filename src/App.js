@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NavBar from './Components/NavBar/NavBar';
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { Routes, Route, useNavigate, NavigationType } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Dashboard from './Components/Dashboard/Dashboard';
 import SideBar from './Components/SideBar/SideBar';
 import CourseViewer from './Components/CourseViewer/CourseViewer';
@@ -50,7 +50,7 @@ function App() {
   }
 
   async function getEnrolledCourses () {
-    if(studentInfo != undefined){
+    if(studentInfo !== undefined){
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -65,7 +65,7 @@ function App() {
         alert(error)
       })
     }
-    else if(educatorInfo != undefined){
+    else if(educatorInfo !== undefined){
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -83,7 +83,7 @@ function App() {
   }
 
   async function getAssignments () {
-    if(studentInfo != undefined){
+    if(studentInfo !== undefined){
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -99,7 +99,7 @@ function App() {
         alert(error)
       })
     }
-    else if(educatorInfo != undefined){
+    else if(educatorInfo !== undefined){
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -117,7 +117,7 @@ function App() {
   }
 
   async function getAssignmentsStatus () {
-    if(studentInfo != undefined){
+    if(studentInfo !== undefined){
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -131,7 +131,7 @@ function App() {
         alert(error)
       })
     }
-    else if(educatorInfo != undefined){
+    else if(educatorInfo !== undefined){
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -235,16 +235,6 @@ function App() {
 
   }
 
-  function search(searchTerm){
-    let searchTermLower = searchTerm.toLowerCase();
-    let searchResultsCourses = courses.filter(e => {
-      if(e.course.course_name.toLowerCase() === searchTerm){return true};
-    })
-    let searchResultsAssignments = assignments.filter(e => {
-      if(e.assignment_name.toLowerCase() === searchTerm){ return true};
-    })
-  }
- 
   return (
     <div className='container-fluid'>
       <div className='row'>

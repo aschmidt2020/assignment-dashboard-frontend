@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate} from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate} from "react-router-dom";
 
 const SearchBar = (props) => {
     const [searchTerm, setSearchTerm] = useState();
-    const [resultsCourses, setResultsCourses] = useState();
-    const [resultsAssignments, setResultsAssignments] = useState();
     const navigate = useNavigate();
 
     function handleSubmit(event) {
@@ -22,13 +20,9 @@ const SearchBar = (props) => {
         let searchResultsAssignments = props.assignments.filter(e => {
           if(e.assignment_name.toLowerCase().includes(searchTermLower)){ return true};
         })
-
-        setResultsCourses(searchResultsCourses);
-        setResultsAssignments(searchResultsAssignments);
         debugger
         props.getResults(searchResultsAssignments, searchResultsCourses);
         navigate('/search-results')
-
       }
 
 

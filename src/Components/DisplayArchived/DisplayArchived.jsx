@@ -5,7 +5,7 @@ const DisplayArchived = (props) => {
 
     useEffect(() => {
         debugger
-        if(props.assignments != undefined){
+        if(props.assignments !== undefined){
             // let today = new Date();
             // today = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
             // let todayDate = new Date(today + "T00:00:00")

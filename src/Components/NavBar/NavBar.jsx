@@ -21,11 +21,11 @@ const NavBar = (props) => {
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
 
                     <div className="col-2">
-                        <p className="nav-item">
+                        <li className="nav-item">
                                 <Link to="/" data-toggle="popover" title="Home" data-content="Home" trigger="hover">
                                 <h4>Assignment<small className="text-muted">Dashboard</small></h4>
                                 </Link>
-                        </p>
+                        </li>
 
                     </div>
 

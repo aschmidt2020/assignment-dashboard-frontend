@@ -17,7 +17,7 @@ const Dashboard = (props) => {
     // sort assignments
     useEffect(() => {
         debugger
-        if(assignmentsAndStatus != undefined && assignmentsAndStatus.length >0){
+        if(assignmentsAndStatus !== undefined && assignmentsAndStatus.length >0){
             let assignments3 = [];
             let assignments7 = [];
             let assignments = [];
@@ -71,7 +71,7 @@ const Dashboard = (props) => {
     useEffect(() => {
         debugger
         let assignmentAndStatus = [];
-        if(props.assignments != undefined && props.assignments.length >0 && props.studentAssignmentStatus != undefined){
+        if(props.assignments !== undefined && props.assignments.length >0 && props.studentAssignmentStatus !== undefined){
             for (let i=0; i < props.assignments.length; i++) {
                 let indexStatus = props.studentAssignmentStatus.findIndex(assignment => assignment.assignment.id === props.assignments[i].id)
                 if(indexStatus > -1){

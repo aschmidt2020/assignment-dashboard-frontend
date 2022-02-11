@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate} from "react-router-dom";
-import EnrollButton from '../EnrollButton/EnrollButton';
 
 const SideBar = (props) => {
     const [url, setUrl] = useState('');

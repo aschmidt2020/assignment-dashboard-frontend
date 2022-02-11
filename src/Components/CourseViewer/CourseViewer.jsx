@@ -3,11 +3,11 @@ import axios from 'axios';
 import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import useForm from "../CustomHooks/useForm";
+// import useForm from "../CustomHooks/useForm";
 
 const CourseViewer = (props) => {
     const {state} = useLocation();
-    const { id, course, educator, student } = state;
+    const { course } = state;
     const [assignments, setAssignments] = useState();
 
     const [courseInfo, setCourseInfo] = useState();
