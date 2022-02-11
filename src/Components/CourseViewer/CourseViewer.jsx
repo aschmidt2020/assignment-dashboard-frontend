@@ -73,7 +73,7 @@ const CourseViewer = (props) => {
         })
     }
 
-    async function deleteAssignment(assignment_id){
+    async function deleteAssignment(assignment_id, course_id){
         const jwt = localStorage.getItem("token");
         await axios({
             method: "delete",
@@ -83,7 +83,7 @@ const CourseViewer = (props) => {
             },
         }).then(response => {
             props.getAssignments();
-            props.getAssignmentsOneCourse();
+            window.location.reload();
         }).catch(error => {
             alert(error)
         })
@@ -126,8 +126,8 @@ const CourseViewer = (props) => {
                 return(
                     <div key={assignment.id}>
                      <p>{assignment.assignment_name}</p>
-                    {props.userInfo.is_staff ===true && <button onClick={() => deleteAssignment(assignment.id)}>Delete Assignment</button>}
-                    {props.userInfo.is_staff ===true && 
+                    {props.userInfo && props.userInfo.is_staff ===true && <button onClick={() => deleteAssignment(assignment.id)}>Delete Assignment</button>}
+                    {props.userInfo && props.userInfo.is_staff ===true && 
                     <span id="add-assignment">
                         <Button variant="btn btn-outline-primary" onClick={() => handleShow(index)} style={{ "marginLeft": "6em" }}>
                             Update Assignment
