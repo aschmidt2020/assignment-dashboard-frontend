@@ -275,7 +275,9 @@ const Dashboard = (props) => {
                                 
                             }
                             )}
+                        {assignmentsNext7 && assignmentsNext7.length===0 && <td>No assignments!</td>}
                         </tbody>
+
 
                         
                         </table>
@@ -368,6 +370,7 @@ const Dashboard = (props) => {
                                 
                             }
                             )}
+                            {assignmentsLater && assignmentsLater.length===0 && <td>No assignments!</td>}
                         </tbody>
                         </table>
                     </span> 
@@ -459,6 +462,7 @@ const Dashboard = (props) => {
                                              
                                          }
                                          )}
+                                         {assignmentsOverdue && assignmentsOverdue.length===0 && <td>No assignments!</td>}
                                      </tbody>
                                      </table>
                                  </span> 
@@ -552,6 +556,7 @@ const Dashboard = (props) => {
                                              
                                          }
                                          )}
+                                         {assignmentsCompleted && assignmentsCompleted.length===0 && <td>No assignments!</td>}
                                      </tbody>
                                      </table>
                                  </span> 

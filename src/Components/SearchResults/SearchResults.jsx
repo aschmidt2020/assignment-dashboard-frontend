@@ -16,7 +16,7 @@ const SearchResults = (props) => {
                 );
                 })}
             
-            {!props.searchResultsAssignments && !props.searchResultsCourses && <p>No results!</p>}
+            {props.searchResultsAssignments.length ===0 && props.searchResultsCourses.length ===0 && <p>No results!</p>}
         </div>
     )   
 
