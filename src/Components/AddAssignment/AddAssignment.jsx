@@ -33,7 +33,8 @@ const AddAssignment = (props) => {
                 assignment_instructions: formValues.assignment_instructions,
                 students_completed: 0,
                 students_in_progress: 0,
-                students_viewed: 0
+                students_viewed: 0,
+                upload_to_folder_id: null
             }
         }).then(response => {
             props.getAssignments();

@@ -72,9 +72,9 @@ const SideBar = (props) => {
                     
                     <div className='accordion accordion-flush'>
 
-                    <div class="accordion-item" style={{'marginTop':'2em'}}>
-                        <h2 class="accordion-header" id="headingFour">
-                        <button onClick={navigateArchived} class="btn btn-link" type="button">
+                    <div className="accordion-item" style={{'marginTop':'2em'}}>
+                        <h2 className="accordion-header" id="headingFour">
+                        <button onClick={navigateArchived} className="btn btn-link" type="button">
                             Archived Assignments
                         </button>
                         </h2>

@@ -34,7 +34,7 @@ const SearchBar = (props) => {
 
 
     return ( 
-        <form className="row" onSubmit={handleSubmit} style={{ "marginLeft": "10em", "width": "60%" }}>
+        <form className="row" onSubmit={handleSubmit} style={{ "marginLeft": "10em", "width": "80%" }}>
             <div className="col-10" style={{ "marginRight": "-1em" }}>
                 <input className="form-control" type="search" placeholder="Search" aria-label="Search" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} />
             </div>

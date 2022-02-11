@@ -10,6 +10,7 @@ const CourseViewer = (props) => {
     const { id, course, educator, student } = state;
     const [assignments, setAssignments] = useState();
 
+    const [courseInfo, setCourseInfo] = useState();
     const [assignmentName, setAssignmentName] = useState();
     const [assignmentDesc, setAssignmentDesc] = useState();
     const [assignmentDueDate, setAssignmentDueDate] = useState();
@@ -17,6 +18,7 @@ const CourseViewer = (props) => {
     const [viewed, setViewed] = useState(0);
     const [inProgress, setInProgress] = useState(0);
     const [completed, setCompleted] = useState(0)
+    const [folderInfo, setFolderInfo] = useState();
 
     const [show, setShow] = useState(false);
     // const handleClose = () => setShow(false);
@@ -24,24 +26,30 @@ const CourseViewer = (props) => {
 
     function handleShow(index){
         setShow(true);
-        setAssignmentName(assignments[index].assignment.assignment_name);
-        setAssignmentDesc(assignments[index].assignment.assignment_desc);
-        setAssignmentDueDate(assignments[index].assignment.assignment_due_date);
-        setAssignmentInstr(assignments[index].assignment.assignment_instructions);
-        setViewed(assignments[index].assignment.students_viewed);
-        setInProgress(assignments[index].assignment.students_in_progress);
-        setCompleted(assignments[index].assignment.students_completed)
+
+        setCourseInfo(assignments[index].assignment_course.id)
+        setAssignmentName(assignments[index].assignment_name);
+        setAssignmentDesc(assignments[index].assignment_desc);
+        setAssignmentDueDate(assignments[index].assignment_due_date);
+        setAssignmentInstr(assignments[index].assignment_instructions);
+        setViewed(assignments[index].students_viewed);
+        setInProgress(assignments[index].students_in_progress);
+        setCompleted(assignments[index].students_completed);
+        setFolderInfo(assignments[index].upload_to_folder_id)
     }
 
     function handleClose(index) {
         setShow(false);
-        setAssignmentName(assignments[index].assignment.assignment_name);
-        setAssignmentDesc(assignments[index].assignment.assignment_desc);
-        setAssignmentDueDate(assignments[index].assignment.assignment_due_date);
-        setAssignmentInstr(assignments[index].assignment.assignment_instructions);
-        setViewed(assignments[index].assignment.students_viewed);
-        setInProgress(assignments[index].assignment.students_in_progress);
-        setCompleted(assignments[index].assignment.students_completed)
+
+        setCourseInfo(assignments[index].assignment_course.id)
+        setAssignmentName(assignments[index].assignment_name);
+        setAssignmentDesc(assignments[index].assignment_desc);
+        setAssignmentDueDate(assignments[index].assignment_due_date);
+        setAssignmentInstr(assignments[index].assignment_instructions);
+        setViewed(assignments[index].students_viewed);
+        setInProgress(assignments[index].students_in_progress);
+        setCompleted(assignments[index].students_completed)
+        setFolderInfo(assignments[index].upload_to_folder_id)
     }
 
     useEffect(() => {
@@ -90,17 +98,21 @@ const CourseViewer = (props) => {
             Authorization: "Bearer " + jwt
             },
             data: {
+                assignment_course: courseInfo,
                 assignment_name: assignmentName,
                 assignment_desc: assignmentDesc,
                 assignment_due_date: assignmentDueDate,
                 assignment_instructions: assignmentInstr,
                 students_completed: completed,
                 students_in_progress: inProgress,
-                students_viewed: viewed
+                students_viewed: viewed,
+                upload_to_folder_id: folderInfo,
+
             }
         }).then(response => {
             props.getAssignments();
-            props.getAssignmentsOneCourse();
+            getAssignmentsOneCourse(courseInfo);
+            window.location.reload()
         }).catch(error => {
             alert(error)
         })

@@ -20,14 +20,17 @@ const NavBar = (props) => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
 
-                    <div className="col-9">
-                        <a className="nav-item">
-                            <Link to="/" data-toggle="popover" title="Home" data-content="Home" trigger="hover">
-                            <h4>Assignment<small className="text-muted">Dashboard</small></h4>
-                            </Link>
-                            <SearchBar assignments={props.assignments} courses={props.courses} getResults={props.getResults}/>
-                        </a>
+                    <div className="col-2">
+                        <p className="nav-item">
+                                <Link to="/" data-toggle="popover" title="Home" data-content="Home" trigger="hover">
+                                <h4>Assignment<small className="text-muted">Dashboard</small></h4>
+                                </Link>
+                        </p>
 
+                    </div>
+
+                    <div className="col-7">
+                        <SearchBar assignments={props.assignments} courses={props.courses} getResults={props.getResults}/>
                     </div>
 
                     <div className="col-3">

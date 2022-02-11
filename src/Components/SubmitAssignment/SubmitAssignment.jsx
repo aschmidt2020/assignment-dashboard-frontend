@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
+// import { GoogleApis } from 'googleapis';
+// import { mime } from 'mime-types';  
+// import { path } from 'path';
+// import { fs } from 'fs'
 
 const SubmitAssignment = (props) => {
     const {state} = useLocation();
     const { assignment } = state;
     const [file, setFile] = useState();
-    const mime = require('mime-types');
-    // const {GoogleApis} = require('googleapis');
-    // const google = new GoogleApis;
+
+    // const google = new GoogleApis();
     // const path = require('path');
     // const fs = require('fs');
 
