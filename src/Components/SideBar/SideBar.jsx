@@ -28,7 +28,7 @@ const SideBar = (props) => {
     return (
         <div>
             <nav className="d-flex flex-column flex-shrink-0 p-3">
-                {props.userInfo && <span className="navbar-welcome-text">Welcome {props.userInfo.username}!</span>}
+                {props.userInfo && <h5 className="navbar-welcome-text" style={{'marginBottom':'1em'}}>Welcome {props.userInfo.username}!</h5>}
                 {!props.userInfo && <span className="navbar-welcome-text">Please log-in.</span>}
                 <ul className="nav flex-column" id="nav_accordion">
                     <div className="accordion accordion-flush" id="accordionFlushExample">

@@ -15,9 +15,8 @@ import SubmitAssignment from './Components/SubmitAssignment/SubmitAssignment';
 import SearchResults from './Components/SearchResults/SearchResults';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
 import Notepad from './Components/Notepad/Notepad';
+import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 
 function App() {
   const navigate = useNavigate();
@@ -35,7 +34,16 @@ function App() {
 
 
   useEffect(() => {
-    //getAllCollections();
+    const themeFromStorage = localStorage.getItem("theme")
+    if(themeFromStorage === "true"){
+      setLightMode(true);
+      setBackground(true);
+    }
+    else{
+      setLightMode(false);
+      setBackground(false);
+    }
+
     const tokenFromStorage = localStorage.getItem("token");
     try {
       const decodedUser = jwt_decode(tokenFromStorage);
@@ -69,7 +77,8 @@ function App() {
       height: 550,
       aspectRatio: 2,
       handleWindowResize: true,
-      plugins: [ dayGridPlugin ],
+      plugins: [ dayGridPlugin, bootstrap5Plugin ],
+      themeSystem: 'bootstrap5',
       initialView: 'dayGridMonth',
       headerToolbar: {
         left: 'prev,next',
@@ -88,17 +97,16 @@ function App() {
     event.preventDefault();
     let oppositeState = !lightMode;
     setBackground(oppositeState);
-    setLightMode(oppositeState)
+    setLightMode(oppositeState);
+    localStorage.setItem("theme", oppositeState)
   }
 
   function setBackground(lightMode){
     if(lightMode){
-      document.body.style.backgroundColor = '#f5fffa';
-      document.body.style.color = 'black'
+      document.body.style.backgroundColor = 'white';
     }
     else {
-      document.body.style.backgroundColor = '#003118';
-      document.body.style.color = 'white'
+      document.body.style.backgroundColor = '#373737';
     }
   }
 
@@ -297,11 +305,12 @@ function App() {
     <div className='container-fluid'>
       <div className='row'>
           <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} toggleLightMode={toggleLightMode} courses={courses} getAssignments={getAssignments} assignments={assignments} courses={courses} getResults={getResults}/>
-          <div className='col-2 sidebar-border' style={{'height':'90vh'}} >
+          
+          <div className='col-2 sidebar-border' style={{'height':'90vh', 'paddingTop': '2%'}} >
           <SideBar userInfo={userInfo} courses={courses}/>
           </div>
 
-          <div className='col-6'>
+          <div className='col-6' style={{'paddingTop':'2%'}}>
             <Routes>
               <Route exact path='/' element={<Dashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>
               <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments}/>}/>
@@ -314,7 +323,7 @@ function App() {
             </Routes>
           </div>
 
-          <div className='col-4'>
+          <div className='col-4' style={{'paddingLeft':'2%', 'paddingRight':'2%', 'paddingTop': '2%'}}>
             {/* <CalendarWidget /> */}
             <Notepad user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} />
             <div id='calendar'></div>

@@ -141,21 +141,9 @@ const Dashboard = (props) => {
 
                                                 </Modal.Body>
                                                 <Modal.Footer>
-                                                {props.userInfo.is_staff===true && 
                                                     <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                    Close
+                                                        Close
                                                     </Button>
-                                                }
-                                                {props.userInfo.is_staff===false &&
-                                                    <div>
-                                                        <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                            Close
-                                                        </Button>
-                                                        <Button type="submit" variant="btn btn-outline-primary" onClick={handleClose}>
-                                                            Submit
-                                                        </Button>
-                                                    </div>
-                                                }
                                                 </Modal.Footer>
                                             </Modal>
                                         </td>
@@ -235,21 +223,9 @@ const Dashboard = (props) => {
 
                                                 </Modal.Body>
                                                 <Modal.Footer>
-                                                {props.userInfo.is_staff===true && 
                                                     <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                    Close
+                                                        Close
                                                     </Button>
-                                                }
-                                                {props.userInfo.is_staff===false &&
-                                                    <div>
-                                                        <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                            Close
-                                                        </Button>
-                                                        <Button type="submit" variant="btn btn-outline-primary" onClick={handleClose}>
-                                                            Submit
-                                                        </Button>
-                                                    </div>
-                                                }
                                                 </Modal.Footer>
                                             </Modal>
                                         </td>
@@ -330,21 +306,9 @@ const Dashboard = (props) => {
 
                                                 </Modal.Body>
                                                 <Modal.Footer>
-                                                {props.userInfo.is_staff===true && 
                                                     <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                    Close
+                                                        Close
                                                     </Button>
-                                                }
-                                                {props.userInfo.is_staff===false &&
-                                                    <div>
-                                                        <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                            Close
-                                                        </Button>
-                                                        <Button type="submit" variant="btn btn-outline-primary" onClick={handleClose}>
-                                                            Submit
-                                                        </Button>
-                                                    </div>
-                                                }
                                                 </Modal.Footer>
                                             </Modal>
                                         </td>
@@ -422,21 +386,9 @@ const Dashboard = (props) => {
              
                                                              </Modal.Body>
                                                              <Modal.Footer>
-                                                             {props.userInfo.is_staff===true && 
-                                                                 <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                                 Close
-                                                                 </Button>
-                                                             }
-                                                             {props.userInfo.is_staff===false &&
-                                                                 <div>
-                                                                     <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                                         Close
-                                                                     </Button>
-                                                                     <Button type="submit" variant="btn btn-outline-primary" onClick={handleClose}>
-                                                                         Submit
-                                                                     </Button>
-                                                                 </div>
-                                                             }
+                                                                <Button variant="btn btn-outline-dark" onClick={handleClose}>
+                                                                    Close
+                                                                </Button>
                                                              </Modal.Footer>
                                                          </Modal>
                                                      </td>
@@ -516,21 +468,9 @@ const Dashboard = (props) => {
              
                                                              </Modal.Body>
                                                              <Modal.Footer>
-                                                             {props.userInfo.is_staff===true && 
-                                                                 <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                                 Close
-                                                                 </Button>
-                                                             }
-                                                             {props.userInfo.is_staff===false &&
-                                                                 <div>
-                                                                     <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                                         Close
-                                                                     </Button>
-                                                                     <Button type="submit" variant="btn btn-outline-primary" onClick={handleClose}>
-                                                                         Submit
-                                                                     </Button>
-                                                                 </div>
-                                                             }
+                                                                <Button variant="btn btn-outline-dark" onClick={handleClose}>
+                                                                    Close
+                                                                </Button>
                                                              </Modal.Footer>
                                                          </Modal>
                                                      </td>
