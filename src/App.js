@@ -50,7 +50,6 @@ function App() {
   }, [studentInfo, educatorInfo])
 
   useEffect(() => {
-    debugger
     var calendarEl = document.getElementById('calendar');
     let eventsList = [];
 

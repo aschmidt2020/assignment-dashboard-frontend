@@ -33,14 +33,14 @@ const Dashboard = (props) => {
             sevenDays.setDate(sevenDays.getDate() + 7)
 
             for (let i=0; i < assignmentsAndStatus.length; i++) {
-                
+                debugger
                 let assignment_date = new Date(assignmentsAndStatus[i].assignment.assignment_due_date + "T00:00:00");
                 if(assignmentsAndStatus[i].assignment_status === "Completed"){
                     completed.push(assignmentsAndStatus[i])
                 }
 
                 else if(assignmentsAndStatus[i].assignment_status !== "Completed"){
-                    if(assignment_date <= threeDays){
+                    if(assignment_date <= threeDays && assignment_date >= today){
                         assignments3.push(assignmentsAndStatus[i])
                     }
                     else if(assignment_date > threeDays && assignment_date <= sevenDays){
