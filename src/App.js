@@ -17,6 +17,7 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
+import Notepad from './Components/Notepad/Notepad';
 
 function App() {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ function App() {
     }
   
     var calendar = new Calendar(calendarEl, {
-      height: 600,
+      height: 550,
       aspectRatio: 2,
       handleWindowResize: true,
       plugins: [ dayGridPlugin ],
@@ -292,10 +293,6 @@ function App() {
 
   }
 
-
-
-
-
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -319,6 +316,7 @@ function App() {
 
           <div className='col-4'>
             {/* <CalendarWidget /> */}
+            <Notepad user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} />
             <div id='calendar'></div>
           </div>
         </div>
