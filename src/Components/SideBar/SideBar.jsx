@@ -29,7 +29,10 @@ const SideBar = (props) => {
         <div>
             <nav className="d-flex flex-column flex-shrink-0 p-3">
                 {props.userInfo && <h5 className="navbar-welcome-text" style={{'marginBottom':'1em'}}>Welcome {props.userInfo.username}!</h5>}
+                {props.userInfo && props.userInfo.is_staff===false && <p className="navbar-welcome-text" style={{'marginBottom':'1em'}}>Student Dashboard</p>}
+                {props.userInfo && props.userInfo.is_staff===true && <p className="navbar-welcome-text" style={{'marginBottom':'1em'}}>Educator Dashboard</p>}
                 {!props.userInfo && <span className="navbar-welcome-text">Please log-in.</span>}
+
                 <ul className="nav flex-column" id="nav_accordion">
                     <div className="accordion accordion-flush" id="accordionFlushExample">
                     <div className="accordion-item">

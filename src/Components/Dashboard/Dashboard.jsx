@@ -118,7 +118,7 @@ const Dashboard = (props) => {
                                 return (
                                     <tr key={assignment.assignment.id}>
                                         <td>
-                                        <Button variant="btn btn-outline-secondary assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                        <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
                                             {assignment.assignment.assignment_name}
                                         </Button>
 
@@ -154,10 +154,10 @@ const Dashboard = (props) => {
                                         }
                                         {props.userInfo.is_staff===true &&
                                         <td>
-                                            Students: {assignment.assignment.assignment_course.number_of_students}
-                                            # Viewed: {assignment.assignment.students_viewed}
-                                            # In Progress: {assignment.assignment.students_in_progress}
-                                            # Completed: {assignment.assignment.students_completed}
+                                            <p>Students Enrolled: {assignment.assignment.assignment_course.number_of_students}</p>
+                                            <p># Viewed: {assignment.assignment.students_viewed}</p>
+                                            <p># In Progress: {assignment.assignment.students_in_progress}</p>
+                                            <p># Completed: {assignment.assignment.students_completed}</p>
                                         </td>
                                         }
                                     </tr>
@@ -200,7 +200,7 @@ const Dashboard = (props) => {
                                 return (
                                     <tr key={assignment.assignment.id}>
                                         <td>
-                                        <Button variant="btn btn-outline-secondary assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                        <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
                                             {assignment.assignment.assignment_name}
                                         </Button>
 
@@ -236,10 +236,10 @@ const Dashboard = (props) => {
                                         }
                                         {props.userInfo.is_staff===true &&
                                         <td>
-                                            Students: {assignment.assignment.assignment_course.number_of_students}
-                                            # Viewed: {assignment.assignment.students_viewed}
-                                            # In Progress: {assignment.assignment.students_in_progress}
-                                            # Completed: {assignment.assignment.students_completed}
+                                            <p>Students Enrolled: {assignment.assignment.assignment_course.number_of_students}</p>
+                                            <p># Viewed: {assignment.assignment.students_viewed}</p>
+                                            <p># In Progress: {assignment.assignment.students_in_progress}</p>
+                                            <p># Completed: {assignment.assignment.students_completed}</p>
                                         </td>
                                         }
                                     </tr>
@@ -283,7 +283,7 @@ const Dashboard = (props) => {
                                 return (
                                     <tr key={assignment.assignment.id}>
                                         <td>
-                                        <Button variant="btn btn-outline-secondary assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                        <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
                                             {assignment.assignment.assignment_name}
                                         </Button>
 
@@ -319,10 +319,10 @@ const Dashboard = (props) => {
                                         }
                                         {props.userInfo.is_staff===true &&
                                         <td>
-                                            Students: {assignment.assignment.assignment_course.number_of_students}
-                                            # Viewed: {assignment.assignment.students_viewed}
-                                            # In Progress: {assignment.assignment.students_in_progress}
-                                            # Completed: {assignment.assignment.students_completed}
+                                            <p>Students Enrolled: {assignment.assignment.assignment_course.number_of_students}</p>
+                                            <p># Viewed: {assignment.assignment.students_viewed}</p>
+                                            <p># In Progress: {assignment.assignment.students_in_progress}</p>
+                                            <p># Completed: {assignment.assignment.students_completed}</p>
                                         </td>
                                         }
                                     </tr>
@@ -363,7 +363,7 @@ const Dashboard = (props) => {
                                              return (
                                                  <tr key={assignment.assignment.id}>
                                                      <td>
-                                                     <Button variant="btn btn-outline-secondary assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                                     <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
                                                          {assignment.assignment.assignment_name}
                                                      </Button>
              
@@ -399,10 +399,10 @@ const Dashboard = (props) => {
                                                      }
                                                      {props.userInfo.is_staff===true &&
                                                      <td>
-                                                         Students: {assignment.assignment.assignment_course.number_of_students}
-                                                         # Viewed: {assignment.assignment.students_viewed}
-                                                         # In Progress: {assignment.assignment.students_in_progress}
-                                                         # Completed: {assignment.assignment.students_completed}
+                                                        <p>Students Enrolled: {assignment.assignment.assignment_course.number_of_students}</p>
+                                                        <p># Viewed: {assignment.assignment.students_viewed}</p>
+                                                        <p># In Progress: {assignment.assignment.students_in_progress}</p>
+                                                        <p># Completed: {assignment.assignment.students_completed}</p>
                                                      </td>
                                                      }
                                                  </tr>
@@ -445,7 +445,7 @@ const Dashboard = (props) => {
                                              return (
                                                  <tr key={assignment.assignment.id}>
                                                      <td>
-                                                     <Button variant="btn btn-outline-secondary assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                                     <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
                                                          {assignment.assignment.assignment_name}
                                                      </Button>
              
@@ -481,10 +481,10 @@ const Dashboard = (props) => {
                                                      }
                                                      {props.userInfo.is_staff===true &&
                                                      <td>
-                                                         Students: {assignment.assignment.assignment_course.number_of_students}
-                                                         # Viewed: {assignment.assignment.students_viewed}
-                                                         # In Progress: {assignment.assignment.students_in_progress}
-                                                         # Completed: {assignment.assignment.students_completed}
+                                                        <p>Students Enrolled: {assignment.assignment.assignment_course.number_of_students}</p>
+                                                        <p># Viewed: {assignment.assignment.students_viewed}</p>
+                                                        <p># In Progress: {assignment.assignment.students_in_progress}</p>
+                                                        <p># Completed: {assignment.assignment.students_completed}</p>
                                                      </td>
                                                      }
                                                  </tr>

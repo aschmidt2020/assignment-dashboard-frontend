@@ -45,8 +45,21 @@
 
 .assignment-button {
     width: 100%;
+    text-align: left !important;
 }
+ p {
+     padding: 0% !important;
+     margin: 0% !important;
+ }
 
 li {
     list-style: none;
+}
+
+table, td {
+    padding: 2%, 
+}
+
+table {
+    width: 90%;
 }

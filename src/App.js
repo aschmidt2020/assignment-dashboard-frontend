@@ -324,13 +324,14 @@ function App() {
           </div>
 
           <div className='col-4' style={{'paddingLeft':'2%', 'paddingRight':'2%', 'paddingTop': '2%'}}>
-            {/* <CalendarWidget /> */}
-            <Notepad user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} />
             <div id='calendar'></div>
+            <Notepad user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} />
           </div>
         </div>
     </div>
   );
+  
+
 
 
 }
