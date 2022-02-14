@@ -16,7 +16,6 @@ const Dashboard = (props) => {
 
     // sort assignments
     useEffect(() => {
-        debugger
         if(assignmentsAndStatus !== undefined && assignmentsAndStatus.length >0){
             let assignments3 = [];
             let assignments7 = [];
@@ -69,7 +68,6 @@ const Dashboard = (props) => {
 
     //compare assignments with assignment statuses
     useEffect(() => {
-        debugger
         let assignmentAndStatus = [];
         if(props.assignments !== undefined && props.assignments.length >0 && props.studentAssignmentStatus !== undefined){
             for (let i=0; i < props.assignments.length; i++) {

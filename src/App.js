@@ -13,6 +13,10 @@ import EducatorRegister from './Components/EducatorRegister/EducatorRegister';
 import DisplayArchived from './Components/DisplayArchived/DisplayArchived';
 import SubmitAssignment from './Components/SubmitAssignment/SubmitAssignment';
 import SearchResults from './Components/SearchResults/SearchResults';
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
 
 function App() {
   const navigate = useNavigate();
@@ -25,7 +29,8 @@ function App() {
   const [assignments, setAssignments] = useState();
   const [studentAssignmentStatus, setStudentAssignmentStatus] = useState();
   const [searchResultsAssignments, setSearchResultsAssignments] = useState([]);
-  const [searchResultsCourses, setSearchResultsCourses] = useState([])
+  const [searchResultsCourses, setSearchResultsCourses] = useState([]);
+  const [lightMode, setLightMode] = useState(true);
 
 
   useEffect(() => {
@@ -43,6 +48,59 @@ function App() {
     getEnrolledCourses();
     // eslint-disable-next-line
   }, [studentInfo, educatorInfo])
+
+  useEffect(() => {
+    debugger
+    var calendarEl = document.getElementById('calendar');
+    let eventsList = [];
+
+    if(assignments){
+      for(let i=0; i < assignments.length; i++){
+        eventsList.push({
+          id: i,
+          start: assignments[i].assignment_due_date,
+          end: assignments[i].assignment_due_date,
+          title: assignments[i].assignment_name
+        })
+      }
+    }
+  
+    var calendar = new Calendar(calendarEl, {
+      height: 600,
+      aspectRatio: 2,
+      handleWindowResize: true,
+      plugins: [ dayGridPlugin ],
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        left: 'prev,next',
+        center: 'title',
+        right: 'today'
+
+      },
+
+      events: eventsList
+    });
+
+    calendar.render()
+  }, [assignments]);
+
+  function toggleLightMode(event){
+    event.preventDefault();
+    let oppositeState = !lightMode;
+    setBackground(oppositeState);
+    setLightMode(oppositeState)
+  }
+
+  function setBackground(lightMode){
+    if(lightMode){
+      document.body.style.backgroundColor = '#f5fffa';
+      document.body.style.color = 'black'
+    }
+    else {
+      document.body.style.backgroundColor = '#003118';
+      document.body.style.color = 'white'
+    }
+  }
 
   function getResults (assignments, courses){
     setSearchResultsAssignments(assignments);
@@ -235,12 +293,16 @@ function App() {
 
   }
 
+
+
+
+
   return (
     <div className='container-fluid'>
       <div className='row'>
-          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments} assignments={assignments} courses={courses} getResults={getResults}/>
+          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} toggleLightMode={toggleLightMode} courses={courses} getAssignments={getAssignments} assignments={assignments} courses={courses} getResults={getResults}/>
           <div className='col-2 sidebar-border' style={{'height':'90vh'}} >
-            <SideBar userInfo={userInfo} courses={courses}/>
+          <SideBar userInfo={userInfo} courses={courses}/>
           </div>
 
           <div className='col-6'>
@@ -257,7 +319,8 @@ function App() {
           </div>
 
           <div className='col-4'>
-            view pane
+            {/* <CalendarWidget /> */}
+            <div id='calendar'></div>
           </div>
         </div>
     </div>

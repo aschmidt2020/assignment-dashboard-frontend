@@ -47,6 +47,10 @@ const NavBar = (props) => {
                             {!props.userInfo && <span> <LoginForm login={props.login} /> <RegistrationForm register={props.register} /> </span>}
                             {props.userInfo && <button type="button" className="btn btn-outline-danger" onClick={props.logout}>Log Out</button>}
                             </li>
+
+                            <li className="nav-item">
+                            <button className='btn bg-transparent' onClick={props.toggleLightMode}><i className="bi bi-lightbulb"></i></button>
+                            </li>
                         </ul>
                     </div>
                     </div>
