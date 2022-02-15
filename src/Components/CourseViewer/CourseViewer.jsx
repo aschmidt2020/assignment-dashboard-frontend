@@ -123,9 +123,9 @@ const CourseViewer = (props) => {
             <table className='table course-table'>
              <thead>
                 <tr>
-                    <th scope="col">Assignment</th>
-                    <th scope="col">Due Date</th>
-                    <th scope="col">Instructions</th>
+                    <th>Assignment</th>
+                    <th>Due Date</th>
+                    <th>Instructions</th>
                     <th></th>
                 </tr>
             </thead>
@@ -134,7 +134,7 @@ const CourseViewer = (props) => {
 
             {assignments && assignments.length > 0 &&assignments.map((assignment, index) => {
                 return(
-                        <tr scope="row">
+                        <tr>
                             <td>{assignment.assignment_name}</td>
                             <td>{assignment.assignment_due_date}</td>
                             <td>{assignment.assignment_instructions}</td>

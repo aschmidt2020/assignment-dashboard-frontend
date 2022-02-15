@@ -75,6 +75,7 @@ table, td {
 
 .accordion-item {
     padding-bottom: 10px !important;
+    padding-right: 10px !important;
 }
 
 table {

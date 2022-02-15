@@ -32,7 +32,7 @@ const SearchResults = (props) => {
                         <p><strong>Instructions:</strong> {result.assignment_instructions}</p>    
                         
                         <p><strong>Course:</strong> 
-                        <button className='btn btn-link' onClick={() => navigateCourse({course: result.assignment_course})}>{result.assignment_course.course_name}</button>
+                        <button className='btn link-secondary' onClick={() => navigateCourse({course: result.assignment_course})}><u>{result.assignment_course.course_name} <i className="bi bi-arrow-right"></i></u></button>
                         </p>     
                     </div>
                 }

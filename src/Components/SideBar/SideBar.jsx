@@ -17,10 +17,6 @@ const SideBar = (props) => {
         navigate(`/course/${course.course.course_name.split(' ').join('')}`, { state: {...course}});
     }
 
-    function navigateEnroll(){
-        navigate(`/course/enroll`);
-    }
-
     function navigateArchived(){
         navigate(`/assignments/archived`);
     }
