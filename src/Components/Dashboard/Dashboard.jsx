@@ -11,10 +11,14 @@ const Dashboard = (props) => {
     const [assignmentsLater, setAssignmentsLater] = useState(undefined);
     const [assignmentsOverdue, setAssignmentsOverdue] = useState();
     const [assignmentsCompleted, setAssignmentsCompleted] = useState();
-    const [show, setShow] = useState({show: false, assignmentId: ''});
+    const [modalContent, setModalContent] = useState('')
+    const [show, setShow] = useState(false);
 
-    function toggleShow(assignmentId){
-        setShow({show: !show.show, assignmentId: assignmentId})
+    const handleClose = () => setShow(false);
+
+    function handleShow(assignment) {
+        setShow(true);
+        setModalContent(assignment)
     }
 
     // sort assignments
@@ -122,16 +126,9 @@ const Dashboard = (props) => {
                                     return (
                                         <tr key={assignment.assignment.id}>
                                             <td>
-                                            <button className="btn btn-link assignment-button" onClick={() => toggleShow(assignment.assignment.id)} style={{ "marginRight": "1em" }}>
-                                                {assignment.assignment.assignment_name}
-                                            </button>
-                                            
-                                            {show.show===true && show.assignmentId === assignment.assignment.id && 
-                                                <div className='row' style={{'marginLeft':'1em'}}>
-                                                    <p><strong>Description:</strong> {assignment.assignment.assignment_desc}</p>
-                                                    <p><strong>Instructions:</strong> {assignment.assignment.assignment_instructions}</p>    
-                                                </div>
-                                            }
+                                            <Button variant="btn btn-link assignment-button" onClick={() => handleShow(assignment)}>
+                                            {assignment.assignment.assignment_name}
+                                            </Button>
                                             </td>
                                             <td>{assignment.assignment.assignment_course.course_name}</td>
                                             <td>{assignment.assignment.assignment_due_date}</td>
@@ -186,16 +183,9 @@ const Dashboard = (props) => {
                                     return (
                                         <tr key={assignment.assignment.id}>
                                             <td>
-                                            <button variant="btn btn-link assignment-button" onClick={() => toggleShow(assignment.assignment.id)} style={{ "marginRight": "1em" }}>
-                                                {assignment.assignment.assignment_name}
-                                            </button>
-
-                                            {show.show===true && show.assignmentId === assignment.assignment.id && 
-                                                <div className='row' style={{'marginLeft':'1em'}}>
-                                                    <p><strong>Description:</strong> {assignment.assignment.assignment_desc}</p>
-                                                    <p><strong>Instructions:</strong> {assignment.assignment.assignment_instructions}</p>    
-                                                </div>
-                                            }
+                                            <Button variant="btn btn-link assignment-button" onClick={() => handleShow(assignment)}>
+                                            {assignment.assignment.assignment_name}
+                                            </Button>
                                             </td>
                                           
                                             <td>{assignment.assignment.assignment_course.course_name}</td>
@@ -252,16 +242,9 @@ const Dashboard = (props) => {
                                     return (
                                         <tr key={assignment.assignment.id}>
                                             <td>
-                                            <button className="btn btn-link assignment-button" onClick={() => toggleShow(assignment.assignment.id)} style={{ "marginRight": "1em" }}>
-                                                {assignment.assignment.assignment_name}
-                                            </button>
-
-                                            {show.show===true && show.assignmentId === assignment.assignment.id && 
-                                                <div className='row' style={{'marginLeft':'1em'}}>
-                                                    <p><strong>Description:</strong> {assignment.assignment.assignment_desc}</p>
-                                                    <p><strong>Instructions:</strong> {assignment.assignment.assignment_instructions}</p>    
-                                                </div>
-                                            }
+                                            <Button variant="btn btn-link assignment-button" onClick={() => handleShow(assignment)}>
+                                            {assignment.assignment.assignment_name}
+                                            </Button>
                                             </td>
                                             <td>{assignment.assignment.assignment_course.course_name}</td>
                                             <td>{assignment.assignment.assignment_due_date}</td>
@@ -314,16 +297,9 @@ const Dashboard = (props) => {
                                                  return (
                                                      <tr key={assignment.assignment.id}>
                                                          <td>
-                                                         <button className="btn btn-link assignment-button" onClick={() => toggleShow(assignment.assignment.id)} style={{ "marginRight": "1em" }}>
-                                                             {assignment.assignment.assignment_name}
-                                                         </button>
-
-                                                         {show.show===true && show.assignmentId === assignment.assignment.id && 
-                                                            <div className='row' style={{'marginLeft':'1em'}}>
-                                                                <p><strong>Description:</strong> {assignment.assignment.assignment_desc}</p>
-                                                                <p><strong>Instructions:</strong> {assignment.assignment.assignment_instructions}</p>    
-                                                            </div>
-                                                        }
+                                                         <Button variant="btn btn-link assignment-button" onClick={() => handleShow(assignment)}>
+                                                        {assignment.assignment.assignment_name}
+                                                        </Button>
                                                          </td>
                                                          <td>{assignment.assignment.assignment_course.course_name}</td>
                                                          <td>{assignment.assignment.assignment_due_date}</td>
@@ -378,15 +354,9 @@ const Dashboard = (props) => {
                                                  return (
                                                      <tr key={assignment.assignment.id}>
                                                          <td>
-                                                         <button className="btn btn-link assignment-button" onClick={() => toggleShow(assignment.assignment.id)} style={{ "marginRight": "1em" }}>
-                                                             {assignment.assignment.assignment_name}
-                                                         </button>
-                                                         {show.show===true && show.assignmentId === assignment.assignment.id && 
-                                                            <div className='row' style={{'marginLeft':'1em'}}>
-                                                                <p><strong>Description:</strong> {assignment.assignment.assignment_desc}</p>
-                                                                <p><strong>Instructions:</strong> {assignment.assignment.assignment_instructions}</p>    
-                                                            </div>
-                                                        }
+                                                         <Button variant="btn btn-link assignment-button" onClick={() => handleShow(assignment)}>
+                                                        {assignment.assignment.assignment_name}
+                                                        </Button>
                                                          </td>
                                                          <td>{assignment.assignment.assignment_course.course_name}</td>
                                                          <td>{assignment.assignment.assignment_due_date}</td>
@@ -419,6 +389,27 @@ const Dashboard = (props) => {
                     </div>
             </div>
 
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                <Modal.Title>{modalContent && <span>{modalContent.assignment.assignment_name}</span>}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {modalContent && 
+                    <div>
+                        <p><strong>Description:</strong> {modalContent.assignment.assignment_desc}</p>
+                        <p><strong>Instructions:</strong> {modalContent.assignment.assignment_instructions}</p>
+                        <br></br>
+                        <p><u>Due Date:</u> {modalContent.assignment.assignment_due_date}</p>
+                        <p><u>Course:</u> {modalContent.assignment.assignment_course.course_name}</p>
+                    </div>
+                    }
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+                </Modal.Footer>
+            </Modal>
             </div>
     
          );
