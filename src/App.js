@@ -32,6 +32,16 @@ function App() {
   const [searchResultsCourses, setSearchResultsCourses] = useState([]);
   const [lightMode, setLightMode] = useState(true);
 
+  const [width, setWidth] = useState(0);
+
+  //needed to automatically re-render calendar
+  useEffect(() => {
+    const onResize = () => setWidth(window.innerWidth)
+    window.addEventListener('resize', onResize);
+    return () => {
+        window.removeEventListener("resize", onResize)
+    }
+    }, [setWidth])
 
   useEffect(() => {
     const themeFromStorage = localStorage.getItem("theme")
@@ -72,10 +82,12 @@ function App() {
         })
       }
     }
-  
+    
+    debugger
     var calendar = new Calendar(calendarEl, {
-      height: 550,
-      aspectRatio: 2,
+      height: '65%', 
+      aspectRatio: 1,
+      fixedWeekCount: false,
       handleWindowResize: true,
       plugins: [ dayGridPlugin, bootstrap5Plugin ],
       themeSystem: 'bootstrap5',
@@ -91,7 +103,7 @@ function App() {
     });
 
     calendar.render()
-  }, [assignments]);
+  }, [assignments, width]);
 
   function toggleLightMode(event){
     event.preventDefault();
