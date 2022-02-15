@@ -104,18 +104,23 @@ const EnrollButton = (props) => {
             }
 
         return ( 
+            <div>
+            <h4>Course List: </h4>
             <ul>
                  {allCourses && allCourses.map((course, index) => {
                     return(
                         <div>
-                            <li>{course.course_name}</li>
-                            {currentCourseNames.indexOf(course.course_name) === -1 && <button onClick={() => addCourse(course.id)}>Add Course</button>}
-                            {currentCourseNames.indexOf(course.course_name) !== -1 && <button onClick={() => removeCourse(course.id)}>Remove Course</button>}
+                            <li>{course.course_name} &nbsp;&nbsp;&nbsp;
+                            {currentCourseNames.indexOf(course.course_name) === -1 && <button className='btn btn-success  btn-sm' onClick={() => addCourse(course.id)}>Add Course</button>}
+                            {currentCourseNames.indexOf(course.course_name) !== -1 && <button className='btn btn-danger  btn-sm' onClick={() => removeCourse(course.id)}>Remove Course</button>}
+                            </li>
+                            <br></br>
                         </div>
                     )
                     }
                 )}  
             </ul>
+            </div>
          );
     }
  

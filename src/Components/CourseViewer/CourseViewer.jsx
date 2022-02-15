@@ -120,7 +120,7 @@ const CourseViewer = (props) => {
 
     return (
         <div>
-            <table className='table'>
+            <table className='table course-table'>
              <thead>
                 <tr>
                     <th scope="col">Assignment</th>
@@ -139,11 +139,11 @@ const CourseViewer = (props) => {
                             <td>{assignment.assignment_due_date}</td>
                             <td>{assignment.assignment_instructions}</td>
                             <td>
-                                {props.userInfo && props.userInfo.is_staff ===true && <button onClick={() => deleteAssignment(assignment.id)}>Delete Assignment</button>}
+                                {props.userInfo && props.userInfo.is_staff ===true && <button className='btn btn-outline-dark' onClick={() => deleteAssignment(assignment.id)} data-toggle='popover' title='Delete Assignment' data-content='Delete Assignment' trigger='hover'><i className="bi bi-trash3"></i></button>}
                                 {props.userInfo && props.userInfo.is_staff ===true && 
                                 <span id="add-assignment">
-                                    <Button variant="btn btn-outline-primary" onClick={() => handleShow(index)} style={{ "marginLeft": "6em" }}>
-                                        Update Assignment
+                                    <Button variant='btn btn-outline-dark' onClick={() => handleShow(index)} style={{ "marginLeft": "6em" }} data-toggle='popover' title='Edit Assignment' data-content='Edit Assignment' trigger='hover'>
+                                    <i className="bi bi-pencil"></i>
                                     </Button>
 
                                     <Modal show={show} onHide={()=> handleClose(index)}>

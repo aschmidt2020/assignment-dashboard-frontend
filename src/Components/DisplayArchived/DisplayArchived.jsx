@@ -27,7 +27,7 @@ const DisplayArchived = (props) => {
     }, [props.assignments])
 
     return ( 
-        <table className='table'>
+        <table className='table course-table'>
         <thead>
           <tr>
             <th>Assignment</th>

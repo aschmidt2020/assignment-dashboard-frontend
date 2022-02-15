@@ -28,10 +28,11 @@ const SideBar = (props) => {
     return (
         <div>
             <nav className="d-flex flex-column flex-shrink-0 p-3">
-                {props.userInfo && <h5 className="navbar-welcome-text" style={{'marginBottom':'1em'}}>Welcome {props.userInfo.username}!</h5>}
-                {props.userInfo && props.userInfo.is_staff===false && <p className="navbar-welcome-text" style={{'marginBottom':'1em'}}>Student Dashboard</p>}
-                {props.userInfo && props.userInfo.is_staff===true && <p className="navbar-welcome-text" style={{'marginBottom':'1em'}}>Educator Dashboard</p>}
+                {props.userInfo && <h5 className="navbar-welcome-text" style={{'marginBottom':'0.5em'}}>Welcome {props.userInfo.username}!</h5>}
+                {props.userInfo && props.userInfo.is_staff===false && <p className="navbar-welcome-text"><mark>Student Dashboard</mark></p>}
+                {props.userInfo && props.userInfo.is_staff===true && <p className="navbar-welcome-text"><mark>Educator Dashboard</mark></p>}
                 {!props.userInfo && <span className="navbar-welcome-text">Please log-in.</span>}
+                <br></br>
 
                 <ul className="nav flex-column" id="nav_accordion">
                     <div className="accordion accordion-flush" id="accordionFlushExample">
@@ -83,8 +84,7 @@ const SideBar = (props) => {
                     </div>
                     </div>
                     <li className="nav-item bottom-button">
-                        {props.userInfo && <span><button className="btn btn-outline-dark" style={{'marginLeft':'1em', 'marginRight':'1em'}} onClick={() => navigateEnroll()}> Add Course</button></span>}
-                        <Link to="/" className="btn btn-outline-dark" data-toggle="popover" title="Home" data-content="Home" trigger="hover">&nbsp;&nbsp;&nbsp; Home &nbsp;&nbsp;&nbsp;</Link>
+                        <Link to="/" className="btn btn-outline-secondary" data-toggle="popover" title="Home" data-content="Home" trigger="hover">&nbsp;&nbsp;&nbsp; Home &nbsp;&nbsp;&nbsp;</Link>
                     </li>
                 </ul>
         </nav>

@@ -104,9 +104,11 @@ function App() {
   function setBackground(lightMode){
     if(lightMode){
       document.body.style.backgroundColor = 'white';
+      document.body.style.color = 'black'
     }
     else {
       document.body.style.backgroundColor = '#373737';
+      document.body.style.color = 'white'
     }
   }
 

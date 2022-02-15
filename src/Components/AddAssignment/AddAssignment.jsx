@@ -51,14 +51,14 @@ const AddAssignment = (props) => {
                 Add Assignment
             </Button>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} style={{'color':'black'}}>
                 <Modal.Header closeButton>
                 <Modal.Title>Add Assignment</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
 
                 <div className="dropdown">
-                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style={{'marginBottom': '1em'}}>
                         {selectedCourse && <span>{selectedCourse.course_name}</span>}
                         {!selectedCourse && <span>Select Course</span>}
                     </button>
@@ -66,7 +66,7 @@ const AddAssignment = (props) => {
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     {props.courses && props.courses.map((course) => {
                         return(
-                            <li key={course.course.id}><button onClick={() => setSelectedCourse(course.course)}>{course.course.course_name}</button></li>
+                            <li key={course.course.id}><button className='dropdown-item' onClick={() => setSelectedCourse(course.course)}>{course.course.course_name}</button></li>
                         )
                     })}
 

@@ -34,7 +34,7 @@ const SearchBar = (props) => {
             </div>
 
             <div className="col-2">
-                <button type="submit" className="btn btn-outline-dark" data-toggle="popover" title="Search" data-content="Search" trigger="hover"><i className="bi bi-search"></i></button>
+                <button type="submit" className="btn btn-primary" data-toggle="popover" title="Search" data-content="Search" trigger="hover"><i className="bi bi-search"></i></button>
             </div>
         </form>
      );

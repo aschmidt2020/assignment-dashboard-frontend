@@ -3,6 +3,10 @@
     -webkit-box-shadow: none!important; 
 }
 
+.dark-mode {
+    color: white !important
+}
+
 /* sidebar settings */
 .accordion-button:focus {
     box-shadow: none !important;
@@ -33,7 +37,8 @@
 
 .bottom-button {
     position: absolute;
-    bottom: 5em;
+    bottom: 10%;
+    left: 5%;
 
 }
 
@@ -57,7 +62,19 @@ li {
 }
 
 table, td {
-    padding: 2%, 
+    padding: 2%;
+
+}
+
+.course-table {
+    background-color:#f9f9f9 !important;
+}
+.accordion-body {
+    color: black !important;
+}
+
+.accordion-item {
+    padding-bottom: 10px !important;
 }
 
 table {
