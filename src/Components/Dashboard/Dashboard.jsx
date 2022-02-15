@@ -123,8 +123,8 @@ const Dashboard = (props) => {
                                             <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
                                                 {assignment.assignment.assignment_name}
                                             </Button>
-    
-                                            <Modal show={show} onHide={handleClose}>
+                                            </td>
+                                            {/* <Modal show={show} onHide={handleClose}>
                                                     <Modal.Header closeButton>
                                                     <Modal.Title>Assignment</Modal.Title>
                                                     </Modal.Header>
@@ -147,8 +147,8 @@ const Dashboard = (props) => {
                                                             Close
                                                         </Button>
                                                     </Modal.Footer>
-                                                </Modal>
-                                            </td>
+                                                </Modal> */}
+                                            
                                             <td>{assignment.assignment.assignment_course.course_name}</td>
                                             <td>{assignment.assignment.assignment_due_date}</td>
                                             {props.userInfo.is_staff===false && 
@@ -205,7 +205,7 @@ const Dashboard = (props) => {
                                             <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
                                                 {assignment.assignment.assignment_name}
                                             </Button>
-    
+                                            </td>
                                             <Modal show={show} onHide={handleClose}>
                                                     <Modal.Header closeButton>
                                                     <Modal.Title>Assignment</Modal.Title>
@@ -230,7 +230,7 @@ const Dashboard = (props) => {
                                                         </Button>
                                                     </Modal.Footer>
                                                 </Modal>
-                                            </td>
+                                            
                                             <td>{assignment.assignment.assignment_course.course_name}</td>
                                             <td>{assignment.assignment.assignment_due_date}</td>
                                             {props.userInfo.is_staff===false && 
@@ -288,7 +288,7 @@ const Dashboard = (props) => {
                                             <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
                                                 {assignment.assignment.assignment_name}
                                             </Button>
-    
+                                            </td>
                                             <Modal show={show} onHide={handleClose}>
                                                     <Modal.Header closeButton>
                                                     <Modal.Title>Assignment</Modal.Title>
@@ -313,7 +313,7 @@ const Dashboard = (props) => {
                                                         </Button>
                                                     </Modal.Footer>
                                                 </Modal>
-                                            </td>
+                                            
                                             <td>{assignment.assignment.assignment_course.course_name}</td>
                                             <td>{assignment.assignment.assignment_due_date}</td>
                                             {props.userInfo.is_staff===false && 
@@ -368,7 +368,7 @@ const Dashboard = (props) => {
                                                          <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
                                                              {assignment.assignment.assignment_name}
                                                          </Button>
-                 
+                                                         </td>
                                                          <Modal show={show} onHide={handleClose}>
                                                                  <Modal.Header closeButton>
                                                                  <Modal.Title>Assignment</Modal.Title>
@@ -393,7 +393,7 @@ const Dashboard = (props) => {
                                                                     </Button>
                                                                  </Modal.Footer>
                                                              </Modal>
-                                                         </td>
+                                                         
                                                          <td>{assignment.assignment.assignment_course.course_name}</td>
                                                          <td>{assignment.assignment.assignment_due_date}</td>
                                                          {props.userInfo.is_staff===false && 
@@ -450,7 +450,7 @@ const Dashboard = (props) => {
                                                          <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
                                                              {assignment.assignment.assignment_name}
                                                          </Button>
-                 
+                                                         </td>
                                                          <Modal show={show} onHide={handleClose}>
                                                                  <Modal.Header closeButton>
                                                                  <Modal.Title>Assignment</Modal.Title>
@@ -475,7 +475,7 @@ const Dashboard = (props) => {
                                                                     </Button>
                                                                  </Modal.Footer>
                                                              </Modal>
-                                                         </td>
+                                                         
                                                          <td>{assignment.assignment.assignment_course.course_name}</td>
                                                          <td>{assignment.assignment.assignment_due_date}</td>
                                                          {props.userInfo.is_staff===false && 
@@ -506,6 +506,32 @@ const Dashboard = (props) => {
                     }
                     </div>
             </div>
+
+            {/* <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                <Modal.Title>Assignment</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <div className='row'>
+                    <div className='col'>
+                        <h5>{assignment.assignment.assignment_name}</h5>
+                        <p><small>{assignment.assignment.assignment_desc}</small></p>
+                        <p>{assignment.assignment.assignment_instructions}</p>
+                    </div>
+                    <div className='col'>
+                        <p><small>{assignment.assignment.assignment_course.course_name}</small></p>
+                        <p>{assignment.assignment.assignment_due_date}</p>
+                    </div>
+                </div>
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="btn btn-outline-dark" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal> */}
+
             </div>
     
          );

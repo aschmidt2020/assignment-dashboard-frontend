@@ -1,25 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
-// import { GoogleApis } from 'googleapis';
-// import { mime } from 'mime-types';  
+// import { google } from 'googleapis';
+import { mime } from 'mime-types';  
 // import { path } from 'path';
-// import { fs } from 'fs'
+// import * as fs from 'fs'
+// import fs-react from 'fs-react'
 
 const SubmitAssignment = (props) => {
     const {state} = useLocation();
     const { assignment } = state;
     const [file, setFile] = useState();
 
-    // const google = new GoogleApis();
-    // const path = require('path');
-    // const fs = require('fs');
-
     // const CLIENT_ID = '345691869877-i0du8gslc7fjrupf8sh20p7bim56hn6u.apps.googleusercontent.com';
     // const CLIENT_SECRET = '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';
     // const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
 
-    // const REFRESH_TOKEN = '1//04ZW07At9VVYOCgYIARAAGAQSNwF-L9IrJcGxYrDYjgzrcCIfuMiCx96EYHzh2ZwHYZyDCuiGHH5rIx88EQPL-_bdXfqP3WRyErI';
+    // const REFRESH_TOKEN = '1//04CnpAuUaHrmsCgYIARAAGAQSNwF-L9IrKGR4zy6I-yRwLCZiIkV2W0PHdi2_VS58uHW_nP9tfaD8XbmWMOLYVJIq32nopRjqdAM';
 
     // const oauth2Client = new google.OAuth2(
     //     CLIENT_ID,
@@ -29,7 +26,6 @@ const SubmitAssignment = (props) => {
 
     // oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-    
     // const drive = google.drive({
     // version: 'v3',
     // auth: oauth2Client,
@@ -57,73 +53,55 @@ const SubmitAssignment = (props) => {
 
     async function handleSubmit(event){
         event.preventDefault();
-        debugger
         try {
-            // const boundary = 'boundary'
-            // const delimiter = "\r\n--" + boundary + "\r\n";
-            // const close_delim = "\r\n--" + boundary + "--";
+            debugger
 
-            let path = "C:/Users/audsc/Downloads/sample.txt"
-            // let metaData = {
-            //     "name": "sample",
-            //     "mimeType": mime.lookup(path)
-            // }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const text = e.target.result;
+                console.log("Reader Load: ",text )
+            };
 
+            let fileData = new Blob(["Sample upload axios"], {type: 'text/plain'})
             // let media = {
-            //     "file": fs.createReadStream(path),
-            //     "mimeType": mime.lookup(path)
-            // }
-
-            // const response = await drive.files.create({
-            //     requestBody: {
-            //         name: 'example',
-            //         mimeType: 'text/plain'
-            //     },
-            //     media: {
-            //         mimeType: 'text/plain',
-            //         body: fs.createReadStream(path)
+            //     "file": new ReadableStream(file)
             //     }
-            // });
 
-            // console.log(response.data)
-            // // let media = {
-            // //     "file": file,
-            // //     "mimeType": file.type
-            // // }
+            let metadata = {
+                "name": "sample.txt",
+                "mimeType": "text/plain"
+            };
 
-            // // let fileData = "sample upload"
+            let form = new FormData();
+            form.append('metadata', metadata)
+            form.append('file', file)
+            
+            console.log(form)
+            debugger
 
-            // let multipartReq = (
-            //     delimiter +
-            //     'Content-Type: text/plain; charset=UTF-8\r\n\r\n' +
-            //     JSON.stringify(metaData) +
-            //     delimiter +
-            //     'Content-Type: ' + "text/plain; charset=UTF-8" + '\r\n\r\n' +
-            //     file +'\r\n'+
-            //     close_delim
-            // )
+            // await axios({
+            //             method: "post",
+            //             url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`,
+            //             headers: {
+            //                 Authorization: 'Bearer ya29.A0ARrdaM8jBzBJwVATscKBaSrpYPLv9TL50v2uR0oYD-Wt2loVJdS2i8JIlpFgyld7_lmLGn6QkW1aP7b41sUI5pXanGBfXxvyBhlMPv4cmrfY7KCvKO8qaxilv2eQ-W2aHT78MyOFPbtpKYaWpua_e2f0RzF0',
+            //                 "Content-Type": 'multipart/form-data; boundary=<calculated when request is sent>',
+            //                 "Content-Length": '<calculated when request is sent>'
+            //             },
+            //             body: form
+            //         })
 
+            let body = 'This is a sample'
             await axios({
-                        method: "post",
-                        url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`,
-                        headers: {
-                            Authorization: 'Bearer ya29.A0ARrdaM9jO_l-_PpvYEGmPrq4hI6iJYK3f_AwyE8ae0PYkozbLgcQEcjF_smKnN_PqyomkZowDLpo1zuCjeAaLLsCxEELiXBLc2wYryswHJ8pmGjQ3cypTbXCw1YscYT3fgho42w3X8jzurJCXZoX8qg6vPAG_Q',
-                            // "Content-Type": "text/plain",
-                            // "Content-Type": "multipart/related; boundary=" + boundary,
-                            "Content-Type": 'application/json; charset=UTF-8',
-                            "Content-Length": file.size
-                        },
-                        body: {
-                            "metadata": {
-                                "name": "Example",
-                                "mimeType": "text/plain"
-                            },
-                            "media": {
-                                "mimeType": "text/plain",
-                                "file": file
-                            }
-                        }
-                    })
+                method: "post",
+                url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=media`,
+                headers: {
+                    'Authorization': 'Bearer ya29.A0ARrdaM-Ia-Hq0RHxV90SJfCsqZ2ab84YUMN8e4-Kj_Z7o4X1nHKLFkuNXb3QJvTaYruyZrfPt_sM17ZFODedWNGxS0sjyM3nalbatyTb7I5bwJSLxeaf7SJ0cPWJhvI2jey3LiR737eWFaBd2U2trYxr-3KM',
+                    "Content-Type": 'text/plain',
+                    "Content-Length": '<calculated when request is sent>'
+                },
+                data : body
+                
+            })
 
 
         } catch (error) {
