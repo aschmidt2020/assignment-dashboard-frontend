@@ -53,7 +53,8 @@ const Notepad = (props) => {
     return (
         <form onSubmit={submit} style={{'marginTop':'1em'}}>
             <div className="form-outline mb-4">
-            <label className="form-label">Notes:</label> <button type='submit' className='btn btn-link' style={{'marginLeft': '80%'}}>Save</button>
+            <label className="form-label">Notes:</label>
+            <button type='submit' className='btn btn-link' style={{'marginLeft': '80%'}}>Save</button>
             <textarea className="form-control text-area text-box multi-line w-100" value={notes} onChange={(event) => setNotes(event.target.value)} rows="7"></textarea>
             </div>
         </form>

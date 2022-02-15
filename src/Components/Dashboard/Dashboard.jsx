@@ -11,9 +11,11 @@ const Dashboard = (props) => {
     const [assignmentsLater, setAssignmentsLater] = useState(undefined);
     const [assignmentsOverdue, setAssignmentsOverdue] = useState();
     const [assignmentsCompleted, setAssignmentsCompleted] = useState();
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [show, setShow] = useState({show: false, assignmentId: ''});
+
+    function toggleShow(assignmentId){
+        setShow({show: !show.show, assignmentId: assignmentId})
+    }
 
     // sort assignments
     useEffect(() => {
@@ -120,35 +122,17 @@ const Dashboard = (props) => {
                                     return (
                                         <tr key={assignment.assignment.id}>
                                             <td>
-                                            <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                            <button className="btn btn-link assignment-button" onClick={() => toggleShow(assignment.assignment.id)} style={{ "marginRight": "1em" }}>
                                                 {assignment.assignment.assignment_name}
-                                            </Button>
-                                            </td>
-                                            {/* <Modal show={show} onHide={handleClose}>
-                                                    <Modal.Header closeButton>
-                                                    <Modal.Title>Assignment</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body>
-                                                    <div className='row'>
-                                                        <div className='col'>
-                                                            <h5>{assignment.assignment.assignment_name}</h5>
-                                                            <p><small>{assignment.assignment.assignment_desc}</small></p>
-                                                            <p>{assignment.assignment.assignment_instructions}</p>
-                                                        </div>
-                                                        <div className='col'>
-                                                            <p><small>{assignment.assignment.assignment_course.course_name}</small></p>
-                                                            <p>{assignment.assignment.assignment_due_date}</p>
-                                                        </div>
-                                                    </div>
-    
-                                                    </Modal.Body>
-                                                    <Modal.Footer>
-                                                        <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                            Close
-                                                        </Button>
-                                                    </Modal.Footer>
-                                                </Modal> */}
+                                            </button>
                                             
+                                            {show.show===true && show.assignmentId === assignment.assignment.id && 
+                                                <div className='row' style={{'marginLeft':'1em'}}>
+                                                    <p><strong>Description:</strong> {assignment.assignment.assignment_desc}</p>
+                                                    <p><strong>Instructions:</strong> {assignment.assignment.assignment_instructions}</p>    
+                                                </div>
+                                            }
+                                            </td>
                                             <td>{assignment.assignment.assignment_course.course_name}</td>
                                             <td>{assignment.assignment.assignment_due_date}</td>
                                             {props.userInfo.is_staff===false && 
@@ -202,35 +186,18 @@ const Dashboard = (props) => {
                                     return (
                                         <tr key={assignment.assignment.id}>
                                             <td>
-                                            <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                            <button variant="btn btn-link assignment-button" onClick={() => toggleShow(assignment.assignment.id)} style={{ "marginRight": "1em" }}>
                                                 {assignment.assignment.assignment_name}
-                                            </Button>
+                                            </button>
+
+                                            {show.show===true && show.assignmentId === assignment.assignment.id && 
+                                                <div className='row' style={{'marginLeft':'1em'}}>
+                                                    <p><strong>Description:</strong> {assignment.assignment.assignment_desc}</p>
+                                                    <p><strong>Instructions:</strong> {assignment.assignment.assignment_instructions}</p>    
+                                                </div>
+                                            }
                                             </td>
-                                            <Modal show={show} onHide={handleClose}>
-                                                    <Modal.Header closeButton>
-                                                    <Modal.Title>Assignment</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body>
-                                                    <div className='row'>
-                                                        <div className='col'>
-                                                            <h5>{assignment.assignment.assignment_name}</h5>
-                                                            <p><small>{assignment.assignment.assignment_desc}</small></p>
-                                                            <p>{assignment.assignment.assignment_instructions}</p>
-                                                        </div>
-                                                        <div className='col'>
-                                                            <p><small>{assignment.assignment.assignment_course.course_name}</small></p>
-                                                            <p>{assignment.assignment.assignment_due_date}</p>
-                                                        </div>
-                                                    </div>
-    
-                                                    </Modal.Body>
-                                                    <Modal.Footer>
-                                                        <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                            Close
-                                                        </Button>
-                                                    </Modal.Footer>
-                                                </Modal>
-                                            
+                                          
                                             <td>{assignment.assignment.assignment_course.course_name}</td>
                                             <td>{assignment.assignment.assignment_due_date}</td>
                                             {props.userInfo.is_staff===false && 
@@ -285,35 +252,17 @@ const Dashboard = (props) => {
                                     return (
                                         <tr key={assignment.assignment.id}>
                                             <td>
-                                            <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                            <button className="btn btn-link assignment-button" onClick={() => toggleShow(assignment.assignment.id)} style={{ "marginRight": "1em" }}>
                                                 {assignment.assignment.assignment_name}
-                                            </Button>
+                                            </button>
+
+                                            {show.show===true && show.assignmentId === assignment.assignment.id && 
+                                                <div className='row' style={{'marginLeft':'1em'}}>
+                                                    <p><strong>Description:</strong> {assignment.assignment.assignment_desc}</p>
+                                                    <p><strong>Instructions:</strong> {assignment.assignment.assignment_instructions}</p>    
+                                                </div>
+                                            }
                                             </td>
-                                            <Modal show={show} onHide={handleClose}>
-                                                    <Modal.Header closeButton>
-                                                    <Modal.Title>Assignment</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body>
-                                                    <div className='row'>
-                                                        <div className='col'>
-                                                            <h5>{assignment.assignment.assignment_name}</h5>
-                                                            <p><small>{assignment.assignment.assignment_desc}</small></p>
-                                                            <p>{assignment.assignment.assignment_instructions}</p>
-                                                        </div>
-                                                        <div className='col'>
-                                                            <p><small>{assignment.assignment.assignment_course.course_name}</small></p>
-                                                            <p>{assignment.assignment.assignment_due_date}</p>
-                                                        </div>
-                                                    </div>
-    
-                                                    </Modal.Body>
-                                                    <Modal.Footer>
-                                                        <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                            Close
-                                                        </Button>
-                                                    </Modal.Footer>
-                                                </Modal>
-                                            
                                             <td>{assignment.assignment.assignment_course.course_name}</td>
                                             <td>{assignment.assignment.assignment_due_date}</td>
                                             {props.userInfo.is_staff===false && 
@@ -365,35 +314,17 @@ const Dashboard = (props) => {
                                                  return (
                                                      <tr key={assignment.assignment.id}>
                                                          <td>
-                                                         <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                                         <button className="btn btn-link assignment-button" onClick={() => toggleShow(assignment.assignment.id)} style={{ "marginRight": "1em" }}>
                                                              {assignment.assignment.assignment_name}
-                                                         </Button>
+                                                         </button>
+
+                                                         {show.show===true && show.assignmentId === assignment.assignment.id && 
+                                                            <div className='row' style={{'marginLeft':'1em'}}>
+                                                                <p><strong>Description:</strong> {assignment.assignment.assignment_desc}</p>
+                                                                <p><strong>Instructions:</strong> {assignment.assignment.assignment_instructions}</p>    
+                                                            </div>
+                                                        }
                                                          </td>
-                                                         <Modal show={show} onHide={handleClose}>
-                                                                 <Modal.Header closeButton>
-                                                                 <Modal.Title>Assignment</Modal.Title>
-                                                                 </Modal.Header>
-                                                                 <Modal.Body>
-                                                                 <div className='row'>
-                                                                     <div className='col'>
-                                                                         <h5>{assignment.assignment.assignment_name}</h5>
-                                                                         <p><small>{assignment.assignment.assignment_desc}</small></p>
-                                                                         <p>{assignment.assignment.assignment_instructions}</p>
-                                                                     </div>
-                                                                     <div className='col'>
-                                                                         <p><small>{assignment.assignment.assignment_course.course_name}</small></p>
-                                                                         <p>{assignment.assignment.assignment_due_date}</p>
-                                                                     </div>
-                                                                 </div>
-                 
-                                                                 </Modal.Body>
-                                                                 <Modal.Footer>
-                                                                    <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                                        Close
-                                                                    </Button>
-                                                                 </Modal.Footer>
-                                                             </Modal>
-                                                         
                                                          <td>{assignment.assignment.assignment_course.course_name}</td>
                                                          <td>{assignment.assignment.assignment_due_date}</td>
                                                          {props.userInfo.is_staff===false && 
@@ -447,35 +378,16 @@ const Dashboard = (props) => {
                                                  return (
                                                      <tr key={assignment.assignment.id}>
                                                          <td>
-                                                         <Button variant="btn btn-link assignment-button" onClick={handleShow} style={{ "marginRight": "1em" }}>
+                                                         <button className="btn btn-link assignment-button" onClick={() => toggleShow(assignment.assignment.id)} style={{ "marginRight": "1em" }}>
                                                              {assignment.assignment.assignment_name}
-                                                         </Button>
+                                                         </button>
+                                                         {show.show===true && show.assignmentId === assignment.assignment.id && 
+                                                            <div className='row' style={{'marginLeft':'1em'}}>
+                                                                <p><strong>Description:</strong> {assignment.assignment.assignment_desc}</p>
+                                                                <p><strong>Instructions:</strong> {assignment.assignment.assignment_instructions}</p>    
+                                                            </div>
+                                                        }
                                                          </td>
-                                                         <Modal show={show} onHide={handleClose}>
-                                                                 <Modal.Header closeButton>
-                                                                 <Modal.Title>Assignment</Modal.Title>
-                                                                 </Modal.Header>
-                                                                 <Modal.Body>
-                                                                 <div className='row'>
-                                                                     <div className='col'>
-                                                                         <h5>{assignment.assignment.assignment_name}</h5>
-                                                                         <p><small>{assignment.assignment.assignment_desc}</small></p>
-                                                                         <p>{assignment.assignment.assignment_instructions}</p>
-                                                                     </div>
-                                                                     <div className='col'>
-                                                                         <p><small>{assignment.assignment.assignment_course.course_name}</small></p>
-                                                                         <p>{assignment.assignment.assignment_due_date}</p>
-                                                                     </div>
-                                                                 </div>
-                 
-                                                                 </Modal.Body>
-                                                                 <Modal.Footer>
-                                                                    <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                                                                        Close
-                                                                    </Button>
-                                                                 </Modal.Footer>
-                                                             </Modal>
-                                                         
                                                          <td>{assignment.assignment.assignment_course.course_name}</td>
                                                          <td>{assignment.assignment.assignment_due_date}</td>
                                                          {props.userInfo.is_staff===false && 
@@ -506,31 +418,6 @@ const Dashboard = (props) => {
                     }
                     </div>
             </div>
-
-            {/* <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                <Modal.Title>Assignment</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                <div className='row'>
-                    <div className='col'>
-                        <h5>{assignment.assignment.assignment_name}</h5>
-                        <p><small>{assignment.assignment.assignment_desc}</small></p>
-                        <p>{assignment.assignment.assignment_instructions}</p>
-                    </div>
-                    <div className='col'>
-                        <p><small>{assignment.assignment.assignment_course.course_name}</small></p>
-                        <p>{assignment.assignment.assignment_due_date}</p>
-                    </div>
-                </div>
-
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal> */}
 
             </div>
     

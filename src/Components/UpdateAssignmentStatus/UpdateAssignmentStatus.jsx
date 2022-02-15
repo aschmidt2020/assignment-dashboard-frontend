@@ -16,6 +16,11 @@ const UpdateAssignmentStatus = (props) => {
         updateAssignmentStatus('In Progress')
     }
 
+    function handleClickCompleted(){
+        setAssignmentStatus('Completed');
+        updateAssignmentStatus('Completed')
+    }
+
     function handleClickSubmit(assignment){
         setAssignmentStatus('Completed');
         navigate(`/assignment/submit`, { state: {...assignment}});
@@ -50,14 +55,15 @@ const UpdateAssignmentStatus = (props) => {
         <div>
             {props.assignment &&
                 <div>
-                    <button className="btn btn-outline-dark dropdown-toggle" type="button" id={props.assignment.assignment.id} data-bs-toggle="dropdown" aria-expanded="false">
+                    <button className="btn btn-outline-secondary dropdown-toggle" type="button" id={props.assignment.assignment.id} data-bs-toggle="dropdown" aria-expanded="false">
                     {props.currentLabel}
                     </button>
 
                     <ul className="dropdown-menu" aria-labelledby={props.assignment.assignment.id}>
-                        <li><button onClick={handleClickViewed}>Viewed</button></li>
-                        <li><button onClick={handleClickInProgress}>In Progress</button></li>
-                        <li><button onClick={() => handleClickSubmit(props.assignment)}>Submit</button></li>
+                        <li><button className='dropdown-item' onClick={handleClickViewed}>Viewed</button></li>
+                        <li><button className='dropdown-item' onClick={handleClickInProgress}>In Progress</button></li>
+                        <li><button className='dropdown-item' onClick={handleClickCompleted}>Completed</button></li>
+                        <li><button className='dropdown-item' onClick={() => handleClickSubmit(props.assignment)}>Submit</button></li>
                     </ul>
                 </div>
             }

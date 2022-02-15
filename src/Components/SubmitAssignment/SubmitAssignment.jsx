@@ -62,7 +62,6 @@ const SubmitAssignment = (props) => {
                 console.log("Reader Load: ",text )
             };
 
-            let fileData = new Blob(["Sample upload axios"], {type: 'text/plain'})
             // let media = {
             //     "file": new ReadableStream(file)
             //     }
@@ -79,29 +78,33 @@ const SubmitAssignment = (props) => {
             console.log(form)
             debugger
 
-            // await axios({
-            //             method: "post",
-            //             url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`,
-            //             headers: {
-            //                 Authorization: 'Bearer ya29.A0ARrdaM8jBzBJwVATscKBaSrpYPLv9TL50v2uR0oYD-Wt2loVJdS2i8JIlpFgyld7_lmLGn6QkW1aP7b41sUI5pXanGBfXxvyBhlMPv4cmrfY7KCvKO8qaxilv2eQ-W2aHT78MyOFPbtpKYaWpua_e2f0RzF0',
-            //                 "Content-Type": 'multipart/form-data; boundary=<calculated when request is sent>',
-            //                 "Content-Length": '<calculated when request is sent>'
-            //             },
-            //             body: form
-            //         })
-
-            let body = 'This is a sample'
             await axios({
                 method: "post",
-                url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=media`,
+                url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`,
                 headers: {
-                    'Authorization': 'Bearer ya29.A0ARrdaM-Ia-Hq0RHxV90SJfCsqZ2ab84YUMN8e4-Kj_Z7o4X1nHKLFkuNXb3QJvTaYruyZrfPt_sM17ZFODedWNGxS0sjyM3nalbatyTb7I5bwJSLxeaf7SJ0cPWJhvI2jey3LiR737eWFaBd2U2trYxr-3KM',
-                    "Content-Type": 'text/plain',
+                    Authorization: 'Bearer ya29.A0ARrdaM-Ia-Hq0RHxV90SJfCsqZ2ab84YUMN8e4-Kj_Z7o4X1nHKLFkuNXb3QJvTaYruyZrfPt_sM17ZFODedWNGxS0sjyM3nalbatyTb7I5bwJSLxeaf7SJ0cPWJhvI2jey3LiR737eWFaBd2U2trYxr-3KM',
+                    "Content-Type": 'multipart/form-data; boundary=<calculated when request is sent>',
                     "Content-Length": '<calculated when request is sent>'
                 },
-                data : body
-                
+                data : form
+            }).catch(error => {
+                debugger
+                console.log(error)
             })
+            
+            //single part upload example
+            // let body = 'This is a sample'
+            // await axios({
+            //     method: "post",
+            //     url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=media`,
+            //     headers: {
+            //         'Authorization': 'Bearer ya29.A0ARrdaM-Ia-Hq0RHxV90SJfCsqZ2ab84YUMN8e4-Kj_Z7o4X1nHKLFkuNXb3QJvTaYruyZrfPt_sM17ZFODedWNGxS0sjyM3nalbatyTb7I5bwJSLxeaf7SJ0cPWJhvI2jey3LiR737eWFaBd2U2trYxr-3KM',
+            //         "Content-Type": 'text/plain',
+            //         "Content-Length": '<calculated when request is sent>'
+            //     },
+            //     data : body
+                
+            // })
 
 
         } catch (error) {

@@ -120,66 +120,81 @@ const CourseViewer = (props) => {
 
     return (
         <div>
-            {assignments && assignments.length ===0 &&  <p>No assignments for this class!</p>}
+            <table className='table'>
+             <thead>
+                <tr>
+                    <th scope="col">Assignment</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Instructions</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {assignments && assignments.length ===0 &&  <tr><td>No assignments for this class!</td></tr>}
 
             {assignments && assignments.length > 0 &&assignments.map((assignment, index) => {
                 return(
-                    <div key={assignment.id}>
-                     <p>{assignment.assignment_name}</p>
-                    {props.userInfo && props.userInfo.is_staff ===true && <button onClick={() => deleteAssignment(assignment.id)}>Delete Assignment</button>}
-                    {props.userInfo && props.userInfo.is_staff ===true && 
-                    <span id="add-assignment">
-                        <Button variant="btn btn-outline-primary" onClick={() => handleShow(index)} style={{ "marginLeft": "6em" }}>
-                            Update Assignment
-                        </Button>
+                        <tr scope="row">
+                            <td>{assignment.assignment_name}</td>
+                            <td>{assignment.assignment_due_date}</td>
+                            <td>{assignment.assignment_instructions}</td>
+                            <td>
+                                {props.userInfo && props.userInfo.is_staff ===true && <button onClick={() => deleteAssignment(assignment.id)}>Delete Assignment</button>}
+                                {props.userInfo && props.userInfo.is_staff ===true && 
+                                <span id="add-assignment">
+                                    <Button variant="btn btn-outline-primary" onClick={() => handleShow(index)} style={{ "marginLeft": "6em" }}>
+                                        Update Assignment
+                                    </Button>
 
-                        <Modal show={show} onHide={()=> handleClose(index)}>
-                            <Modal.Header closeButton>
-                            <Modal.Title>Update Assignment</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
+                                    <Modal show={show} onHide={()=> handleClose(index)}>
+                                        <Modal.Header closeButton>
+                                        <Modal.Title>Update Assignment</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
 
-                            <form onSubmit={()=>updateAssignment(assignment.id)}>
-                            
+                                        <form onSubmit={()=>updateAssignment(assignment.id)}>
+                                        
 
-                                <div className="input-group mb-3">
-                                <span className="input-group-text">Assignment Name</span>
-                                <input className="form-control" type="text" name="assignment_name" value={assignmentName} onChange={(event) => setAssignmentName(event.target.value)}></input>
-                                </div>
+                                            <div className="input-group mb-3">
+                                            <span className="input-group-text">Assignment Name</span>
+                                            <input className="form-control" type="text" name="assignment_name" value={assignmentName} onChange={(event) => setAssignmentName(event.target.value)}></input>
+                                            </div>
 
-                                <div className="input-group mb-3">
-                                <span className="input-group-text">Description</span>
-                                <input className="form-control" type="text" name="assignment_desc" value={assignmentDesc} onChange={(event) => setAssignmentDesc(event.target.value)}></input>
-                                </div>
+                                            <div className="input-group mb-3">
+                                            <span className="input-group-text">Description</span>
+                                            <input className="form-control" type="text" name="assignment_desc" value={assignmentDesc} onChange={(event) => setAssignmentDesc(event.target.value)}></input>
+                                            </div>
 
-                                <div className="input-group mb-3">
-                                <span className="input-group-text">Due Date</span>
-                                <input className="form-control" type="date" name="assignment_due_date" value={assignmentDueDate} onChange={(event) => setAssignmentDueDate(event.target.value)}></input>
-                                </div>
+                                            <div className="input-group mb-3">
+                                            <span className="input-group-text">Due Date</span>
+                                            <input className="form-control" type="date" name="assignment_due_date" value={assignmentDueDate} onChange={(event) => setAssignmentDueDate(event.target.value)}></input>
+                                            </div>
 
-                                <div className="input-group mb-3">
-                                <span className="input-group-text">Instructions</span>
-                                <input className="form-control" type="text" name="assignment_instructions" value={assignmentInstr} onChange={(event) => setAssignmentInstr(event.target.value)}></input>
-                                </div>
-                            </form>
+                                            <div className="input-group mb-3">
+                                            <span className="input-group-text">Instructions</span>
+                                            <input className="form-control" type="text" name="assignment_instructions" value={assignmentInstr} onChange={(event) => setAssignmentInstr(event.target.value)}></input>
+                                            </div>
+                                        </form>
 
-                            </Modal.Body>
-                            <Modal.Footer>
-                            <Button variant="btn btn-outline-dark" onClick={() => handleClose(index)}>
-                                Close
-                            </Button>
-                            <Button type="submit" variant="btn btn-outline-primary" onClick={()=>updateAssignment(assignment.id)}>
-                                Update
-                            </Button>
-                            </Modal.Footer>
-                        </Modal>
-                        </span>
-                    }
-
-                    </div>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                        <Button variant="btn btn-outline-dark" onClick={() => handleClose(index)}>
+                                            Close
+                                        </Button>
+                                        <Button type="submit" variant="btn btn-outline-primary" onClick={()=>updateAssignment(assignment.id)}>
+                                            Update
+                                        </Button>
+                                        </Modal.Footer>
+                                    </Modal>
+                                    </span>
+                                }
+                            </td>
+                        </tr>
                 )
-                }
+            }
             )}  
+            </tbody>
+            </table>
 
         </div>
     );
