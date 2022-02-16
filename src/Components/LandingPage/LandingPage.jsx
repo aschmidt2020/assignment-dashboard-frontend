@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Background from '../../Documents/notloggedinbackground.jpg';
 import StudentView from '../../Documents/student-screenshot.png';
 import EducatorView from '../../Documents/educator-screenshot.png';
+import LandingPageScreenshot from '../../Documents/landing-page.png'
 import Icon from '../../Documents/apple-touch-icon.png';
 import './LandingPage.css';
 import LoginForm from "../LoginForm/LoginForm";
@@ -16,7 +17,7 @@ const LandingPage = (props) => {
 
                     <p>Like an online agenda...but better.</p>
 
-                    <span  style={{'marginTop':'4em'}}><LoginForm login={props.login} /> <RegistrationForm register={props.register} /> </span>
+                    <span><LoginForm login={props.login} /> <RegistrationForm register={props.register} /> </span>
                     {/* <img src={Background} alt='apple and books' style={{'height':'90vh', 'width':'80vw'}}/> */}
                 </div>
                 <div className='col' style={{'marginTop':'10em', 'marginRight':'4em'}}>
@@ -28,7 +29,7 @@ const LandingPage = (props) => {
                     </div>
                     <div className="carousel-inner">
                         <div className="carousel-item active">
-                        <img src={Background} style={{'height':'45vh', 'width':'20vw'}} className="d-block w-100" alt="assignment dashboard icon" />
+                        <img src={LandingPageScreenshot} className="d-block w-100" alt="assignment dashboard icon" />
                         </div>
                         <div className="carousel-item">
                         <img src={EducatorView} className="d-block w-100" alt="assignment dashboard educator view" />
