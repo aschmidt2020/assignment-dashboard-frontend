@@ -1,10 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import useDrivePicker from 'react-google-drive-picker'
 
 const UpdateAssignmentStatus = (props) => {
     const [assignmentStatus, setAssignmentStatus] = useState();
-    const navigate = useNavigate();
+    const [openPicker, data, authResponse] = useDrivePicker();  
+
+    const handleOpenPicker = () => {
+        openPicker({
+          clientId: process.env.REACT_APP_DRIVE_CLIENT_ID,
+          developerKey: process.env.REACT_APP_API_KEY_DRIVE_PICKER,
+          viewId: "DOCS",
+          //token: 
+          showUploadView: true,
+          showUploadFolders: true,
+          supportDrives: true,
+          multiselect: true,
+          // customViews: customViewsArray, // custom view
+        })
+      }
+
+      useEffect(() => {
+        // do anything with the selected/uploaded files
+        if(data){
+          data.docs.map(i => console.log(i.name));
+          setAssignmentStatus('Completed');
+          updateAssignmentStatus('Completed')
+        }
+      }, [data])
 
     function handleClickViewed() {
         setAssignmentStatus('Viewed');
@@ -19,13 +42,6 @@ const UpdateAssignmentStatus = (props) => {
     function handleClickCompleted(){
         setAssignmentStatus('Completed');
         updateAssignmentStatus('Completed')
-    }
-
-    function handleClickSubmit(assignment){
-        setAssignmentStatus('Completed');
-        navigate(`/assignment/submit`, { state: {...assignment}});
-        // updateAssignmentStatus('Completed')
-
     }
 
     async function updateAssignmentStatus(status){
@@ -63,7 +79,7 @@ const UpdateAssignmentStatus = (props) => {
                         <li><button className='dropdown-item' onClick={handleClickViewed}>Viewed</button></li>
                         <li><button className='dropdown-item' onClick={handleClickInProgress}>In Progress</button></li>
                         <li><button className='dropdown-item' onClick={handleClickCompleted}>Completed</button></li>
-                        <li><button className='dropdown-item' onClick={() => handleClickSubmit(props.assignment)}>Submit</button></li>
+                        <li><button className='dropdown-item' onClick={() => handleOpenPicker()}>Upload Assignment</button></li>
                     </ul>
                 </div>
             }

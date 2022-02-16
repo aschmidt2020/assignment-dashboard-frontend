@@ -11,7 +11,6 @@ import './App.css'
 import StudentRegister from './Components/StudentRegister/StudentRegister';
 import EducatorRegister from './Components/EducatorRegister/EducatorRegister';
 import DisplayArchived from './Components/DisplayArchived/DisplayArchived';
-import SubmitAssignment from './Components/SubmitAssignment/SubmitAssignment';
 import SearchResults from './Components/SearchResults/SearchResults';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -20,7 +19,6 @@ import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 
 function App() {
   const navigate = useNavigate();
-  // const API_KEY = process.env.REACT_APP_API_KEY_GO_FILE;
   const [user, setUser] = useState();
   const [userInfo, setUserInfo] = useState();
   const [educatorInfo, setEducatorInfo] = useState();
@@ -332,7 +330,6 @@ function App() {
               <Route path='/complete-registration-student' element={<StudentRegister userInfo={userInfo} getStudentInfo={getStudentInfo}/>}/>
               <Route path='/complete-registration-educator' element={<EducatorRegister userInfo={userInfo} getEducatorInfo={getEducatorInfo}/>}/>
               <Route path='/assignments/archived' element={<DisplayArchived assignments={assignments}/>}/>
-              <Route path='/assignment/submit' element={<SubmitAssignment userInfo={userInfo}/>}/>
               <Route path='/search-results' element={<SearchResults userInfo={userInfo} searchResultsAssignments={searchResultsAssignments} searchResultsCourses={searchResultsCourses}/>}/>
             </Routes>
           </div>
