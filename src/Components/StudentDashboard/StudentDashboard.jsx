@@ -264,107 +264,105 @@ const StudentDashboard = (props) => {
                         </span> 
                     </div>
                     </div>
-    
-                    {props.userInfo && props.userInfo.is_staff===false &&
-                                 <div className="accordion-item">
-                                 <h2 className="accordion-header" id="headingFour">
-                                 <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                     Overdue
-                                 </button>
-                                 </h2>
-                                 <div id="collapseFour" className="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-                                 <div className="accordion-body">
-                                         <span id="view-assignment-overdue">
-                                         <table>
-                                             <thead>
-                                                 <tr>
-                                                     <th>Assignment</th>
-                                                     <th>Course</th>
-                                                     <th>Due Date</th>
-                                                     <th>Status</th>
-                                                 </tr>
-                                             </thead>
-                                             <tbody>
-                                             {assignmentsOverdue && assignmentsOverdue.length>0 && assignmentsOverdue.map((assignment, index) => {
-                                                 return (
-                                                     <tr key={assignment.assignment.id}>
-                                                         <td>
-                                                         <Button variant="btn btn-link assignment-button" onClick={() => handleShow(assignment)}>
-                                                        {assignment.assignment.assignment_name}
-                                                        </Button>
-                                                         </td>
-                                                         <td>{assignment.assignment.assignment_course.course_name}</td>
-                                                         <td>{assignment.assignment.assignment_due_date}</td>
-                                                         {props.userInfo.is_staff===false && 
-                                                         <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
-                                                         }
-                                                     </tr>
-                                                     
-                                                             
-                                                 )
-                                                 
-                                             }
-                                             )}
-                                             {assignmentsOverdue && assignmentsOverdue.length===0 && <td>No assignments!</td>}
-                                         </tbody>
-                                         </table>
-                                     </span> 
-                                 </div>
-                                 </div>
-                                 </div>
-                    }
-    
-                    {props.userInfo && props.userInfo.is_staff===false &&
-                                 <div className="accordion-item">
-                                 <h2 className="accordion-header" id="headingFive">
-                                 <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                     Completed
-                                 </button>
-                                 </h2>
-                                 <div id="collapseFive" className="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-                                 <div className="accordion-body">
-                                         <span id="view-assignment-later">
-                                         <table>
-                                             <thead>
-                                                 <tr>
-                                                     <th>Assignment</th>
-                                                     <th>Course</th>
-                                                     <th>Due Date</th>
-                                                     <th>Status</th>
-                                                 </tr>
-                                             </thead>
-                                             <tbody>
-                                             {assignmentsCompleted && assignmentsCompleted.length>0 && assignmentsCompleted.map((assignment, index) => {
-                                                 return (
-                                                     <tr key={assignment.assignment.id}>
-                                                         <td>
-                                                         <Button variant="btn btn-link assignment-button" onClick={() => handleShow(assignment)}>
-                                                        {assignment.assignment.assignment_name}
-                                                        </Button>
-                                                         </td>
-                                                         <td>{assignment.assignment.assignment_course.course_name}</td>
-                                                         <td>{assignment.assignment.assignment_due_date}</td>
-                                                         {props.userInfo.is_staff===false && 
-                                                         <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
-                                                         }
-                                                     </tr>
-                                                     
-                                                             
-                                                 )
-                                                 
-                                             }
-                                             )}
-                                             {assignmentsCompleted && assignmentsCompleted.length===0 && <td>No assignments!</td>}
-                                         </tbody>
-                                         </table>
-                                     </span> 
-                                 </div>
-                                 </div>
-                                 </div>
-                    }
                     </div>
-            </div>
 
+                    <div className="accordion-item">
+                    <h2 className="accordion-header" id="headingFour">
+                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                        Overdue
+                    </button>
+                    </h2>
+                    <div id="collapseFour" className="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                    <div className="accordion-body">
+                            <span id="view-assignment-later">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Assignment</th>
+                                        <th>Course</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {assignmentsOverdue && assignmentsOverdue.length>0 && assignmentsOverdue.map((assignment, index) => {
+                                    return (
+                                        <tr key={assignment.assignment.id}>
+                                            <td>
+                                            <Button variant="btn btn-link assignment-button" onClick={() => handleShow(assignment)}>
+                                            {assignment.assignment.assignment_name}
+                                            </Button>
+                                            </td>
+                                            <td>{assignment.assignment.assignment_course.course_name}</td>
+                                            <td>{assignment.assignment.assignment_due_date}</td>
+                                            {props.userInfo.is_staff===false && 
+                                            <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
+                                            }
+                                            
+                                        </tr>
+                                        
+                                                
+                                    )
+                                    
+                                }
+                                )}
+                                {assignmentsOverdue && assignmentsOverdue.length===0 && <td>No assignments!</td>}
+                            </tbody>
+                            </table>
+                        </span> 
+                    </div>
+                    </div>
+                    </div>
+
+                    <div className="accordion-item">
+                    <h2 className="accordion-header" id="headingFive">
+                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
+                        Completed
+                    </button>
+                    </h2>
+                    <div id="collapseFive" className="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                    <div className="accordion-body">
+                            <span id="view-assignment-later">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Assignment</th>
+                                        <th>Course</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {assignmentsCompleted && assignmentsCompleted.length>0 && assignmentsCompleted.map((assignment, index) => {
+                                    return (
+                                        <tr key={assignment.assignment.id}>
+                                            <td>
+                                            <Button variant="btn btn-link assignment-button" onClick={() => handleShow(assignment)}>
+                                            {assignment.assignment.assignment_name}
+                                            </Button>
+                                            </td>
+                                            <td>{assignment.assignment.assignment_course.course_name}</td>
+                                            <td>{assignment.assignment.assignment_due_date}</td>
+                                            {props.userInfo.is_staff===false && 
+                                            <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
+                                            }
+                                            
+                                        </tr>
+                                        
+                                                
+                                    )
+                                    
+                                }
+                                )}
+                                {assignmentsCompleted && assignmentsCompleted.length===0 && <td>No assignments!</td>}
+                            </tbody>
+                            </table>
+                        </span> 
+                    </div>
+                    </div>
+                    </div>
+                  
+                    </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                 <Modal.Title>{modalContent && <span>{modalContent.assignment.assignment_name}</span>}</Modal.Title>
