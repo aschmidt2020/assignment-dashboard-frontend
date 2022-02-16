@@ -126,6 +126,7 @@ const CourseViewer = (props) => {
                     <th>Assignment</th>
                     <th>Due Date</th>
                     <th>Instructions</th>
+                    <th># Students</th>
                     <th></th>
                 </tr>
             </thead>
@@ -138,13 +139,19 @@ const CourseViewer = (props) => {
                             <td>{assignment.assignment_name}</td>
                             <td>{assignment.assignment_due_date}</td>
                             <td>{assignment.assignment_instructions}</td>
-                            <td>
-                                {props.userInfo && props.userInfo.is_staff ===true && <button className='btn btn-outline-dark' onClick={() => deleteAssignment(assignment.id)} data-toggle='popover' title='Delete Assignment' data-content='Delete Assignment' trigger='hover'><i className="bi bi-trash3"></i></button>}
+                            <td style={{'textAlign':'center'}}>{assignment.assignment_course.number_of_students}</td>
+                            <td style={{'textAlign':'left'}}>
+                                <span>
                                 {props.userInfo && props.userInfo.is_staff ===true && 
-                                <span id="add-assignment">
-                                    <Button variant='btn btn-outline-dark' onClick={() => handleShow(index)} style={{ "marginLeft": "6em" }} data-toggle='popover' title='Edit Assignment' data-content='Edit Assignment' trigger='hover'>
+                                <span>
+                                    <button className='btn btn-outline-dark' onClick={() => deleteAssignment(assignment.id)} data-toggle='popover' title='Delete Assignment' data-content='Delete Assignment' trigger='hover'><i className="bi bi-trash3"></i></button>
+                                    <Button variant='btn btn-outline-dark' onClick={() => handleShow(index)} style={{ "marginLeft": "1em" }} data-toggle='popover' title='Edit Assignment' data-content='Edit Assignment' trigger='hover'>
                                     <i className="bi bi-pencil"></i>
                                     </Button>
+                                
+                                </span>}
+
+                                <span>
 
                                     <Modal show={show} onHide={()=> handleClose(index)}>
                                         <Modal.Header closeButton>
@@ -187,7 +194,8 @@ const CourseViewer = (props) => {
                                         </Modal.Footer>
                                     </Modal>
                                     </span>
-                                }
+                                
+                                </span>
                             </td>
                         </tr>
                 )

@@ -86,14 +86,14 @@ const EducatorDashboard = (props) => {
                 {assignmentsNext3 && assignmentsNext3.length>0 && assignmentsNext3.map((assignment, index) => {
                     let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;
                     return (
+                        <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
                         <li>
-                            <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
                             {assignment.assignment_name}
-                            </Button>
                             <div className="progress">
                             <div className="progress-bar bg-success" role="progressbar"  style={{'width': `${progress}%`}} aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
+                        </Button>
 
                     )})}
 
@@ -112,14 +112,15 @@ const EducatorDashboard = (props) => {
                 {assignmentsNext7 && assignmentsNext7.length>0 && assignmentsNext7.map((assignment, index) => {
                     let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;
                     return (
+                        <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
                         <li>
-                            <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
                             {assignment.assignment_name}
-                            </Button>
+                            
                             <div className="progress">
                             <div className="progress-bar bg-success" role="progressbar"  style={{'width': `${progress}%`}} aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
+                        </Button>
                     )})}
 
                 {assignmentsNext7 && assignmentsNext7.length===0 && 
@@ -137,14 +138,14 @@ const EducatorDashboard = (props) => {
                 {assignmentsLater && assignmentsLater.length>0 && assignmentsLater.map((assignment, index) => {
                     let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;
                     return (
+                        <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
                         <li>
-                            <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
                             {assignment.assignment_name}
-                            </Button>
                             <div className="progress">
                             <div className="progress-bar bg-success" role="progressbar"  style={{'width': `${progress}%`}} aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
+                        </Button>
                     )})}
                     
                 {assignmentsLater && assignmentsLater.length===0 && 
@@ -164,14 +165,14 @@ const EducatorDashboard = (props) => {
                 {assignmentsCompleted && assignmentsCompleted.length>0 && assignmentsCompleted.map((assignment, index) => {
                     let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;
                     return (
+                        <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
                         <li>
-                            <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
                             {assignment.assignment_name}
-                            </Button>
                             <div className="progress">
                             <div className="progress-bar bg-success" role="progressbar"  style={{'width': `${progress}%`}} aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
+                        </Button>
                     )})}
 
                 {assignmentsCompleted && assignmentsCompleted.length===0 && 
