@@ -4,7 +4,7 @@ import LoginForm from "../LoginForm/LoginForm";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import SearchBar from "../SearchBar/SearchBar";
 import swal from 'sweetalert';
-
+import icon from '../../Documents/apple-touch-icon.png'
 const NavBar = (props) => {
     const navigate = useNavigate();
 
@@ -38,13 +38,19 @@ const NavBar = (props) => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
 
-                    <div className="col-2">
+                    <div className="col-1">
                         <li className="nav-item">
-                                <Link to="/" data-toggle="popover" title="Home" data-content="Home" trigger="hover">
-                                <h4>Assignment<small className="text-muted">Dashboard</small></h4>
-                                </Link>
+                            <Link to="/" data-toggle="popover" title="Home" data-content="Home" trigger="hover">
+                            <img src={icon} alt='abacus' style={{ "height": "30px", "width": "30px"}}></img>
+                            </Link>
                         </li>
-
+                    </div>
+                    <div className="col-1" style={{'marginLeft':'-7em', 'marginRight':'7em'}}>
+                        <li className="nav-item">
+                            <Link to="/" data-toggle="popover" title="Home" data-content="Home" trigger="hover">
+                                <h4>Assignment<small className="text-muted">Dashboard</small></h4>
+                            </Link>
+                        </li>
                     </div>
 
                     <div className="col-7">

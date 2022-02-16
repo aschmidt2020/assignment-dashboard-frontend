@@ -21,7 +21,7 @@ const LoginForm = (props) => {
 
     return (
         <span id="log-in">
-        <Button variant="btn btn-outline-primary" onClick={handleShow} style={{ "marginLeft": "6em" }}>
+        <Button variant="btn btn-outline-light" onClick={handleShow} style={{'marginTop': '3em'}}>
             Log In
         </Button>
 

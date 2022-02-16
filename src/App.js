@@ -18,6 +18,7 @@ import Notepad from './Components/Notepad/Notepad';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import EducatorDashboard from './Components/EducatorDashboard/EducatorDashboard';
 import swal from 'sweetalert';
+import LandingPage from './Components/LandingPage/LandingPage';
 
 function App() {
   const navigate = useNavigate();
@@ -69,50 +70,53 @@ function App() {
   }, [studentInfo, educatorInfo])
 
   useEffect(() => {
-    var calendarEl = document.getElementById('calendar');
-    let eventsList = [];
-
-    if(assignments){
-      for(let i=0; i < assignments.length; i++){
-        eventsList.push({
-          id: i,
-          start: assignments[i].assignment_due_date,
-          end: assignments[i].assignment_due_date,
-          title: assignments[i].assignment_name
-        })
+    try{
+      var calendarEl = document.getElementById('calendar');
+      let eventsList = [];
+  
+      if(assignments){
+        for(let i=0; i < assignments.length; i++){
+          eventsList.push({
+            id: i,
+            start: assignments[i].assignment_due_date,
+            end: assignments[i].assignment_due_date,
+            title: assignments[i].assignment_name
+          })
+        }
       }
+      
+      var calendar = new Calendar(calendarEl, {
+        height: '65%', 
+        aspectRatio: 1,
+        fixedWeekCount: false,
+        handleWindowResize: true,
+        eventClick: function(info) {
+          let dd = String(info.event.start.getDate()).padStart(2, '0');
+          let mm = String(info.event.start.getMonth() + 1).padStart(2, '0'); //January is 0!
+          let yyyy = String(info.event.start.getFullYear());
+          swal({
+            title: info.event.title,
+            text: 'Due Date: ' + mm + '/' + dd + '/' + yyyy
+          })
+        },
+        plugins: [ dayGridPlugin, bootstrap5Plugin ],
+        themeSystem: 'bootstrap5',
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next',
+          center: 'title',
+          right: 'today'
+  
+        },
+  
+        events: eventsList
+      });
+  
+      calendar.render()
     }
-    
-    var calendar = new Calendar(calendarEl, {
-      height: '65%', 
-      aspectRatio: 1,
-      fixedWeekCount: false,
-      handleWindowResize: true,
-      eventClick: function(info) {
-        debugger
-        let date = info.event.start;
-        let dd = String(info.event.start.getDate()).padStart(2, '0');
-        let mm = String(info.event.start.getMonth() + 1).padStart(2, '0'); //January is 0!
-        let yyyy = String(info.event.start.getFullYear());
-        swal({
-          title: info.event.title,
-          text: 'Due Date: ' + mm + '/' + dd + '/' + yyyy
-        })
-      },
-      plugins: [ dayGridPlugin, bootstrap5Plugin ],
-      themeSystem: 'bootstrap5',
-      initialView: 'dayGridMonth',
-      headerToolbar: {
-        left: 'prev,next',
-        center: 'title',
-        right: 'today'
-
-      },
-
-      events: eventsList
-    });
-
-    calendar.render()
+    catch {
+      console.log('Not logged in.')
+    }
   }, [assignments, width]);
 
   function toggleLightMode(event){
@@ -357,7 +361,8 @@ function App() {
 
   }
 
-  return (
+  if(userInfo) {
+    return (
     <div className='container-fluid'>
       <div className='row'>
           <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} toggleLightMode={toggleLightMode} courses={courses} getAssignments={getAssignments} assignments={assignments} courses={courses} getResults={getResults}/>
@@ -368,7 +373,7 @@ function App() {
 
           <div className='col-6' style={{'paddingTop':'2%'}}>
             <Routes>
-              {(userInfo===undefined | (userInfo && userInfo.is_staff===false)) && <Route exact path='/' element={<StudentDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>}
+              {userInfo && userInfo.is_staff===false && <Route exact path='/' element={<StudentDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>}
               {userInfo && userInfo.is_staff===true && <Route exact path='/' element={<EducatorDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>}
               <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments}/>}/>
               <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses}/>}/>
@@ -385,7 +390,19 @@ function App() {
           </div>
         </div>
     </div>
-  );
+  )}
+
+  else{
+    return(
+      <div className='container-fluid'>
+      <div className='row'>
+            <Routes>
+              {userInfo===undefined && <Route exact path='/' element={<LandingPage register={register} login={login}/>}/>}
+            </Routes>
+    </div>
+    </div>
+    )
+  }
   
 
 

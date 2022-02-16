@@ -15,7 +15,6 @@ const AddAssignment = (props) => {
         setShow(false);
         setSelectedCourse(undefined);
         handleReset();
-
     }
     async function addAssignment() {
         const jwt = localStorage.getItem("token");
