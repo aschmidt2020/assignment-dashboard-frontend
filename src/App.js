@@ -17,6 +17,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import Notepad from './Components/Notepad/Notepad';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import EducatorDashboard from './Components/EducatorDashboard/EducatorDashboard';
+import swal from 'sweetalert';
 
 function App() {
   const navigate = useNavigate();
@@ -82,12 +83,22 @@ function App() {
       }
     }
     
-    debugger
     var calendar = new Calendar(calendarEl, {
       height: '65%', 
       aspectRatio: 1,
       fixedWeekCount: false,
       handleWindowResize: true,
+      eventClick: function(info) {
+        debugger
+        let date = info.event.start;
+        let dd = String(info.event.start.getDate()).padStart(2, '0');
+        let mm = String(info.event.start.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = String(info.event.start.getFullYear());
+        swal({
+          title: info.event.title,
+          text: 'Due Date: ' + mm + '/' + dd + '/' + yyyy
+        })
+      },
       plugins: [ dayGridPlugin, bootstrap5Plugin ],
       themeSystem: 'bootstrap5',
       initialView: 'dayGridMonth',
