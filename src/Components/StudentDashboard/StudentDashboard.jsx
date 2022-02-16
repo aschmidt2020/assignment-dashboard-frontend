@@ -4,13 +4,14 @@ import Button from "react-bootstrap/Button";
 import UpdateAssignmentStatus from '../UpdateAssignmentStatus/UpdateAssignmentStatus';
 import Background from '../../Documents/notloggedinbackground.jpg';
 
-const Dashboard = (props) => {
+const StudentDashboard = (props) => {
     const [assignmentsAndStatus, setAssignmentsAndStatus] = useState();
     const [assignmentsNext3, setAssignmentsNext3] = useState(undefined);
     const [assignmentsNext7, setAssignmentsNext7] = useState(undefined);
     const [assignmentsLater, setAssignmentsLater] = useState(undefined);
     const [assignmentsOverdue, setAssignmentsOverdue] = useState();
     const [assignmentsCompleted, setAssignmentsCompleted] = useState();
+    const [archived, setArchived] = useState();
     const [modalContent, setModalContent] = useState('')
     const [show, setShow] = useState(false);
 
@@ -24,77 +25,90 @@ const Dashboard = (props) => {
     // sort assignments
     useEffect(() => {
         if(assignmentsAndStatus !== undefined && assignmentsAndStatus.length >0){
-            let assignments3 = [];
-            let assignments7 = [];
-            let assignments = [];
-            let overdue = [];
-            let completed = []
-
-            let today = new Date();
-            today.setDate(today.getDate() + 0);
-
-            let threeDays = new Date();
-            threeDays.setDate(threeDays.getDate() + 3);
+            if(props.userInfo && props.userInfo.is_staff===false){
+                let assignments3 = [];
+                let assignments7 = [];
+                let assignments = [];
+                let overdue = [];
+                let completed = [];
+                let archived = []
     
-            let sevenDays = new Date();
-            sevenDays.setDate(sevenDays.getDate() + 7)
+                let today = new Date();
+                today.setDate(today.getDate() + 0);
+    
+                let threeDays = new Date();
+                threeDays.setDate(threeDays.getDate() + 3);
 
-            for (let i=0; i < assignmentsAndStatus.length; i++) {
-                debugger
-                let assignment_date = new Date(assignmentsAndStatus[i].assignment.assignment_due_date + "T00:00:00");
-                if(assignmentsAndStatus[i].assignment_status === "Completed"){
-                    completed.push(assignmentsAndStatus[i])
-                }
+                let threeDaysPast = new Date();
+                threeDaysPast.setDate(threeDaysPast.getDate() - 3)
+        
+                let sevenDays = new Date();
+                sevenDays.setDate(sevenDays.getDate() + 7)
+    
+                for (let i=0; i < assignmentsAndStatus.length; i++) {
+                    debugger
+                    let assignment_date = new Date(assignmentsAndStatus[i].assignment.assignment_due_date + "T23:59:59");
 
-                else if(assignmentsAndStatus[i].assignment_status !== "Completed"){
-                    if(assignment_date <= threeDays && assignment_date >= today){
-                        assignments3.push(assignmentsAndStatus[i])
+                    if(assignmentsAndStatus[i].assignment_status === "Completed"){
+                        if (assignment_date < today && assignment_date <= threeDaysPast){
+                            archived.push(props.assignments[i])
+                        }
+                        else {
+                            completed.push(assignmentsAndStatus[i])
+                        }
                     }
-                    else if(assignment_date > threeDays && assignment_date <= sevenDays){
-                        assignments7.push(assignmentsAndStatus[i])
+    
+                    else if(assignmentsAndStatus[i].assignment_status !== "Completed"){
+                        if(assignment_date <= threeDays && assignment_date >= today){
+                            assignments3.push(assignmentsAndStatus[i])
+                        }
+                        else if(assignment_date > threeDays && assignment_date <= sevenDays){
+                            assignments7.push(assignmentsAndStatus[i])
+                        }
+                        else if(assignment_date > sevenDays){
+                            assignments.push(assignmentsAndStatus[i])
+                        }
+                        else if (assignment_date < today){
+                            overdue.push(assignmentsAndStatus[i])
+                        }
                     }
-                    else if(assignment_date > sevenDays){
-                        assignments.push(assignmentsAndStatus[i])
-                    }
-                    else if (assignment_date < today){
-                        overdue.push(assignmentsAndStatus[i])
-                    }
-                }
-              }
-            
-              setAssignmentsNext3(assignments3);
-              setAssignmentsNext7(assignments7);
-              setAssignmentsLater(assignments);
-              setAssignmentsCompleted(completed);
-              setAssignmentsOverdue(overdue)
+                  }
+                
+                  setAssignmentsNext3(assignments3);
+                  setAssignmentsNext7(assignments7);
+                  setAssignmentsLater(assignments);
+                  setAssignmentsCompleted(completed);
+                  setAssignmentsOverdue(overdue);
+                  setArchived(archived)
             }
-        
-        
+            }
       // eslint-disable-next-line
-    }, [assignmentsAndStatus])
+    }, [assignmentsAndStatus, props.assignments])
 
     //compare assignments with assignment statuses
     useEffect(() => {
-        let assignmentAndStatus = [];
-        if(props.assignments !== undefined && props.assignments.length >0 && props.studentAssignmentStatus !== undefined){
-            for (let i=0; i < props.assignments.length; i++) {
-                let indexStatus = props.studentAssignmentStatus.findIndex(assignment => assignment.assignment.id === props.assignments[i].id)
-                if(indexStatus > -1){
-                    assignmentAndStatus.push(props.studentAssignmentStatus[indexStatus])
-                }
-                else{
-                    assignmentAndStatus.push(
-                        {
-                        assignment: props.assignments[i],
-                        assignment_status: "Not Started",
-                        id: 0,
-                        student: props.studentInfo
-                        }
-                    )
-                }
-            
-            }}
-        setAssignmentsAndStatus(assignmentAndStatus)
+        if(props.userInfo && props.userInfo.is_staff===false){
+            let assignmentAndStatus = [];
+            if(props.assignments !== undefined && props.assignments.length >0 && props.studentAssignmentStatus !== undefined){
+                for (let i=0; i < props.assignments.length; i++) {
+                    let indexStatus = props.studentAssignmentStatus.findIndex(assignment => assignment.assignment.id === props.assignments[i].id)
+                    if(indexStatus > -1){
+                        assignmentAndStatus.push(props.studentAssignmentStatus[indexStatus])
+                    }
+                    else{
+                        assignmentAndStatus.push(
+                            {
+                            assignment: props.assignments[i],
+                            assignment_status: "Not Started",
+                            id: 0,
+                            student: props.studentInfo
+                            }
+                        )
+                    }
+                
+                }}
+            setAssignmentsAndStatus(assignmentAndStatus)
+        }
         
       // eslint-disable-next-line
     }, [props.assignments, props.studentAssignmentStatus])
@@ -134,14 +148,6 @@ const Dashboard = (props) => {
                                             <td>{assignment.assignment.assignment_due_date}</td>
                                             {props.userInfo.is_staff===false && 
                                             <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
-                                            }
-                                            {props.userInfo.is_staff===true &&
-                                            <td>
-                                                <p>Students Enrolled: {assignment.assignment.assignment_course.number_of_students}</p>
-                                                <p># Viewed: {assignment.assignment.students_viewed}</p>
-                                                <p># In Progress: {assignment.assignment.students_in_progress}</p>
-                                                <p># Completed: {assignment.assignment.students_completed}</p>
-                                            </td>
                                             }
                                         </tr>
                                         
@@ -193,14 +199,7 @@ const Dashboard = (props) => {
                                             {props.userInfo.is_staff===false && 
                                             <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
                                             }
-                                            {props.userInfo.is_staff===true &&
-                                            <td>
-                                                <p>Students Enrolled: {assignment.assignment.assignment_course.number_of_students}</p>
-                                                <p># Viewed: {assignment.assignment.students_viewed}</p>
-                                                <p># In Progress: {assignment.assignment.students_in_progress}</p>
-                                                <p># Completed: {assignment.assignment.students_completed}</p>
-                                            </td>
-                                            }
+                                            
                                         </tr>
                                         
                                                 
@@ -251,14 +250,7 @@ const Dashboard = (props) => {
                                             {props.userInfo.is_staff===false && 
                                             <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
                                             }
-                                            {props.userInfo.is_staff===true &&
-                                            <td>
-                                                <p>Students Enrolled: {assignment.assignment.assignment_course.number_of_students}</p>
-                                                <p># Viewed: {assignment.assignment.students_viewed}</p>
-                                                <p># In Progress: {assignment.assignment.students_in_progress}</p>
-                                                <p># Completed: {assignment.assignment.students_completed}</p>
-                                            </td>
-                                            }
+                                            
                                         </tr>
                                         
                                                 
@@ -305,14 +297,6 @@ const Dashboard = (props) => {
                                                          <td>{assignment.assignment.assignment_due_date}</td>
                                                          {props.userInfo.is_staff===false && 
                                                          <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
-                                                         }
-                                                         {props.userInfo.is_staff===true &&
-                                                         <td>
-                                                            <p>Students Enrolled: {assignment.assignment.assignment_course.number_of_students}</p>
-                                                            <p># Viewed: {assignment.assignment.students_viewed}</p>
-                                                            <p># In Progress: {assignment.assignment.students_in_progress}</p>
-                                                            <p># Completed: {assignment.assignment.students_completed}</p>
-                                                         </td>
                                                          }
                                                      </tr>
                                                      
@@ -362,14 +346,6 @@ const Dashboard = (props) => {
                                                          <td>{assignment.assignment.assignment_due_date}</td>
                                                          {props.userInfo.is_staff===false && 
                                                          <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments}/></td>
-                                                         }
-                                                         {props.userInfo.is_staff===true &&
-                                                         <td>
-                                                            <p>Students Enrolled: {assignment.assignment.assignment_course.number_of_students}</p>
-                                                            <p># Viewed: {assignment.assignment.students_viewed}</p>
-                                                            <p># In Progress: {assignment.assignment.students_in_progress}</p>
-                                                            <p># Completed: {assignment.assignment.students_completed}</p>
-                                                         </td>
                                                          }
                                                      </tr>
                                                      
@@ -423,4 +399,4 @@ const Dashboard = (props) => {
     
 
  
-export default Dashboard;
+export default StudentDashboard;

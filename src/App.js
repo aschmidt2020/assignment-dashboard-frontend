@@ -3,7 +3,7 @@ import NavBar from './Components/NavBar/NavBar';
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import Dashboard from './Components/Dashboard/Dashboard';
+import StudentDashboard from './Components/StudentDashboard/StudentDashboard';
 import SideBar from './Components/SideBar/SideBar';
 import CourseViewer from './Components/CourseViewer/CourseViewer';
 import EnrollButton from './Components/EnrollButton/EnrollButton';
@@ -16,6 +16,7 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import Notepad from './Components/Notepad/Notepad';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
+import EducatorDashboard from './Components/EducatorDashboard/EducatorDashboard';
 
 function App() {
   const navigate = useNavigate();
@@ -324,7 +325,8 @@ function App() {
 
           <div className='col-6' style={{'paddingTop':'2%'}}>
             <Routes>
-              <Route exact path='/' element={<Dashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>
+              {(userInfo===undefined | (userInfo && userInfo.is_staff===false)) && <Route exact path='/' element={<StudentDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>}
+              {userInfo && userInfo.is_staff===true && <Route exact path='/' element={<EducatorDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>}
               <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments}/>}/>
               <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses}/>}/>
               <Route path='/complete-registration-student' element={<StudentRegister userInfo={userInfo} getStudentInfo={getStudentInfo}/>}/>
