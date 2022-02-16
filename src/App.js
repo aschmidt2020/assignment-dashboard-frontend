@@ -152,7 +152,11 @@ function App() {
         setCourses(response.data);
         getAssignments();
       }).catch(error => {
-        alert(error)
+        swal({
+          title: "Oops something went wrong!",
+          text: error.message,
+          icon: "error"
+        })
       })
     }
     else if(educatorInfo !== undefined){
@@ -167,7 +171,11 @@ function App() {
         setCourses(response.data);
         getAssignments();
       }).catch(error => {
-        alert(error)
+        swal({
+          title: "Oops something went wrong!",
+          text: error.message,
+          icon: "error"
+        })
       })
     }
   }
@@ -186,7 +194,11 @@ function App() {
         getAssignmentsStatus();
 
       }).catch(error => {
-        alert(error)
+        swal({
+          title: "Oops something went wrong!",
+          text: error.message,
+          icon: "error"
+        })
       })
     }
     else if(educatorInfo !== undefined){
@@ -201,7 +213,11 @@ function App() {
         setAssignments(response.data);
         getAssignmentsStatus();
       }).catch(error => {
-        alert(error)
+        swal({
+          title: "Oops something went wrong!",
+          text: error.message,
+          icon: "error"
+        })
       })
     }
   }
@@ -218,7 +234,11 @@ function App() {
       }).then(response => {
         setStudentAssignmentStatus(response.data);
       }).catch(error => {
-        alert(error)
+        swal({
+          title: "Oops something went wrong!",
+          text: error.message,
+          icon: "error"
+        })
       })
     }
     else if(educatorInfo !== undefined){
@@ -232,7 +252,11 @@ function App() {
       }).then(response => {
         setStudentAssignmentStatus(response.data);
       }).catch(error => {
-        alert(error)
+        swal({
+          title: "Oops something went wrong!",
+          text: error.message,
+          icon: "error"
+        })
       })
     }
   }
@@ -251,7 +275,11 @@ function App() {
       window.location = "/";
     }
     ).catch(error => {
-      alert(error)
+      swal({
+        title: "Oops something went wrong!",
+        text: error.message,
+        icon: "error"
+      })
     })
   }
 
@@ -320,7 +348,11 @@ function App() {
       login(userInfo.username, userInfo.password)
     }
     ).catch(error => {
-      alert(error)
+      swal({
+        title: "Oops something went wrong!",
+        text: error.message,
+        icon: "error"
+      })
     })
 
   }

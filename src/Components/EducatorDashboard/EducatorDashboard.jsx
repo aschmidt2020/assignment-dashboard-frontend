@@ -81,7 +81,7 @@ const EducatorDashboard = (props) => {
             <section className="lists-container">
 
                 <div className="list">
-                <h3 className="list-title">Next Three Days</h3>
+                <h3 className="list-title"><i className="bi bi-hourglass-bottom" style={{'color':'#e69500'}}>&nbsp;&nbsp;</i>Next Three Days</h3>
                 <ul className="list-items">
                 {assignmentsNext3 && assignmentsNext3.length>0 && assignmentsNext3.map((assignment, index) => {
                     let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;
@@ -107,7 +107,7 @@ const EducatorDashboard = (props) => {
                 </div>
                 
                 <div className="list">
-                <h3 className="list-title">Next Seven Days</h3>
+                <h3 className="list-title"><i className="bi bi-hourglass-split" style={{'color':'#ffcf48'}}>&nbsp;&nbsp;</i>Next Seven Days</h3>
                 <ul className="list-items">
                 {assignmentsNext7 && assignmentsNext7.length>0 && assignmentsNext7.map((assignment, index) => {
                     let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;
@@ -133,7 +133,7 @@ const EducatorDashboard = (props) => {
                 </div>
 
                 <div className="list">
-                <h3 className="list-title">Later</h3>
+                <h3 className="list-title"><i className="bi bi-hourglass-top" style={{'color':'#ffe394'}}>&nbsp;&nbsp;</i>Later</h3>
                 <ul className="list-items">
                 {assignmentsLater && assignmentsLater.length>0 && assignmentsLater.map((assignment, index) => {
                     let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;
@@ -160,7 +160,7 @@ const EducatorDashboard = (props) => {
                
 
                 <div className="list">
-                <h3 className="list-title">Completed Past 3 Days</h3>
+                <h3 className="list-title"><i className="bi bi-check-circle" style={{'color':'green'}}>&nbsp;&nbsp;</i>Completed Past 3 Days</h3>
                 <ul className="list-items">
                 {assignmentsCompleted && assignmentsCompleted.length>0 && assignmentsCompleted.map((assignment, index) => {
                     let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import swal from 'sweetalert';
 // import useForm from "../CustomHooks/useForm";
 
 const CourseViewer = (props) => {
@@ -104,18 +105,32 @@ const CourseViewer = (props) => {
 
     async function deleteAssignment(assignment_id, course_id){
         const jwt = localStorage.getItem("token");
-        await axios({
-            method: "delete",
-            url: `http://127.0.0.1:8000/api/assignment/educator/deleteassignment/assignment_id/${assignment_id}/`,
-            headers: {
-            Authorization: "Bearer " + jwt
-            },
-        }).then(response => {
-            props.getAssignments();
-            window.location.reload();
-        }).catch(error => {
-            alert(error)
-        })
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this assignment!",
+            icon: "warning",
+            buttons: [
+              'Cancel',
+              'Yes'
+            ],
+            dangerMode: true,
+          }).then(async function(isConfirm) {
+            if (isConfirm) {
+                await axios({
+                    method: "delete",
+                    url: `http://127.0.0.1:8000/api/assignment/educator/deleteassignment/assignment_id/${assignment_id}/`,
+                    headers: {
+                    Authorization: "Bearer " + jwt
+                    },
+                }).then(response => {
+                    props.getAssignments();
+                    window.location.reload();
+                }).catch(error => {
+                    alert(error)
+                })
+            }
+          })
+         
     }
 
     async function updateAssignment(assignment_id){

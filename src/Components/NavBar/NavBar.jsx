@@ -3,12 +3,30 @@ import AddAssignment from "../AddAssignment/AddAssignment";
 import LoginForm from "../LoginForm/LoginForm";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import SearchBar from "../SearchBar/SearchBar";
+import swal from 'sweetalert';
 
 const NavBar = (props) => {
     const navigate = useNavigate();
 
     function navigateEnroll(){
         navigate(`/course/enroll`);
+    }
+
+    function handleClickLogout(){
+        swal({
+            title: "Sign Out",
+            text: "Are you sure you would like to sign out? \n\n IMPORTANT: Make sure you save your notes!",
+            icon: "warning",
+            buttons: [
+              'Cancel',
+              'Sign Out'
+            ],
+            dangerMode: true,
+          }).then(function(isConfirm) {
+            if (isConfirm) {
+              props.logout();
+            }
+          })
     }
 
     return (
@@ -45,7 +63,7 @@ const NavBar = (props) => {
 
                             <li className="nav-item">
                             {!props.userInfo && <span> <LoginForm login={props.login} /> <RegistrationForm register={props.register} /> </span>}
-                            {props.userInfo && <button type="button" className="btn btn-outline-danger" onClick={props.logout}>Log Out</button>}
+                            {props.userInfo && <button type="button" className="btn btn-outline-danger" onClick={() => handleClickLogout()}>Log Out</button>}
                             </li>
 
                             <li className="nav-item">
