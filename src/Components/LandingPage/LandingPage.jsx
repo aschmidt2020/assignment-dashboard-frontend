@@ -14,9 +14,7 @@ const LandingPage = (props) => {
             <div className='row'>
                 <div className='col' style={{'marginTop':'18em'}}>
                     <h1>Assignment Dashboard</h1>
-
                     <p>Like an online agenda...but better.</p>
-
                     <span><LoginForm login={props.login} /> <RegistrationForm register={props.register} /> </span>
                     {/* <img src={Background} alt='apple and books' style={{'height':'90vh', 'width':'80vw'}}/> */}
                 </div>
@@ -29,13 +27,13 @@ const LandingPage = (props) => {
                     </div>
                     <div className="carousel-inner">
                         <div className="carousel-item active">
-                        <img src={LandingPageScreenshot} className="d-block w-100" alt="assignment dashboard icon" />
-                        </div>
-                        <div className="carousel-item">
                         <img src={EducatorView} className="d-block w-100" alt="assignment dashboard educator view" />
                         </div>
                         <div className="carousel-item">
                         <img src={StudentView} className="d-block w-100" alt="assignment dashboard student view" />
+                        </div>
+                        <div className="carousel-item">
+                        <img src={LandingPageScreenshot} className="d-block w-100" alt="assignment dashboard landing page" />
                         </div>
                     </div>
                     <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
