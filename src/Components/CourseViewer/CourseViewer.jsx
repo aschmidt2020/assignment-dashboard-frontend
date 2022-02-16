@@ -19,7 +19,8 @@ const CourseViewer = (props) => {
     const [inProgress, setInProgress] = useState(0);
     const [completed, setCompleted] = useState(0)
     const [folderInfo, setFolderInfo] = useState();
-
+    const [assignmentsNotArchived, setAssignmentsNotArchived] = useState();
+    const [archived, setArchived] = useState();
     const [show, setShow] = useState(false);
     // const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
@@ -56,6 +57,34 @@ const CourseViewer = (props) => {
         getAssignmentsOneCourse(course.id)
         // eslint-disable-next-line
       }, [state])
+
+      useEffect(() => {
+          if(assignments){
+            let today = new Date();
+            today.setDate(today.getDate() + 0);
+
+            let threeDaysPast = new Date();
+            threeDaysPast.setDate(threeDaysPast.getDate() - 3)
+
+            let assignmentsNotArchived = [];
+            let archived = [];
+                      
+            for (let i=0; i < assignments.length; i++) {
+                debugger
+                let assignment_date = new Date(assignments[i].assignment_due_date + "T23:59:59");
+                if (assignment_date < today && assignment_date <= threeDaysPast){
+                    archived.push(assignments[i])
+                }
+                else {
+                    assignmentsNotArchived.push(assignments[i])
+                }
+            }
+
+            setAssignmentsNotArchived(assignmentsNotArchived);
+            setArchived(archived)
+          }
+        // eslint-disable-next-line
+      }, [assignments])
 
     async function getAssignmentsOneCourse(course_id){
         const jwt = localStorage.getItem("token");
@@ -131,9 +160,9 @@ const CourseViewer = (props) => {
                 </tr>
             </thead>
             <tbody>
-            {assignments && assignments.length ===0 &&  <tr><td>No assignments for this class!</td></tr>}
+            {assignmentsNotArchived && assignmentsNotArchived.length ===0 &&  <tr><td>No assignments for this class!</td></tr>}
 
-            {assignments && assignments.length > 0 &&assignments.map((assignment, index) => {
+            {assignmentsNotArchived && assignmentsNotArchived.length > 0 && assignmentsNotArchived.map((assignment, index) => {
                 return(
                         <tr>
                             <td>{assignment.assignment_name}</td>
