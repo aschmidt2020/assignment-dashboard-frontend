@@ -351,16 +351,16 @@ const StudentDashboard = (props) => {
 
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title style={{'color':'black'}}>{modalContent && <span>{modalContent.assignment.assignment_name}</span>} {modalContent && modalContent.assignment.assignment_link && <a href={modalContent.assignment.assignment_link}  target = "_blank"><i className="bi bi-paperclip"></i></a>}</Modal.Title>
+                        <Modal.Title>{modalContent && <span>{modalContent.assignment.assignment_name}</span>} {modalContent && modalContent.assignment.assignment_link && <a href={modalContent.assignment.assignment_link}  target = "_blank"><i className="bi bi-paperclip"></i></a>}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {modalContent &&
                             <div>
-                                <p style={{'color':'black'}}><strong>Description:</strong> {modalContent.assignment.assignment_desc}</p>
-                                <p style={{'color':'black'}}><strong>Instructions:</strong> {modalContent.assignment.assignment_instructions}</p>
+                                <li><strong>Description:</strong> {modalContent.assignment.assignment_desc}</li>
+                                <li><strong>Instructions:</strong> {modalContent.assignment.assignment_instructions}</li>
                                 <br></br>
-                                <p style={{'color':'black'}}><u>Due Date:</u> {modalContent.assignment.assignment_due_date}</p>
-                                <p style={{'color':'black'}}><u>Course:</u> {modalContent.assignment.assignment_course.course_name}</p>
+                                <li><u>Due Date:</u> {modalContent.assignment.assignment_due_date}</li>
+                                <li><u>Course:</u> {modalContent.assignment.assignment_course.course_name}</li>
                             </div>
                         }
                     </Modal.Body>

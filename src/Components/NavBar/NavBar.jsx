@@ -48,7 +48,7 @@ const NavBar = (props) => {
                         <div className="col-1" style={{ 'marginLeft': '-7em', 'marginRight': '7em' }}>
                             <li className="nav-item">
                                 <Link to="/" data-toggle="popover" title="Home" data-content="Home" trigger="hover">
-                                    <h4>Assignment<small className="text-muted">Dashboard</small></h4>
+                                    <h4>Assignment<small>Dashboard</small></h4>
                                 </Link>
                             </li>
                         </div>
@@ -71,15 +71,16 @@ const NavBar = (props) => {
                                     {!props.userInfo && <span> <LoginForm login={props.login} /> <RegistrationForm register={props.register} /> </span>}
                                     {props.userInfo && <button type="button" className="btn btn-outline-danger" onClick={() => handleClickLogout()}>Log Out</button>}
                                 </li>
-
+{/* 
                                 <li className="nav-item">
-                                    <button className='btn bg-transparent' onClick={props.toggleLightMode}><i className="bi bi-lightbulb"></i></button>
-                                </li>
+                                    <button id='dark-theme' className='btn bg-transparent'><i className="bi bi-lightbulb"></i></button>
+                                </li> */}
                             </ul>
                         </div>
                     </div>
                 </div>
             </nav>
+
         </div>
     );
 }

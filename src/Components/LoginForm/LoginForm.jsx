@@ -25,7 +25,7 @@ const LoginForm = (props) => {
                 Log In
             </Button>
 
-            <Modal show={show} onHide={handleClose} style={{ 'color': 'black' }}>
+            <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Log In</Modal.Title>
                 </Modal.Header>

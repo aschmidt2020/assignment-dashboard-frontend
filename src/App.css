@@ -3,10 +3,6 @@
     -webkit-box-shadow: none!important; 
 }
 
-.dark-mode {
-    color: white !important
-}
-
 /* sidebar settings */
 .accordion-button:focus {
     box-shadow: none !important;
@@ -16,7 +12,6 @@
 .sidebar-course-list {
     list-style: none;
     margin: 0.5em;
-    background-color: #f9f9f9;
 
 }
 
@@ -64,13 +59,6 @@ li {
 table, td {
     padding: 2%;
 
-}
-
-.course-table {
-    background-color:#f9f9f9 !important;
-}
-.accordion-body {
-    color: black !important;
 }
 
 .accordion-item {

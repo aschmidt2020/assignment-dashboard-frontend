@@ -45,16 +45,6 @@ function App() {
   }, [setWidth])
 
   useEffect(() => {
-    const themeFromStorage = localStorage.getItem("theme")
-    if (themeFromStorage === "true") {
-      setLightMode(true);
-      setBackground(true);
-    }
-    else {
-      setLightMode(false);
-      setBackground(false);
-    }
-
     const tokenFromStorage = localStorage.getItem("token");
     try {
       const decodedUser = jwt_decode(tokenFromStorage);
@@ -118,25 +108,6 @@ function App() {
       console.log('Not logged in.')
     }
   }, [assignments, width]);
-
-  function toggleLightMode(event) {
-    event.preventDefault();
-    let oppositeState = !lightMode;
-    setBackground(oppositeState);
-    setLightMode(oppositeState);
-    localStorage.setItem("theme", oppositeState)
-  }
-
-  function setBackground(lightMode) {
-    if (lightMode) {
-      document.body.style.backgroundColor = 'white';
-      document.body.style.color = 'black'
-    }
-    else {
-      document.body.style.backgroundColor = '#373737';
-      document.body.style.color = 'white'
-    }
-  }
 
   function getResults(assignments, courses) {
     setSearchResultsAssignments(assignments);
@@ -366,7 +337,7 @@ function App() {
     return (
       <div className='container-fluid'>
         <div className='row'>
-          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} toggleLightMode={toggleLightMode} courses={courses} getAssignments={getAssignments} assignments={assignments} courses={courses} getResults={getResults} />
+          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments} assignments={assignments} courses={courses} getResults={getResults} />
 
           <div className='col-2 sidebar-border' style={{ 'height': '90vh', 'paddingTop': '2%' }} >
             <SideBar userInfo={userInfo} courses={courses} />

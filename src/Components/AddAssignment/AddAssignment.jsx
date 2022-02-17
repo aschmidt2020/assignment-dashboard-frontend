@@ -50,7 +50,7 @@ const AddAssignment = (props) => {
                 Add Assignment
             </Button>
 
-            <Modal show={show} onHide={handleClose} style={{ 'color': 'black' }}>
+            <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Assignment</Modal.Title>
                 </Modal.Header>
