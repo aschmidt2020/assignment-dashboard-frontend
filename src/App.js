@@ -352,6 +352,7 @@ function App() {
       login(userInfo.username, userInfo.password)
     }
     ).catch(error => {
+      debugger
       swal({
         title: "Oops something went wrong!",
         text: error.message,
@@ -375,7 +376,7 @@ function App() {
             <Routes>
               {userInfo && userInfo.is_staff === false && <Route exact path='/' element={<StudentDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus} />} />}
               {userInfo && userInfo.is_staff === true && <Route exact path='/' element={<EducatorDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus} />} />}
-              <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} />} />
+              <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} getAssignments={getAssignments} />} />
               <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses} />} />
               <Route path='/complete-registration-student' element={<StudentRegister userInfo={userInfo} getStudentInfo={getStudentInfo} />} />
               <Route path='/complete-registration-educator' element={<EducatorRegister userInfo={userInfo} getEducatorInfo={getEducatorInfo} />} />

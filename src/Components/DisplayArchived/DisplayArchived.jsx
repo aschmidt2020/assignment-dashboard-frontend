@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const DisplayArchived = (props) => {
-  const [archivedAssignments, setArchivedAssignments] = useState();
+  const [archivedAssignments, setArchivedAssignments] = useState([]);
 
   useEffect(() => {
     debugger
@@ -31,14 +31,15 @@ const DisplayArchived = (props) => {
         </tr>
       </thead>
       <tbody>
-        {archivedAssignments && archivedAssignments.map((assignment, index) => {
+        {archivedAssignments && archivedAssignments.length > 0 && archivedAssignments.map((assignment, index) => {
           return ( //parenthesis because you are returning multiple lines of code
             <tr key={assignment.id}>
-              <td>{assignment.assignment_name}</td>
+              <td>{assignment.assignment_name} {assignment.assignment_link && <a href={assignment.assignment_link}  target = "_blank"><i className="bi bi-paperclip"></i></a>}</td>
               <td>{assignment.assignment_due_date}</td>
             </tr>
           )
         })}
+        {(archivedAssignments && archivedAssignments.length===0) && <p style={{'color':'black'}}>No assignments!</p>}
       </tbody>
     </table>
 

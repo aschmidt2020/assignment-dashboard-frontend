@@ -81,3 +81,7 @@ table, td {
 table {
     width: 90%;
 }
+
+td {
+    padding-left: 0;
+}

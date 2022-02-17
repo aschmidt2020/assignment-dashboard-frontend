@@ -79,9 +79,6 @@ const SideBar = (props) => {
                             </h2>
                         </div>
                     </div>
-                    <li className="nav-item bottom-button">
-                        <Link to="/" className="btn btn-outline-secondary" data-toggle="popover" title="Home" data-content="Home" trigger="hover">&nbsp;&nbsp;&nbsp; Home &nbsp;&nbsp;&nbsp;</Link>
-                    </li>
                 </ul>
             </nav>
         </div>

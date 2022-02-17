@@ -33,12 +33,12 @@ const AddAssignment = (props) => {
                 students_completed: 0,
                 students_in_progress: 0,
                 students_viewed: 0,
-                upload_to_folder_id: null
+                assignment_link: formValues.assignment_link
             }
         }).then(response => {
             props.getAssignments();
             handleClose();
-            window.location.reload();
+            // window.location.reload();
         }).catch(error => {
             alert(error)
         })
@@ -91,9 +91,15 @@ const AddAssignment = (props) => {
                         </div>
 
                         <div className="input-group mb-3">
-                            <span className="input-group-text">Instructions</span>
-                            <input className="form-control" type="text" name="assignment_instructions" value={formValues.assignment_instructions} onChange={handleChange}></input>
+                            <span className="input-group-text">Assignment Link:</span>
+                            <input className="form-control" type="text" name="assignment_link" value={formValues.assignment_link} onChange={handleChange}></input>
                         </div>
+
+                        <div className="form-outline mb-4">
+                            <label className="form-label">Instructions:</label>
+                            <textarea className="form-control text-area text-box multi-line w-100" type="text" name="assignment_instructions" value={formValues.assignment_instructions} onChange={handleChange} rows="7"></textarea>
+                        </div>
+
                     </form>
 
                 </Modal.Body>

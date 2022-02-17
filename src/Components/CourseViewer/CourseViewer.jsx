@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import swal from 'sweetalert';
+import UpdateAssignmentStatus from '../UpdateAssignmentStatus/UpdateAssignmentStatus';
 // import useForm from "../CustomHooks/useForm";
 
 const CourseViewer = (props) => {
@@ -19,7 +20,7 @@ const CourseViewer = (props) => {
     const [viewed, setViewed] = useState(0);
     const [inProgress, setInProgress] = useState(0);
     const [completed, setCompleted] = useState(0)
-    const [folderInfo, setFolderInfo] = useState();
+    const [assignmentLink, setAssignmentLink] = useState();
     const [assignmentsNotArchived, setAssignmentsNotArchived] = useState();
     const [archived, setArchived] = useState();
     const [show, setShow] = useState(false);
@@ -37,7 +38,7 @@ const CourseViewer = (props) => {
         setViewed(assignments[index].students_viewed);
         setInProgress(assignments[index].students_in_progress);
         setCompleted(assignments[index].students_completed);
-        setFolderInfo(assignments[index].upload_to_folder_id)
+        setAssignmentLink(assignments[index].upload_to_folder_id)
     }
 
     function handleClose(index) {
@@ -51,7 +52,7 @@ const CourseViewer = (props) => {
         setViewed(assignments[index].students_viewed);
         setInProgress(assignments[index].students_in_progress);
         setCompleted(assignments[index].students_completed)
-        setFolderInfo(assignments[index].upload_to_folder_id)
+        setAssignmentLink(assignments[index].upload_to_folder_id)
     }
 
     useEffect(() => {
@@ -150,8 +151,7 @@ const CourseViewer = (props) => {
                 students_completed: completed,
                 students_in_progress: inProgress,
                 students_viewed: viewed,
-                upload_to_folder_id: folderInfo,
-
+                assignment_link: assignmentLink,
             }
         }).then(response => {
             props.getAssignments();
@@ -170,7 +170,7 @@ const CourseViewer = (props) => {
                         <th>Assignment</th>
                         <th>Due Date</th>
                         <th>Instructions</th>
-                        <th># Students</th>
+                        <th># Enrolled</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -180,11 +180,13 @@ const CourseViewer = (props) => {
                     {assignmentsNotArchived && assignmentsNotArchived.length > 0 && assignmentsNotArchived.map((assignment, index) => {
                         return (
                             <tr>
-                                <td>{assignment.assignment_name}</td>
-                                <td>{assignment.assignment_due_date}</td>
-                                <td>{assignment.assignment_instructions}</td>
-                                <td style={{ 'textAlign': 'center' }}>{assignment.assignment_course.number_of_students}</td>
-                                <td style={{ 'textAlign': 'left' }}>
+                                <td style={{'width':'20%'}}>{assignment.assignment_name} 
+                                {assignment.assignment_link && <a href={assignment.assignment_link}  target = "_blank"><i className="bi bi-paperclip"></i></a>}
+                                </td>
+                                <td style={{'width':'15%'}}>{assignment.assignment_due_date}</td>
+                                <td style={{'width':'40%'}}>{assignment.assignment_instructions}</td>
+                                <td style={{'textAlign': 'center', 'width':'10%'}}>{assignment.assignment_course.number_of_students}</td>
+                                <td style={{ 'textAlign': 'left','width':'15%' }}>
                                     <span>
                                         {props.userInfo && props.userInfo.is_staff === true &&
                                             <span>
@@ -222,8 +224,13 @@ const CourseViewer = (props) => {
                                                         </div>
 
                                                         <div className="input-group mb-3">
-                                                            <span className="input-group-text">Instructions</span>
-                                                            <input className="form-control" type="text" name="assignment_instructions" value={assignmentInstr} onChange={(event) => setAssignmentInstr(event.target.value)}></input>
+                                                            <span className="input-group-text">Assignment Link:</span>
+                                                            <input className="form-control" type="text" name="assignment_link" value={assignmentLink} onChange={(event) => setAssignmentLink(event.target.value)}></input>
+                                                        </div>
+
+                                                        <div className="form-outline mb-4">
+                                                            <label className="form-label">Instructions:</label>
+                                                            <textarea className="form-control text-area text-box multi-line w-100" type="text" name="assignment_instructions" value={assignmentInstr} onChange={(event) => setAssignmentInstr(event.target.value)} rows="7"></textarea>
                                                         </div>
                                                     </form>
 

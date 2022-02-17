@@ -190,22 +190,22 @@ const EducatorDashboard = (props) => {
 
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>{modalContent && <span>{modalContent.assignment_name}</span>}</Modal.Title>
+                        <Modal.Title style={{'color':'black'}}>{modalContent && <span>{modalContent.assignment_name}</span>} {modalContent && modalContent.assignment_link && <a href={modalContent.assignment_link}  target = "_blank"><i className="bi bi-paperclip"></i></a>}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {modalContent &&
                             <div>
-                                <p><strong>Description:</strong> {modalContent.assignment_desc}</p>
-                                <p><strong>Instructions:</strong> {modalContent.assignment_instructions}</p>
+                                <p style={{'color':'black'}}><strong>Description:</strong> {modalContent.assignment_desc}</p>
+                                <p style={{'color':'black'}}><strong>Instructions:</strong> {modalContent.assignment_instructions}</p>
                                 <br></br>
-                                <p><u>Due Date:</u> {modalContent.assignment_due_date}</p>
-                                <p><u>Course:</u> {modalContent.assignment_course.course_name}</p>
+                                <p style={{'color':'black'}}><u>Due Date:</u> {modalContent.assignment_due_date}</p>
+                                <p style={{'color':'black'}}><u>Course:</u> {modalContent.assignment_course.course_name}</p>
                                 <br></br>
                                 <mark>Status</mark>
-                                <li><strong>Students Enrolled:</strong> {modalContent.assignment_course.number_of_students}</li>
-                                <li><strong>Viewed:</strong> {modalContent.students_viewed}</li>
-                                <li><strong>In Progress:</strong> {modalContent.students_in_progress}</li>
-                                <li><strong>Completed:</strong> {modalContent.students_completed}</li>
+                                <li style={{'color':'black'}}><strong>Students Enrolled:</strong> {modalContent.assignment_course.number_of_students}</li>
+                                <li style={{'color':'black'}}><strong>Viewed:</strong> {modalContent.students_viewed}</li>
+                                <li style={{'color':'black'}}><strong>In Progress:</strong> {modalContent.students_in_progress}</li>
+                                <li style={{'color':'black'}}><strong>Completed:</strong> {modalContent.students_completed}</li>
 
                             </div>
                         }

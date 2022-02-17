@@ -137,7 +137,7 @@ const StudentDashboard = (props) => {
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody >
                                             {assignmentsOverdue && assignmentsOverdue.length > 0 && assignmentsOverdue.map((assignment, index) => {
                                                 return (
                                                     <tr key={assignment.assignment.id}>
@@ -146,10 +146,10 @@ const StudentDashboard = (props) => {
                                                                 {assignment.assignment.assignment_name}
                                                             </Button>
                                                         </td>
-                                                        <td>{assignment.assignment.assignment_course.course_name}</td>
+                                                        <td >{assignment.assignment.assignment_course.course_name}</td>
                                                         <td>{assignment.assignment.assignment_due_date}</td>
                                                         {props.userInfo.is_staff === false &&
-                                                            <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
+                                                            <td><UpdateAssignmentStatus assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
                                                         }
 
                                                     </tr>
@@ -351,16 +351,16 @@ const StudentDashboard = (props) => {
 
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>{modalContent && <span>{modalContent.assignment.assignment_name}</span>}</Modal.Title>
+                        <Modal.Title style={{'color':'black'}}>{modalContent && <span>{modalContent.assignment.assignment_name}</span>} {modalContent && modalContent.assignment.assignment_link && <a href={modalContent.assignment.assignment_link}  target = "_blank"><i className="bi bi-paperclip"></i></a>}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {modalContent &&
                             <div>
-                                <p><strong>Description:</strong> {modalContent.assignment.assignment_desc}</p>
-                                <p><strong>Instructions:</strong> {modalContent.assignment.assignment_instructions}</p>
+                                <p style={{'color':'black'}}><strong>Description:</strong> {modalContent.assignment.assignment_desc}</p>
+                                <p style={{'color':'black'}}><strong>Instructions:</strong> {modalContent.assignment.assignment_instructions}</p>
                                 <br></br>
-                                <p><u>Due Date:</u> {modalContent.assignment.assignment_due_date}</p>
-                                <p><u>Course:</u> {modalContent.assignment.assignment_course.course_name}</p>
+                                <p style={{'color':'black'}}><u>Due Date:</u> {modalContent.assignment.assignment_due_date}</p>
+                                <p style={{'color':'black'}}><u>Course:</u> {modalContent.assignment.assignment_course.course_name}</p>
                             </div>
                         }
                     </Modal.Body>

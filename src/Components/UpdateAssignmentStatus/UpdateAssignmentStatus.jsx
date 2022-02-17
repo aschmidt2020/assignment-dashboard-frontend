@@ -61,7 +61,7 @@ const UpdateAssignmentStatus = (props) => {
             }
         }).then(response => {
             props.getAssignments();
-            window.location.reload();
+            // window.location.reload();
         }).catch(error => {
             alert(error)
         })
@@ -71,11 +71,11 @@ const UpdateAssignmentStatus = (props) => {
         <div>
             {props.assignment &&
                 <div>
-                    <button className="btn btn-outline-secondary dropdown-toggle" type="button" id={props.assignment.assignment.id} data-bs-toggle="dropdown" aria-expanded="false">
+                    <button className="btn btn-outline-secondary dropdown-toggle" type="button" id={props.assignment.id} data-bs-toggle="dropdown" aria-expanded="false">
                         {props.currentLabel}
                     </button>
 
-                    <ul className="dropdown-menu" aria-labelledby={props.assignment.assignment.id}>
+                    <ul className="dropdown-menu" aria-labelledby={props.assignment.id}>
                         <li><button className='dropdown-item' onClick={handleClickViewed}>Viewed</button></li>
                         <li><button className='dropdown-item' onClick={handleClickInProgress}>In Progress</button></li>
                         <li><button className='dropdown-item' onClick={handleClickCompleted}>Completed</button></li>
