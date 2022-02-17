@@ -21,38 +21,38 @@ const LoginForm = (props) => {
 
     return (
         <span id="log-in">
-        <Button variant="btn btn-outline-light" onClick={handleShow} style={{'marginTop': '3em'}}>
-            Log In
-        </Button>
-
-        <Modal show={show} onHide={handleClose} style={{'color':'black'}}>
-            <Modal.Header closeButton>
-            <Modal.Title>Log In</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-
-            <form onSubmit={handleSubmit}>
-                <div className="input-group mb-3">
-                <span className="input-group-text">Username</span>
-                <input className="form-control" type="text" name="username" value={formValues.username} onChange={handleChange}></input>
-                </div>
-
-                <div className="input-group mb-3">
-                <span className="input-group-text">Password</span>
-                <input className="form-control" type="password" name="password" value={formValues.password} onChange={handleChange}></input>
-                </div>
-            </form>
-
-            </Modal.Body>
-            <Modal.Footer>
-            <Button variant="btn btn-outline-dark" onClick={handleClose}>
-                Close
-            </Button>
-            <Button type="submit" variant="btn btn-outline-primary" onClick={handleSubmit}>
+            <Button variant="btn btn-outline-light" onClick={handleShow} style={{ 'marginTop': '3em' }}>
                 Log In
             </Button>
-            </Modal.Footer>
-        </Modal>
+
+            <Modal show={show} onHide={handleClose} style={{ 'color': 'black' }}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Log In</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">Username</span>
+                            <input className="form-control" type="text" name="username" value={formValues.username} onChange={handleChange}></input>
+                        </div>
+
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">Password</span>
+                            <input className="form-control" type="password" name="password" value={formValues.password} onChange={handleChange}></input>
+                        </div>
+                    </form>
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="btn btn-outline-dark" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button type="submit" variant="btn btn-outline-primary" onClick={handleSubmit}>
+                        Log In
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </span>
     );
 

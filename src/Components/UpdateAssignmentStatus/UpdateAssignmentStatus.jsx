@@ -4,54 +4,54 @@ import useDrivePicker from 'react-google-drive-picker'
 
 const UpdateAssignmentStatus = (props) => {
     const [assignmentStatus, setAssignmentStatus] = useState();
-    const [openPicker, data, authResponse] = useDrivePicker();  
+    const [openPicker, data, authResponse] = useDrivePicker();
 
     const handleOpenPicker = () => {
         openPicker({
-          clientId: process.env.REACT_APP_DRIVE_CLIENT_ID,
-          developerKey: process.env.REACT_APP_API_KEY_DRIVE_PICKER,
-          viewId: "DOCS",
-          //token: 
-          showUploadView: true,
-          showUploadFolders: true,
-          supportDrives: true,
-          multiselect: true,
-          // customViews: customViewsArray, // custom view
+            clientId: process.env.REACT_APP_DRIVE_CLIENT_ID,
+            developerKey: process.env.REACT_APP_API_KEY_DRIVE_PICKER,
+            viewId: "DOCS",
+            //token: 
+            showUploadView: true,
+            showUploadFolders: true,
+            supportDrives: true,
+            multiselect: true,
+            // customViews: customViewsArray, // custom view
         })
-      }
+    }
 
-      useEffect(() => {
+    useEffect(() => {
         // do anything with the selected/uploaded files
-        if(data){
-          data.docs.map(i => console.log(i.name));
-          setAssignmentStatus('Completed');
-          updateAssignmentStatus('Completed')
+        if (data) {
+            data.docs.map(i => console.log(i.name));
+            setAssignmentStatus('Completed');
+            updateAssignmentStatus('Completed')
         }
-      }, [data])
+    }, [data])
 
     function handleClickViewed() {
         setAssignmentStatus('Viewed');
         updateAssignmentStatus('Viewed')
     }
 
-    function handleClickInProgress(){
+    function handleClickInProgress() {
         setAssignmentStatus('In Progress');
         updateAssignmentStatus('In Progress')
     }
 
-    function handleClickCompleted(){
+    function handleClickCompleted() {
         setAssignmentStatus('Completed');
         updateAssignmentStatus('Completed')
     }
 
-    async function updateAssignmentStatus(status){
+    async function updateAssignmentStatus(status) {
         debugger
         const jwt = localStorage.getItem("token");
         await axios({
             method: "put",
             url: `http://127.0.0.1:8000/api/assignment/student/updateassignmentstatus/student_id/${props.studentInfo.id}/assignment_id/${props.assignment.assignment.id}/`,
             headers: {
-            Authorization: "Bearer " + jwt
+                Authorization: "Bearer " + jwt
             },
             data: {
                 assignment: props.assignment.assignment.id,
@@ -67,12 +67,12 @@ const UpdateAssignmentStatus = (props) => {
         })
     }
 
-    return ( 
+    return (
         <div>
             {props.assignment &&
                 <div>
                     <button className="btn btn-outline-secondary dropdown-toggle" type="button" id={props.assignment.assignment.id} data-bs-toggle="dropdown" aria-expanded="false">
-                    {props.currentLabel}
+                        {props.currentLabel}
                     </button>
 
                     <ul className="dropdown-menu" aria-labelledby={props.assignment.assignment.id}>
@@ -84,7 +84,7 @@ const UpdateAssignmentStatus = (props) => {
                 </div>
             }
         </div>
-     );
+    );
 }
- 
+
 export default UpdateAssignmentStatus;
