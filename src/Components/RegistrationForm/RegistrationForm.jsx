@@ -11,24 +11,24 @@ const RegistrationForm = (props) => {
   const [passwordError, setPasswordError] = useState(false);
   const [staff, setStaff] = useState(false);
 
-//   const handleClose = () => setShow(false);
+  //   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-    function handleClose(){
-        setShow(false);
-        handleReset()
-    }
+  function handleClose() {
+    setShow(false);
+    handleReset()
+  }
   function register() {
     debugger
     if (formValues.password === formValues.passwordCheck) {
-        if(staff === false){
-            let userInfo = {...formValues, "is_staff": 0}
-            props.register(userInfo);
-        }
-        else{
-            let userInfo = {...formValues, "is_staff": 1}
-            props.register(userInfo);
-        }
+      if (staff === false) {
+        let userInfo = { ...formValues, "is_staff": 0 }
+        props.register(userInfo);
+      }
+      else {
+        let userInfo = { ...formValues, "is_staff": 1 }
+        props.register(userInfo);
+      }
       debugger
       setPasswordError(false);
     }
@@ -41,11 +41,11 @@ const RegistrationForm = (props) => {
 
   return (
     <span id="sign-up">
-      <Button variant="btn btn-outline-dark" onClick={handleShow} style={{ "marginLeft": "1em" }}>
+      <Button variant="btn btn-outline-light" onClick={handleShow} style={{ "marginLeft": "1em", 'marginTop': '3em' }}>
         Register
       </Button>
 
-      <Modal show={show} onHide={handleClose} style={{'color':'black'}}>
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Register</Modal.Title>
         </Modal.Header>

@@ -9,7 +9,7 @@ const useForm = (callback) => {
 
     const handleChange = (event) => {
         event.persist();
-        setFormValues({...formValues, [event.target.name]: event.target.value});
+        setFormValues({ ...formValues, [event.target.name]: event.target.value });
     }
 
     const handleSubmit = (event) => {
@@ -21,5 +21,3 @@ const useForm = (callback) => {
 }
 
 export default useForm;
-
-//?RESET FORM VALUES

@@ -18,6 +18,7 @@ import Notepad from './Components/Notepad/Notepad';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import EducatorDashboard from './Components/EducatorDashboard/EducatorDashboard';
 import swal from 'sweetalert';
+import LandingPage from './Components/LandingPage/LandingPage';
 
 function App() {
   const navigate = useNavigate();
@@ -39,21 +40,11 @@ function App() {
     const onResize = () => setWidth(window.innerWidth)
     window.addEventListener('resize', onResize);
     return () => {
-        window.removeEventListener("resize", onResize)
+      window.removeEventListener("resize", onResize)
     }
-    }, [setWidth])
+  }, [setWidth])
 
   useEffect(() => {
-    const themeFromStorage = localStorage.getItem("theme")
-    if(themeFromStorage === "true"){
-      setLightMode(true);
-      setBackground(true);
-    }
-    else{
-      setLightMode(false);
-      setBackground(false);
-    }
-
     const tokenFromStorage = localStorage.getItem("token");
     try {
       const decodedUser = jwt_decode(tokenFromStorage);
@@ -69,78 +60,62 @@ function App() {
   }, [studentInfo, educatorInfo])
 
   useEffect(() => {
-    var calendarEl = document.getElementById('calendar');
-    let eventsList = [];
+    try {
+      var calendarEl = document.getElementById('calendar');
+      let eventsList = [];
 
-    if(assignments){
-      for(let i=0; i < assignments.length; i++){
-        eventsList.push({
-          id: i,
-          start: assignments[i].assignment_due_date,
-          end: assignments[i].assignment_due_date,
-          title: assignments[i].assignment_name
-        })
+      if (assignments) {
+        for (let i = 0; i < assignments.length; i++) {
+          eventsList.push({
+            id: i,
+            start: assignments[i].assignment_due_date,
+            end: assignments[i].assignment_due_date,
+            title: assignments[i].assignment_name
+          })
+        }
       }
+
+      var calendar = new Calendar(calendarEl, {
+        height: '65%',
+        aspectRatio: 1,
+        fixedWeekCount: false,
+        handleWindowResize: true,
+        eventClick: function (info) {
+          let dd = String(info.event.start.getDate()).padStart(2, '0');
+          let mm = String(info.event.start.getMonth() + 1).padStart(2, '0'); //January is 0!
+          let yyyy = String(info.event.start.getFullYear());
+          swal({
+            title: info.event.title,
+            text: 'Due Date: ' + mm + '/' + dd + '/' + yyyy
+          })
+        },
+        plugins: [dayGridPlugin, bootstrap5Plugin],
+        themeSystem: 'bootstrap5',
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next',
+          center: 'title',
+          right: 'today'
+
+        },
+
+        events: eventsList
+      });
+
+      calendar.render()
     }
-    
-    var calendar = new Calendar(calendarEl, {
-      height: '65%', 
-      aspectRatio: 1,
-      fixedWeekCount: false,
-      handleWindowResize: true,
-      eventClick: function(info) {
-        debugger
-        let date = info.event.start;
-        let dd = String(info.event.start.getDate()).padStart(2, '0');
-        let mm = String(info.event.start.getMonth() + 1).padStart(2, '0'); //January is 0!
-        let yyyy = String(info.event.start.getFullYear());
-        swal({
-          title: info.event.title,
-          text: 'Due Date: ' + mm + '/' + dd + '/' + yyyy
-        })
-      },
-      plugins: [ dayGridPlugin, bootstrap5Plugin ],
-      themeSystem: 'bootstrap5',
-      initialView: 'dayGridMonth',
-      headerToolbar: {
-        left: 'prev,next',
-        center: 'title',
-        right: 'today'
-
-      },
-
-      events: eventsList
-    });
-
-    calendar.render()
+    catch {
+      console.log('Not logged in.')
+    }
   }, [assignments, width]);
 
-  function toggleLightMode(event){
-    event.preventDefault();
-    let oppositeState = !lightMode;
-    setBackground(oppositeState);
-    setLightMode(oppositeState);
-    localStorage.setItem("theme", oppositeState)
-  }
-
-  function setBackground(lightMode){
-    if(lightMode){
-      document.body.style.backgroundColor = 'white';
-      document.body.style.color = 'black'
-    }
-    else {
-      document.body.style.backgroundColor = '#373737';
-      document.body.style.color = 'white'
-    }
-  }
-
-  function getResults (assignments, courses){
+  function getResults(assignments, courses) {
     setSearchResultsAssignments(assignments);
     setSearchResultsCourses(courses)
   }
 
-  async function getEnrolledCourses () {
-    if(studentInfo !== undefined){
+  async function getEnrolledCourses() {
+    if (studentInfo !== undefined) {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -159,7 +134,7 @@ function App() {
         })
       })
     }
-    else if(educatorInfo !== undefined){
+    else if (educatorInfo !== undefined) {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -180,8 +155,8 @@ function App() {
     }
   }
 
-  async function getAssignments () {
-    if(studentInfo !== undefined){
+  async function getAssignments() {
+    if (studentInfo !== undefined) {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -201,7 +176,7 @@ function App() {
         })
       })
     }
-    else if(educatorInfo !== undefined){
+    else if (educatorInfo !== undefined) {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -222,8 +197,8 @@ function App() {
     }
   }
 
-  async function getAssignmentsStatus () {
-    if(studentInfo !== undefined){
+  async function getAssignmentsStatus() {
+    if (studentInfo !== undefined) {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -241,7 +216,7 @@ function App() {
         })
       })
     }
-    else if(educatorInfo !== undefined){
+    else if (educatorInfo !== undefined) {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
@@ -292,10 +267,10 @@ function App() {
       },
     }).then(response => {
       setUserInfo(response.data);
-      if(response.data.is_staff ===true){
+      if (response.data.is_staff === true) {
         getEducatorInfo(response.data.id);
       }
-      else{
+      else {
         getStudentInfo(response.data.id);
       }
     })
@@ -313,7 +288,7 @@ function App() {
       setStudentInfo(response.data);
       setEducatorInfo(undefined)
     }).catch(error => {
-      navigate(`/complete-registration-student`, { state: {...userInfo}});
+      navigate(`/complete-registration-student`, { state: { ...userInfo } });
     })
   }
 
@@ -329,7 +304,7 @@ function App() {
       setEducatorInfo(response.data);
       setStudentInfo(undefined)
     }).catch(error => {
-      navigate(`/complete-registration-educator`, { state: {...userInfo}});
+      navigate(`/complete-registration-educator`, { state: { ...userInfo } });
     })
   }
 
@@ -348,6 +323,7 @@ function App() {
       login(userInfo.username, userInfo.password)
     }
     ).catch(error => {
+      debugger
       swal({
         title: "Oops something went wrong!",
         text: error.message,
@@ -357,36 +333,50 @@ function App() {
 
   }
 
-  return (
-    <div className='container-fluid'>
-      <div className='row'>
-          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} toggleLightMode={toggleLightMode} courses={courses} getAssignments={getAssignments} assignments={assignments} courses={courses} getResults={getResults}/>
-          
-          <div className='col-2 sidebar-border' style={{'height':'90vh', 'paddingTop': '2%'}} >
-          <SideBar userInfo={userInfo} courses={courses}/>
+  if (userInfo) {
+    return (
+      <div className='container-fluid'>
+        <div className='row'>
+          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments} assignments={assignments} courses={courses} getResults={getResults} />
+
+          <div className='col-2 sidebar-border' style={{ 'height': '90vh', 'paddingTop': '2%' }} >
+            <SideBar userInfo={userInfo} courses={courses} />
           </div>
 
-          <div className='col-6' style={{'paddingTop':'2%'}}>
+          <div className='col-6' style={{ 'paddingTop': '2%' }}>
             <Routes>
-              {(userInfo===undefined | (userInfo && userInfo.is_staff===false)) && <Route exact path='/' element={<StudentDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>}
-              {userInfo && userInfo.is_staff===true && <Route exact path='/' element={<EducatorDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus}/>}/>}
-              <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} getAssignments={getAssignments}/>}/>
-              <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses}/>}/>
-              <Route path='/complete-registration-student' element={<StudentRegister userInfo={userInfo} getStudentInfo={getStudentInfo}/>}/>
-              <Route path='/complete-registration-educator' element={<EducatorRegister userInfo={userInfo} getEducatorInfo={getEducatorInfo}/>}/>
-              <Route path='/assignments/archived' element={<DisplayArchived assignments={assignments}/>}/>
-              <Route path='/search-results' element={<SearchResults userInfo={userInfo} searchResultsAssignments={searchResultsAssignments} searchResultsCourses={searchResultsCourses}/>}/>
+              {userInfo && userInfo.is_staff === false && <Route exact path='/' element={<StudentDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus} />} />}
+              {userInfo && userInfo.is_staff === true && <Route exact path='/' element={<EducatorDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus} />} />}
+              <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} getAssignments={getAssignments} />} />
+              <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses} />} />
+              <Route path='/complete-registration-student' element={<StudentRegister userInfo={userInfo} getStudentInfo={getStudentInfo} />} />
+              <Route path='/complete-registration-educator' element={<EducatorRegister userInfo={userInfo} getEducatorInfo={getEducatorInfo} />} />
+              <Route path='/assignments/archived' element={<DisplayArchived assignments={assignments} />} />
+              <Route path='/search-results' element={<SearchResults userInfo={userInfo} searchResultsAssignments={searchResultsAssignments} searchResultsCourses={searchResultsCourses} />} />
             </Routes>
           </div>
 
-          <div className='col-4' style={{'paddingLeft':'2%', 'paddingRight':'2%', 'paddingTop': '2%'}}>
+          <div className='col-4' style={{ 'paddingLeft': '2%', 'paddingRight': '2%', 'paddingTop': '2%' }}>
             <div id='calendar'></div>
             <Notepad user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} />
           </div>
         </div>
-    </div>
-  );
-  
+      </div>
+    )
+  }
+
+  else {
+    return (
+      <div className='container-fluid'>
+        <div className='row'>
+          <Routes>
+            {userInfo === undefined && <Route exact path='/' element={<LandingPage register={register} login={login} />} />}
+          </Routes>
+        </div>
+      </div>
+    )
+  }
+
 
 
 
