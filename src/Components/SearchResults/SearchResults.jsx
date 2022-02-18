@@ -27,13 +27,13 @@ const SearchResults = (props) => {
 
                         {show.show === true && show.assignmentId === result.id &&
                             <div className='row' style={{ 'marginLeft': '1em' }}>
-                                <p><strong>Due Date:</strong> {result.assignment_due_date}</p>
-                                <p><strong>Description:</strong> {result.assignment_desc}</p>
-                                <p><strong>Instructions:</strong> {result.assignment_instructions}</p>
+                                <li><strong>Due Date:</strong> {result.assignment_due_date}</li>
+                                <li><strong>Description:</strong> {result.assignment_desc}</li>
+                                <li><strong>Instructions:</strong> {result.assignment_instructions}</li>
 
-                                <p><strong>Course:</strong>
+                                <li><strong>Course:</strong>
                                     <button className='btn link-secondary' onClick={() => navigateCourse({ course: result.assignment_course })}><u>{result.assignment_course.course_name} <i className="bi bi-arrow-right"></i></u></button>
-                                </p>
+                                </li>
                             </div>
                         }
 
