@@ -40,7 +40,7 @@ const SearchResults = (props) => {
                     </div>
                 );
             })}
-            {props.searchResultsAssignments && props.searchResultsAssignments.length === 0 && <p>No matching assignments.</p>}
+            {props.searchResultsAssignments && props.searchResultsAssignments.length === 0 && <li>No matching assignments.</li>}
             <br></br>
             <h5>Courses:</h5>
             {props.searchResultsCourses && props.searchResultsCourses.length > 0 && props.searchResultsCourses.map((result, index) => {
@@ -49,7 +49,7 @@ const SearchResults = (props) => {
                 );
             })}
 
-            {props.searchResultsCourses && props.searchResultsCourses.length === 0 && <p>No matching courses.</p>}
+            {props.searchResultsCourses && props.searchResultsCourses.length === 0 && <li>No matching courses.</li>}
 
         </div>
     )

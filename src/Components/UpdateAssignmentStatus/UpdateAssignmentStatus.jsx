@@ -61,6 +61,7 @@ const UpdateAssignmentStatus = (props) => {
             }
         }).then(response => {
             props.getAssignments();
+            props.getAssignmentsStatus();
             // window.location.reload();
         }).catch(error => {
             alert(error)

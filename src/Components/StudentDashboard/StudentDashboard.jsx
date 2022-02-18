@@ -51,7 +51,7 @@ const StudentDashboard = (props) => {
 
                     if (assignmentsAndStatus[i].assignment_status === "Completed") {
                         if (assignment_date < today && assignment_date <= threeDaysPast) {
-                            archived.push(props.assignments[i])
+                            archived.push(assignmentsAndStatus[i])
                         }
                         else {
                             completed.push(assignmentsAndStatus[i])
@@ -83,7 +83,7 @@ const StudentDashboard = (props) => {
             }
         }
         // eslint-disable-next-line
-    }, [assignmentsAndStatus, props.assignments])
+    }, [assignmentsAndStatus])
 
     //compare assignments with assignment statuses
     useEffect(() => {
@@ -99,8 +99,9 @@ const StudentDashboard = (props) => {
                         assignmentAndStatus.push(
                             {
                                 assignment: props.assignments[i],
+                                assignment_prev_status: '',
                                 assignment_status: "Not Started",
-                                id: 0,
+                                id: props.assignments[i].id,
                                 student: props.studentInfo
                             }
                         )
@@ -149,7 +150,7 @@ const StudentDashboard = (props) => {
                                                         <td >{assignment.assignment.assignment_course.course_name}</td>
                                                         <td>{assignment.assignment.assignment_due_date}</td>
                                                         {props.userInfo.is_staff === false &&
-                                                            <td><UpdateAssignmentStatus assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
+                                                            <td><UpdateAssignmentStatus getAssignmentsStatus={props.getAssignmentsStatus} assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
                                                         }
 
                                                     </tr>
@@ -194,7 +195,7 @@ const StudentDashboard = (props) => {
                                                         <td>{assignment.assignment.assignment_course.course_name}</td>
                                                         <td>{assignment.assignment.assignment_due_date}</td>
                                                         {props.userInfo.is_staff === false &&
-                                                            <td><UpdateAssignmentStatus assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
+                                                            <td><UpdateAssignmentStatus getAssignmentsStatus={props.getAssignmentsStatus}  assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
                                                         }
                                                     </tr>
                                                 )
@@ -241,7 +242,7 @@ const StudentDashboard = (props) => {
                                                         <td>{assignment.assignment.assignment_course.course_name}</td>
                                                         <td>{assignment.assignment.assignment_due_date}</td>
                                                         {props.userInfo.is_staff === false &&
-                                                            <td><UpdateAssignmentStatus assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
+                                                            <td><UpdateAssignmentStatus getAssignmentsStatus={props.getAssignmentsStatus}  assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
                                                         }
 
                                                     </tr>
@@ -289,7 +290,7 @@ const StudentDashboard = (props) => {
                                                         <td>{assignment.assignment.assignment_course.course_name}</td>
                                                         <td>{assignment.assignment.assignment_due_date}</td>
                                                         {props.userInfo.is_staff === false &&
-                                                            <td><UpdateAssignmentStatus assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
+                                                            <td><UpdateAssignmentStatus getAssignmentsStatus={props.getAssignmentsStatus}  assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignment} /></td>
                                                         }
                                                     </tr>
                                                 )
@@ -333,7 +334,7 @@ const StudentDashboard = (props) => {
                                                         <td>{assignment.assignment.assignment_course.course_name}</td>
                                                         <td>{assignment.assignment.assignment_due_date}</td>
                                                         {props.userInfo.is_staff === false &&
-                                                            <td><UpdateAssignmentStatus assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
+                                                            <td><UpdateAssignmentStatus getAssignmentsStatus={props.getAssignmentsStatus}  assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
                                                         }
                                                     </tr>
                                                 )
