@@ -194,7 +194,7 @@ const StudentDashboard = (props) => {
                                                         <td>{assignment.assignment.assignment_course.course_name}</td>
                                                         <td>{assignment.assignment.assignment_due_date}</td>
                                                         {props.userInfo.is_staff === false &&
-                                                            <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
+                                                            <td><UpdateAssignmentStatus assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
                                                         }
                                                     </tr>
                                                 )
@@ -241,7 +241,7 @@ const StudentDashboard = (props) => {
                                                         <td>{assignment.assignment.assignment_course.course_name}</td>
                                                         <td>{assignment.assignment.assignment_due_date}</td>
                                                         {props.userInfo.is_staff === false &&
-                                                            <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
+                                                            <td><UpdateAssignmentStatus assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
                                                         }
 
                                                     </tr>
@@ -289,7 +289,7 @@ const StudentDashboard = (props) => {
                                                         <td>{assignment.assignment.assignment_course.course_name}</td>
                                                         <td>{assignment.assignment.assignment_due_date}</td>
                                                         {props.userInfo.is_staff === false &&
-                                                            <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
+                                                            <td><UpdateAssignmentStatus assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
                                                         }
                                                     </tr>
                                                 )
@@ -333,7 +333,7 @@ const StudentDashboard = (props) => {
                                                         <td>{assignment.assignment.assignment_course.course_name}</td>
                                                         <td>{assignment.assignment.assignment_due_date}</td>
                                                         {props.userInfo.is_staff === false &&
-                                                            <td><UpdateAssignmentStatus assignment={assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
+                                                            <td><UpdateAssignmentStatus assignment={assignment.assignment} currentLabel={assignment.assignment_status} studentInfo={props.studentInfo} getAssignments={props.getAssignments} /></td>
                                                         }
                                                     </tr>
                                                 )
