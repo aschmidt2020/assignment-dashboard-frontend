@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from './Components/NavBar/NavBar';
 import axios from "axios";
+import Axios from "axios";
 import jwt_decode from "jwt-decode";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import StudentDashboard from './Components/StudentDashboard/StudentDashboard';
@@ -21,6 +22,7 @@ import swal from 'sweetalert';
 import LandingPage from './Components/LandingPage/LandingPage';
 
 function App() {
+  Axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
   const navigate = useNavigate();
   const [user, setUser] = useState();
   const [userInfo, setUserInfo] = useState();
@@ -119,7 +121,7 @@ function App() {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/assignment/student/getcourses/student_id/${studentInfo.id}/`,
+        url: `assignment/student/getcourses/student_id/${studentInfo.id}/`,
         headers: {
           Authorization: "Bearer " + jwt
         },
@@ -138,7 +140,7 @@ function App() {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/assignment/educator/getcourses/educator_id/${educatorInfo.id}/`,
+        url: `assignment/educator/getcourses/educator_id/${educatorInfo.id}/`,
         headers: {
           Authorization: "Bearer " + jwt
         },
@@ -160,7 +162,7 @@ function App() {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/assignment/student/getassignments/student_id/${studentInfo.id}/`,
+        url: `assignment/student/getassignments/student_id/${studentInfo.id}/`,
         headers: {
           Authorization: "Bearer " + jwt
         },
@@ -180,7 +182,7 @@ function App() {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/assignment/educator/getassignments/educator_id/${educatorInfo.id}/`,
+        url: `assignment/educator/getassignments/educator_id/${educatorInfo.id}/`,
         headers: {
           Authorization: "Bearer " + jwt
         },
@@ -202,7 +204,7 @@ function App() {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/assignment/student/getassignmentstatus/student_id/${studentInfo.id}/`,
+        url: `assignment/student/getassignmentstatus/student_id/${studentInfo.id}/`,
         headers: {
           Authorization: "Bearer " + jwt
         },
@@ -220,7 +222,7 @@ function App() {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/assignment/educator/getassignmentstatus/`,
+        url: `assignment/educator/getassignmentstatus/`,
         headers: {
           Authorization: "Bearer " + jwt
         },
@@ -239,7 +241,7 @@ function App() {
   async function login(username, password) {
     await axios({
       method: "post",
-      url: "http://127.0.0.1:8000/api/auth/login/",
+      url: "auth/login/",
       headers: {},
       data: {
         "username": username,
@@ -261,7 +263,7 @@ function App() {
   async function getUserInfo(user, token) {
     await axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/assignment/user/user_id/${user.user_id}/`,
+      url: `assignment/user/user_id/${user.user_id}/`,
       headers: {
         Authorization: "Bearer " + token
       },
@@ -280,7 +282,7 @@ function App() {
     const jwt = localStorage.getItem("token");
     await axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/assignment/student/user_id/${user_id}/`,
+      url: `assignment/student/user_id/${user_id}/`,
       headers: {
         Authorization: "Bearer " + jwt
       },
@@ -296,7 +298,7 @@ function App() {
     const jwt = localStorage.getItem("token");
     await axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/assignment/educator/user_id/${user_id}/`,
+      url: `assignment/educator/user_id/${user_id}/`,
       headers: {
         Authorization: "Bearer " + jwt
       },
@@ -316,7 +318,7 @@ function App() {
   async function register(userInfo) {
     await axios({
       method: "post",
-      url: "http://127.0.0.1:8000/api/auth/register/",
+      url: "auth/register/",
       headers: {},
       data: userInfo
     }).then(response => {
@@ -336,7 +338,7 @@ function App() {
     return (
       <div className='container-fluid'>
         <div className='row'>
-          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments} assignments={assignments} courses={courses} getResults={getResults} />
+          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments} assignments={assignments} getResults={getResults} />
 
           <div className='col-2 sidebar-border' style={{ 'height': '90vh', 'paddingTop': '2%' }} >
             <SideBar userInfo={userInfo} courses={courses} />

@@ -9,7 +9,7 @@ const EducatorRegister = (props) => {
         const jwt = localStorage.getItem("token");
         await axios({
             method: "post",
-            url: `http://127.0.0.1:8000/api/assignment/educator/register/`,
+            url: `assignment/educator/register/`,
             headers: {
                 Authorization: "Bearer " + jwt
             },

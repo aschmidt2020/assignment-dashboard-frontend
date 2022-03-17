@@ -48,7 +48,7 @@ const UpdateAssignmentStatus = (props) => {
         const jwt = localStorage.getItem("token");
         await axios({
             method: "put",
-            url: `http://127.0.0.1:8000/api/assignment/student/updateassignmentstatus/student_id/${props.studentInfo.id}/assignment_id/${props.assignment.id}/`,
+            url: `assignment/student/updateassignmentstatus/student_id/${props.studentInfo.id}/assignment_id/${props.assignment.id}/`,
             headers: {
                 Authorization: "Bearer " + jwt
             },

@@ -30,29 +30,29 @@ const CourseViewer = (props) => {
     function handleShow(index) {
         setShow(true);
 
-        setCourseInfo(assignments[index].assignment_course.id)
-        setAssignmentName(assignments[index].assignment_name);
-        setAssignmentDesc(assignments[index].assignment_desc);
-        setAssignmentDueDate(assignments[index].assignment_due_date);
-        setAssignmentInstr(assignments[index].assignment_instructions);
-        setViewed(assignments[index].students_viewed);
-        setInProgress(assignments[index].students_in_progress);
-        setCompleted(assignments[index].students_completed);
-        setAssignmentLink(assignments[index].upload_to_folder_id)
+        setCourseInfo(assignmentsNotArchived[index].assignment_course.id);
+        setAssignmentName(assignmentsNotArchived[index].assignment_name);
+        setAssignmentDesc(assignmentsNotArchived[index].assignment_desc);
+        setAssignmentDueDate(assignmentsNotArchived[index].assignment_due_date);
+        setAssignmentInstr(assignmentsNotArchived[index].assignment_instructions);
+        setViewed(assignmentsNotArchived[index].students_viewed);
+        setInProgress(assignmentsNotArchived[index].students_in_progress);
+        setCompleted(assignmentsNotArchived[index].students_completed);
+        setAssignmentLink(assignmentsNotArchived[index].upload_to_folder_id);
     }
 
     function handleClose(index) {
         setShow(false);
 
-        setCourseInfo(assignments[index].assignment_course.id)
-        setAssignmentName(assignments[index].assignment_name);
-        setAssignmentDesc(assignments[index].assignment_desc);
-        setAssignmentDueDate(assignments[index].assignment_due_date);
-        setAssignmentInstr(assignments[index].assignment_instructions);
-        setViewed(assignments[index].students_viewed);
-        setInProgress(assignments[index].students_in_progress);
-        setCompleted(assignments[index].students_completed)
-        setAssignmentLink(assignments[index].upload_to_folder_id)
+        setCourseInfo(assignmentsNotArchived[index].assignment_course.id);
+        setAssignmentName(assignmentsNotArchived[index].assignment_name);
+        setAssignmentDesc(assignmentsNotArchived[index].assignment_desc);
+        setAssignmentDueDate(assignmentsNotArchived[index].assignment_due_date);
+        setAssignmentInstr(assignmentsNotArchived[index].assignment_instructions);
+        setViewed(assignmentsNotArchived[index].students_viewed);
+        setInProgress(assignmentsNotArchived[index].students_in_progress);
+        setCompleted(assignmentsNotArchived[index].students_completed);
+        setAssignmentLink(assignmentsNotArchived[index].upload_to_folder_id);
     }
 
     useEffect(() => {
@@ -91,7 +91,7 @@ const CourseViewer = (props) => {
         const jwt = localStorage.getItem("token");
         await axios({
             method: "get",
-            url: `http://127.0.0.1:8000/api/assignment/getassignments/course/course_id/${course_id}/`,
+            url: `assignment/getassignments/course/course_id/${course_id}/`,
             headers: {
                 Authorization: "Bearer " + jwt
             },
@@ -117,7 +117,7 @@ const CourseViewer = (props) => {
             if (isConfirm) {
                 await axios({
                     method: "delete",
-                    url: `http://127.0.0.1:8000/api/assignment/educator/deleteassignment/assignment_id/${assignment_id}/`,
+                    url: `assignment/educator/deleteassignment/assignment_id/${assignment_id}/`,
                     headers: {
                         Authorization: "Bearer " + jwt
                     },
@@ -136,7 +136,7 @@ const CourseViewer = (props) => {
         const jwt = localStorage.getItem("token");
         await axios({
             method: "put",
-            url: `http://127.0.0.1:8000/api/assignment/educator/updateassignment/assignment_id/${assignment_id}/`,
+            url: `assignment/educator/updateassignment/assignment_id/${assignment_id}/`,
             headers: {
                 Authorization: "Bearer " + jwt
             },
@@ -177,7 +177,7 @@ const CourseViewer = (props) => {
 
                     {assignmentsNotArchived && assignmentsNotArchived.length > 0 && assignmentsNotArchived.map((assignment, index) => {
                         return (
-                            <tr>
+                            <tr key={assignment.id}>
                                 <td style={{'width':'20%'}}>{assignment.assignment_name} 
                                 {assignment.assignment_link && <a href={assignment.assignment_link}  target = "_blank"><i className="bi bi-paperclip"></i></a>}
                                 </td>

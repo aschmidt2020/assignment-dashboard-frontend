@@ -22,7 +22,7 @@ const Notepad = (props) => {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "put",
-        url: `http://127.0.0.1:8000/api/assignment/savenotes/user_id/${props.userInfo.id}/`,
+        url: `assignment/savenotes/user_id/${props.userInfo.id}/`,
         headers: { Authorization: 'Bearer ' + jwt },
         data: {
           school_id: props.studentInfo.school_id,
@@ -36,7 +36,7 @@ const Notepad = (props) => {
       const jwt = localStorage.getItem("token");
       await axios({
         method: "put",
-        url: `http://127.0.0.1:8000/api/assignment/savenotes/user_id/${props.userInfo.id}/`,
+        url: `assignment/savenotes/user_id/${props.userInfo.id}/`,
         headers: { Authorization: 'Bearer ' + jwt },
         data: {
           employee_id: props.educatorInfo.employee_id,
