@@ -323,7 +323,6 @@ function App() {
       login(userInfo.username, userInfo.password)
     }
     ).catch(error => {
-      debugger
       swal({
         title: "Oops something went wrong!",
         text: error.message,

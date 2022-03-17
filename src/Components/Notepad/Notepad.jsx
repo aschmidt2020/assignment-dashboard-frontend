@@ -14,7 +14,6 @@ const Notepad = (props) => {
   }, [props.studentInfo, props.educatorInfo])
 
   function submit() {
-    debugger
     updateNotes(notes);
   }
 

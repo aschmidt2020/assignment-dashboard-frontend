@@ -4,7 +4,6 @@ const DisplayArchived = (props) => {
   const [archivedAssignments, setArchivedAssignments] = useState([]);
 
   useEffect(() => {
-    debugger
     if (props.assignments !== undefined) {
       let today = new Date();
       today.setDate(today.getDate() + 0);

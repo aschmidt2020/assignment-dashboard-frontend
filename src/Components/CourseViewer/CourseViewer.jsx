@@ -72,7 +72,6 @@ const CourseViewer = (props) => {
             let archived = [];
 
             for (let i = 0; i < assignments.length; i++) {
-                debugger
                 let assignment_date = new Date(assignments[i].assignment_due_date + "T23:59:59");
                 if (assignment_date < today && assignment_date <= threeDaysPast) {
                     archived.push(assignments[i])
@@ -97,7 +96,6 @@ const CourseViewer = (props) => {
                 Authorization: "Bearer " + jwt
             },
         }).then(response => {
-            debugger
             setAssignments(response.data);
         }).catch(error => {
             alert(error)

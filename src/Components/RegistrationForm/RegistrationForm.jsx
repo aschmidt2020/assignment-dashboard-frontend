@@ -19,7 +19,6 @@ const RegistrationForm = (props) => {
     handleReset()
   }
   function register() {
-    debugger
     if (formValues.password === formValues.passwordCheck) {
       if (staff === false) {
         let userInfo = { ...formValues, "is_staff": 0 }
@@ -29,7 +28,6 @@ const RegistrationForm = (props) => {
         let userInfo = { ...formValues, "is_staff": 1 }
         props.register(userInfo);
       }
-      debugger
       setPasswordError(false);
     }
     else {

@@ -43,7 +43,6 @@ const EducatorDashboard = (props) => {
                 sevenDays.setDate(sevenDays.getDate() + 7)
 
                 for (let i = 0; i < props.assignments.length; i++) {
-                    debugger
                     let assignment_date = new Date(props.assignments[i].assignment_due_date + "T23:59:59");
 
                     if (assignment_date <= threeDays && assignment_date >= today) {

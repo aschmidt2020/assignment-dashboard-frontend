@@ -46,7 +46,6 @@ const StudentDashboard = (props) => {
                 sevenDays.setDate(sevenDays.getDate() + 7)
 
                 for (let i = 0; i < assignmentsAndStatus.length; i++) {
-                    debugger
                     let assignment_date = new Date(assignmentsAndStatus[i].assignment.assignment_due_date + "T23:59:59");
 
                     if (assignmentsAndStatus[i].assignment_status === "Completed") {

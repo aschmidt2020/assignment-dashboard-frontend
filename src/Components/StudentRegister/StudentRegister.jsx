@@ -7,7 +7,6 @@ const StudentRegister = (props) => {
 
     async function registerStudent() {
         const jwt = localStorage.getItem("token");
-        debugger
         await axios({
             method: "post",
             url: `http://127.0.0.1:8000/api/assignment/student/register/`,

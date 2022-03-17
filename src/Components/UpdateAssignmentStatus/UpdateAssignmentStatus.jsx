@@ -45,7 +45,6 @@ const UpdateAssignmentStatus = (props) => {
     }
 
     async function updateAssignmentStatus(status) {
-        debugger
         const jwt = localStorage.getItem("token");
         await axios({
             method: "put",

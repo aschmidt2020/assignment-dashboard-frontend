@@ -32,7 +32,6 @@ const EnrollButton = (props) => {
     }
 
     async function addCourse(course_id) {
-        debugger
         if (props.userInfo.is_staff === true) {
             const jwt = localStorage.getItem("token");
             await axios({
@@ -72,7 +71,6 @@ const EnrollButton = (props) => {
     }
 
     async function removeCourse(course_id) {
-        debugger
         if (props.userInfo.is_staff === true) {
             const jwt = localStorage.getItem("token");
             await axios({

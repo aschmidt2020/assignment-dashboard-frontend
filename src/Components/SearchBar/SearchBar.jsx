@@ -12,7 +12,6 @@ const SearchBar = (props) => {
   }
 
   function search(searchTerm) {
-    debugger
     let searchTermLower = searchTerm.toLowerCase();
     let searchResultsCourses = props.courses.filter(e => {
       if (e.course.course_name.toLowerCase().includes(searchTermLower)) { return true };
@@ -20,7 +19,6 @@ const SearchBar = (props) => {
     let searchResultsAssignments = props.assignments.filter(e => {
       if (e.assignment_name.toLowerCase().includes(searchTermLower)) { return true };
     })
-    debugger
     props.getResults(searchResultsAssignments, searchResultsCourses);
     navigate('/search-results')
   }
