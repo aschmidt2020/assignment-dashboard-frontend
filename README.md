@@ -1,3 +1,6 @@
+# Demo Video
+Please visit my TechHire portfolio to view my demo video: https://techhire.io/audrey-schmidt/ (bottom of page).
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
