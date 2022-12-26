@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from "react-router-dom";
+import { useStore } from '../../app/store';
 
 const EnrollButton = (props) => {
+    const courses = useStore((state) => state.courses);
+    const userInfo = useStore((state) => state.userInfo);
+    const studentInfo = useStore((state) => state.studentInfo);
+    const educatorInfo = useStore((state) => state.educatorInfo)
     const [allCourses, setAllCourses] = useState();
     const [currentCourseNames, setCurrentCourseNames] = useState();
-    const { state } = useLocation();
 
     useEffect(() => {
-        if (props.courses) {
-            let course_names = props.courses.map((course, index) => { return course.course.course_name });
+        if (courses) {
+            let course_names = courses.map((course, index) => { return course.course.course_name });
             setCurrentCourseNames(course_names);
             getAllCourses();
         }
         // eslint-disable-next-line
-    }, [props.courses])
+    }, [courses])
 
     async function getAllCourses() {
         const jwt = localStorage.getItem("token");
@@ -32,7 +35,7 @@ const EnrollButton = (props) => {
     }
 
     async function addCourse(course_id) {
-        if (props.userInfo.is_staff === true) {
+        if (userInfo.is_staff) {
             const jwt = localStorage.getItem("token");
             await axios({
                 method: "post",
@@ -41,11 +44,11 @@ const EnrollButton = (props) => {
                     Authorization: "Bearer " + jwt
                 },
                 data: {
-                    educator: props.educatorInfo.id,
+                    educator: educatorInfo.id,
                     course: course_id
                 }
             }).then(response => {
-                props.getEnrolledCourses();
+                useStore.getState().getEnrolledCourses(educatorInfo.id, false)
             }).catch(error => {
                 alert(error)
             })
@@ -59,11 +62,11 @@ const EnrollButton = (props) => {
                     Authorization: "Bearer " + jwt
                 },
                 data: {
-                    student: props.studentInfo.id,
+                    student: studentInfo.id,
                     course: course_id
                 }
             }).then(response => {
-                props.getEnrolledCourses();
+                useStore.getState().getEnrolledCourses(studentInfo.id, false)
             }).catch(error => {
                 alert(error)
             })
@@ -71,16 +74,16 @@ const EnrollButton = (props) => {
     }
 
     async function removeCourse(course_id) {
-        if (props.userInfo.is_staff === true) {
+        if (userInfo.is_staff) {
             const jwt = localStorage.getItem("token");
             await axios({
                 method: "delete",
-                url: `assignment/educator/removeclass/educator_id/${props.educatorInfo.id}/course_id/${course_id}/`,
+                url: `assignment/educator/removeclass/educator_id/${educatorInfo.id}/course_id/${course_id}/`,
                 headers: {
                     Authorization: "Bearer " + jwt
                 },
             }).then(response => {
-                props.getEnrolledCourses();
+                useStore.getState().getEnrolledCourses(educatorInfo.id, true)
             }).catch(error => {
                 alert(error)
             })
@@ -89,12 +92,12 @@ const EnrollButton = (props) => {
             const jwt = localStorage.getItem("token");
             await axios({
                 method: "delete",
-                url: `assignment/student/unregisterclass/student_id/${props.studentInfo.id}/course_id/${course_id}/`,
+                url: `assignment/student/unregisterclass/student_id/${studentInfo.id}/course_id/${course_id}/`,
                 headers: {
                     Authorization: "Bearer " + jwt
                 },
             }).then(response => {
-                props.getEnrolledCourses();
+                useStore.getState().getEnrolledCourses(studentInfo.id, false)
             }).catch(error => {
                 alert(error)
             })
@@ -107,7 +110,7 @@ const EnrollButton = (props) => {
             <ul>
                 {allCourses && allCourses.map((course, index) => {
                     return (
-                        <div>
+                        <div key={course.id}>
                             <li>{course.course_name} &nbsp;&nbsp;&nbsp;
                                 {currentCourseNames.indexOf(course.course_name) === -1 && <button className='btn btn-success  btn-sm' onClick={() => addCourse(course.id)}>Add Course</button>}
                                 {currentCourseNames.indexOf(course.course_name) !== -1 && <button className='btn btn-danger  btn-sm' onClick={() => removeCourse(course.id)}>Remove Course</button>}

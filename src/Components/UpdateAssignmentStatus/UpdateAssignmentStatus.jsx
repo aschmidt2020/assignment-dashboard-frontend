@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import useDrivePicker from 'react-google-drive-picker'
+import { useStore } from '../../app/store';
 
 const UpdateAssignmentStatus = (props) => {
-    const [assignmentStatus, setAssignmentStatus] = useState();
-    const [openPicker, data, authResponse] = useDrivePicker();
+    const studentInfo = useStore((state) => state.studentInfo);
+    const [openPicker, data] = useDrivePicker();
 
     const handleOpenPicker = () => {
         openPicker({
@@ -24,23 +25,20 @@ const UpdateAssignmentStatus = (props) => {
         // do anything with the selected/uploaded files
         if (data) {
             data.docs.map(i => console.log(i.name));
-            setAssignmentStatus('Completed');
             updateAssignmentStatus('Completed')
         }
+        // eslint-disable-next-line
     }, [data])
 
     function handleClickViewed() {
-        setAssignmentStatus('Viewed');
         updateAssignmentStatus('Viewed')
     }
 
     function handleClickInProgress() {
-        setAssignmentStatus('In Progress');
         updateAssignmentStatus('In Progress')
     }
 
     function handleClickCompleted() {
-        setAssignmentStatus('Completed');
         updateAssignmentStatus('Completed')
     }
 
@@ -48,20 +46,18 @@ const UpdateAssignmentStatus = (props) => {
         const jwt = localStorage.getItem("token");
         await axios({
             method: "put",
-            url: `assignment/student/updateassignmentstatus/student_id/${props.studentInfo.id}/assignment_id/${props.assignment.id}/`,
+            url: `assignment/student/updateassignmentstatus/student_id/${studentInfo.id}/assignment_id/${props.assignment.id}/`,
             headers: {
                 Authorization: "Bearer " + jwt
             },
             data: {
                 assignment: props.assignment.id,
-                student: props.studentInfo.id,
+                student: studentInfo.id,
                 assignment_prev_status: props.currentLabel,
                 assignment_status: status
             }
         }).then(response => {
-            props.getAssignments();
-            props.getAssignmentsStatus();
-            // window.location.reload();
+            useStore.getState().getAssignments(studentInfo.id, false)
         }).catch(error => {
             alert(error)
         })

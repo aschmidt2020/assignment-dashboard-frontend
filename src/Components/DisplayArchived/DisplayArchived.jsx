@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useStore } from '../../app/store';
 
 const DisplayArchived = (props) => {
+  const assignments = useStore((state) => state.assignments)
   const [archivedAssignments, setArchivedAssignments] = useState([]);
 
   useEffect(() => {
-    if (props.assignments !== undefined) {
-      let today = new Date();
-      today.setDate(today.getDate() + 0);
-      let assignments = [];
-
-      for (let i = 0; i < props.assignments.length; i++) {
-        let archiveDate = new Date(props.assignments[i].assignment_due_date + "T23:59:59");
-        archiveDate.setDate(archiveDate.getDate() + 3);
-        if (archiveDate < today) {
-          assignments.push(props.assignments[i])
-        }
-      }
-      setArchivedAssignments(assignments)
+    if(assignments) {
+      let assignmentsArchived = assignments.filter(assignment => assignment.assignment_archived ? true : false)
+      setArchivedAssignments(assignmentsArchived)
     }
     // eslint-disable-next-line
-  }, [props.assignments])
+  }, [assignments])
 
   return (
     <table className='table course-table'>
@@ -33,12 +25,12 @@ const DisplayArchived = (props) => {
         {archivedAssignments && archivedAssignments.length > 0 && archivedAssignments.map((assignment, index) => {
           return ( //parenthesis because you are returning multiple lines of code
             <tr key={assignment.id}>
-              <td>{assignment.assignment_name} {assignment.assignment_link && <a href={assignment.assignment_link}  target = "_blank"><i className="bi bi-paperclip"></i></a>}</td>
+              <td>{assignment.assignment_name} {assignment.assignment_link && <a href={assignment.assignment_link}  target = "_blank" rel="noreferrer"><i className="bi bi-paperclip"></i></a>}</td>
               <td>{assignment.assignment_due_date}</td>
             </tr>
           )
         })}
-        {(archivedAssignments && archivedAssignments.length===0) && <p style={{'color':'black'}}>No assignments!</p>}
+        {(archivedAssignments && archivedAssignments.length===0) && <tr style={{'color':'black'}}><td>No assignments!</td></tr>}
       </tbody>
     </table>
 

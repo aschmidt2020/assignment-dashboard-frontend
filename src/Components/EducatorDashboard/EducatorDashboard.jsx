@@ -3,15 +3,13 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Background from '../../Documents/notloggedinbackground.jpg';
 import './EducatorDashboard.css'
+import { useStore } from '../../app/store';
 
 const EducatorDashboard = (props) => {
+    const userInfo = useStore((state) => state.userInfo);
+    const assignmentsAndStatus = useStore((state) => state.studentAssignmentStatus);
     const [modalContent, setModalContent] = useState('')
     const [show, setShow] = useState(false);
-    const [assignmentsNext3, setAssignmentsNext3] = useState();
-    const [assignmentsNext7, setAssignmentsNext7] = useState();
-    const [assignmentsLater, setAssignmentsLater] = useState();
-    const [assignmentsCompleted, setAssignmentsCompleted] = useState();
-    const [archive, setArchived] = useState();
 
     const handleClose = () => setShow(false);
 
@@ -20,72 +18,16 @@ const EducatorDashboard = (props) => {
         setModalContent(assignment)
     }
 
-    // sort assignments
-    useEffect(() => {
-        if (props.assignments !== undefined && props.assignments.length > 0) {
-            if (props.userInfo && props.userInfo.is_staff === true) {
-                let assignments3 = [];
-                let assignments7 = [];
-                let assignmentsLater = [];
-                let assignmentsCompleted = [];
-                let archived = [];
-
-                let today = new Date();
-                today.setDate(today.getDate() + 0);
-
-                let threeDays = new Date();
-                threeDays.setDate(threeDays.getDate() + 3);
-
-                let threeDaysPast = new Date();
-                threeDaysPast.setDate(threeDaysPast.getDate() - 3)
-
-                let sevenDays = new Date();
-                sevenDays.setDate(sevenDays.getDate() + 7)
-
-                for (let i = 0; i < props.assignments.length; i++) {
-                    let assignment_date = new Date(props.assignments[i].assignment_due_date + "T23:59:59");
-
-                    if (assignment_date <= threeDays && assignment_date >= today) {
-                        assignments3.push(props.assignments[i])
-                    }
-                    else if (assignment_date > threeDays && assignment_date <= sevenDays) {
-                        assignments7.push(props.assignments[i])
-                    }
-                    else if (assignment_date > sevenDays) {
-                        assignmentsLater.push(props.assignments[i])
-                    }
-                    else if (assignment_date < today && assignment_date >= threeDaysPast) {
-                        assignmentsCompleted.push(props.assignments[i])
-                    }
-                    else if (assignment_date < today && assignment_date <= threeDaysPast) {
-                        archived.push(props.assignments[i])
-                    }
-
-                }
-
-                setAssignmentsNext3(assignments3);
-                setAssignmentsNext7(assignments7);
-                setAssignmentsLater(assignmentsLater);
-                setAssignmentsCompleted(assignmentsCompleted);
-                setArchived(archived)
-
-            }
-        }
-        // eslint-disable-next-line
-    }, [props.assignments])
-
-
-    if (props.userInfo) {
+    if (userInfo) {
         return (
             <section className="lists-container">
-
                 <div className="list">
                     <h3 className="list-title"><i className="bi bi-hourglass-bottom" style={{ 'color': '#e69500' }}>&nbsp;&nbsp;</i>Next Three Days</h3>
                     <ul className="list-items">
-                        {assignmentsNext3 && assignmentsNext3.length > 0 && assignmentsNext3.map((assignment, index) => {
+                        {assignmentsAndStatus.next_three && assignmentsAndStatus.next_three.length > 0 && assignmentsAndStatus.next_three.map((assignment, index) => {
                             let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;
                             return (
-                                <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
+                                <Button key={assignment.id} variant="btn btn-list" onClick={() => handleShow(assignment)}>
                                     <li>
                                         {assignment.assignment_name}
                                         <div className="progress">
@@ -97,8 +39,8 @@ const EducatorDashboard = (props) => {
                             )
                         })}
 
-                        {assignmentsNext3 && assignmentsNext3.length === 0 &&
-                            <li>
+                        {assignmentsAndStatus.next_three && assignmentsAndStatus.next_three.length === 0 &&
+                            <li key='noAssignments3'>
                                 <Button variant="btn btn-list" disabled>
                                     No assignments!
                                 </Button>
@@ -109,10 +51,10 @@ const EducatorDashboard = (props) => {
                 <div className="list">
                     <h3 className="list-title"><i className="bi bi-hourglass-split" style={{ 'color': '#ffcf48' }}>&nbsp;&nbsp;</i>Next Seven Days</h3>
                     <ul className="list-items">
-                        {assignmentsNext7 && assignmentsNext7.length > 0 && assignmentsNext7.map((assignment, index) => {
+                        {assignmentsAndStatus.next_seven && assignmentsAndStatus.next_seven .length > 0 && assignmentsAndStatus.next_seven .map((assignment, index) => {
                             let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;
                             return (
-                                <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
+                                <Button key={assignment.id} variant="btn btn-list" onClick={() => handleShow(assignment)}>
                                     <li>
                                         {assignment.assignment_name}
 
@@ -124,8 +66,8 @@ const EducatorDashboard = (props) => {
                             )
                         })}
 
-                        {assignmentsNext7 && assignmentsNext7.length === 0 &&
-                            <li>
+                        {assignmentsAndStatus.next_seven  && assignmentsAndStatus.next_seven .length === 0 &&
+                            <li key='noAssignments7'>
                                 <Button variant="btn btn-list" disabled>
                                     No assignments!
                                 </Button>
@@ -136,10 +78,10 @@ const EducatorDashboard = (props) => {
                 <div className="list">
                     <h3 className="list-title"><i className="bi bi-hourglass-top" style={{ 'color': '#ffe394' }}>&nbsp;&nbsp;</i>Later</h3>
                     <ul className="list-items">
-                        {assignmentsLater && assignmentsLater.length > 0 && assignmentsLater.map((assignment, index) => {
+                        {assignmentsAndStatus.later && assignmentsAndStatus.later.length > 0 && assignmentsAndStatus.later.map((assignment, index) => {
                             let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;
                             return (
-                                <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
+                                <Button key={assignment.id} variant="btn btn-list" onClick={() => handleShow(assignment)}>
                                     <li>
                                         {assignment.assignment_name}
                                         <div className="progress">
@@ -150,8 +92,8 @@ const EducatorDashboard = (props) => {
                             )
                         })}
 
-                        {assignmentsLater && assignmentsLater.length === 0 &&
-                            <li>
+                        {assignmentsAndStatus.later && assignmentsAndStatus.later.length === 0 &&
+                            <li key='noAssignmentsLater'>
                                 <Button variant="btn btn-list" disabled>
                                     No assignments!
                                 </Button>
@@ -164,10 +106,10 @@ const EducatorDashboard = (props) => {
                 <div className="list">
                     <h3 className="list-title"><i className="bi bi-check-circle" style={{ 'color': 'green' }}>&nbsp;&nbsp;</i>Completed Past 3 Days</h3>
                     <ul className="list-items">
-                        {assignmentsCompleted && assignmentsCompleted.length > 0 && assignmentsCompleted.map((assignment, index) => {
+                        {assignmentsAndStatus.completed && assignmentsAndStatus.completed.length > 0 && assignmentsAndStatus.completed.map((assignment, index) => {
                             let progress = (assignment.students_completed / assignment.assignment_course.number_of_students) * 100;
                             return (
-                                <Button variant="btn btn-list" onClick={() => handleShow(assignment)}>
+                                <Button key={assignment.id} variant="btn btn-list" onClick={() => handleShow(assignment)}>
                                     <li>
                                         {assignment.assignment_name}
                                         <div className="progress">
@@ -178,8 +120,8 @@ const EducatorDashboard = (props) => {
                             )
                         })}
 
-                        {assignmentsCompleted && assignmentsCompleted.length === 0 &&
-                            <li>
+                        {assignmentsAndStatus.completed  && assignmentsAndStatus.completed.length === 0 &&
+                            <li key='noAssignmentsCompleted'>
                                 <Button variant="btn btn-list" disabled>
                                     No assignments!
                                 </Button>
@@ -189,23 +131,22 @@ const EducatorDashboard = (props) => {
 
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>{modalContent && <span>{modalContent.assignment_name}</span>} {modalContent && modalContent.assignment_link && <a href={modalContent.assignment_link}  target = "_blank"><i className="bi bi-paperclip"></i></a>}</Modal.Title>
+                        <Modal.Title>{modalContent && <span>{modalContent.assignment_name}</span>} {modalContent && modalContent.assignment_link && <a href={modalContent.assignment_link}  target = "_blank" rel="noreferrer"><i className="bi bi-paperclip"></i></a>}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {modalContent &&
                             <div>
-                                <li><strong>Description:</strong> {modalContent.assignment_desc}</li>
-                                <li><strong>Instructions:</strong> {modalContent.assignment_instructions}</li>
+                                <li key='desc'><strong>Description:</strong> {modalContent.assignment_desc}</li>
+                                <li key='instr'><strong>Instructions:</strong> {modalContent.assignment_instructions}</li>
                                 <br></br>
-                                <li><u>Due Date:</u> {modalContent.assignment_due_date}</li>
-                                <li><u>Course:</u> {modalContent.assignment_course.course_name}</li>
+                                <li key='dueDate'><u>Due Date:</u> {modalContent.assignment_due_date}</li>
+                                <li key='course'><u>Course:</u> {modalContent.assignment_course.course_name}</li>
                                 <br></br>
                                 <mark>Status</mark>
-                                <li><strong>Students Enrolled:</strong> {modalContent.assignment_course.number_of_students}</li>
-                                <li><strong>Viewed:</strong> {modalContent.students_viewed}</li>
-                                <li><strong>In Progress:</strong> {modalContent.students_in_progress}</li>
-                                <li><strong>Completed:</strong> {modalContent.students_completed}</li>
-
+                                <li key='studentsEnrolled'><strong>Students Enrolled:</strong> {modalContent.assignment_course.number_of_students}</li>
+                                <li key='studentsViewed'><strong>Viewed:</strong> {modalContent.students_viewed}</li>
+                                <li key='studentsInProgress'><strong>In Progress:</strong> {modalContent.students_in_progress}</li>
+                                <li key='studentsCompleted'><strong>Completed:</strong> {modalContent.students_completed}</li>
                             </div>
                         }
                     </Modal.Body>

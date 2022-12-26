@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import Background from '../../Documents/notloggedinbackground.jpg';
+import React from 'react';
 import StudentView from '../../Documents/student-screenshot.png';
 import EducatorView from '../../Documents/educator-screenshot.png';
 import LandingPageScreenshot from '../../Documents/landing-page.png'
-import Icon from '../../Documents/apple-touch-icon.png';
 import './LandingPage.css';
 import LoginForm from "../LoginForm/LoginForm";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
@@ -15,8 +13,7 @@ const LandingPage = (props) => {
                 <div className='col' style={{ 'marginTop': '18em' }}>
                     <h1>Assignment Dashboard</h1>
                     <p>Like an online agenda...but better.</p>
-                    <span><LoginForm login={props.login} /> <RegistrationForm register={props.register} /> </span>
-                    {/* <img src={Background} alt='apple and books' style={{'height':'90vh', 'width':'80vw'}}/> */}
+                    <span><LoginForm /> <RegistrationForm /> </span>
                 </div>
                 <div className='col' style={{ 'marginTop': '10em', 'marginRight': '4em' }}>
                     <div id="carouselExampleIndicators" className="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -45,11 +42,8 @@ const LandingPage = (props) => {
                             <span className="visually-hidden">Next</span>
                         </button>
                     </div>
-
                 </div>
             </div>
-
-
         </div>
     );
 }

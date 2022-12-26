@@ -1,29 +1,31 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useStore } from '../../app/store';
 
 const SearchBar = (props) => {
-  const [searchTerm, setSearchTerm] = useState();
+  const assignments = useStore((state) => state.assignments);
+  const courses = useStore((state) => state.courses);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
     search(searchTerm);
-    setSearchTerm(""); //resets form
+    setSearchTerm("");
   }
 
   function search(searchTerm) {
     let searchTermLower = searchTerm.toLowerCase();
-    let searchResultsCourses = props.courses.filter(e => {
-      if (e.course.course_name.toLowerCase().includes(searchTermLower)) { return true };
+    let searchResultsCourses = courses.filter(e => {
+      if (e.course.course_name.toLowerCase().includes(searchTermLower)) { return true }
+      else { return false };
     })
-    let searchResultsAssignments = props.assignments.filter(e => {
-      if (e.assignment_name.toLowerCase().includes(searchTermLower)) { return true };
+    let searchResultsAssignments = assignments.filter(e => {
+      if (e.assignment_name.toLowerCase().includes(searchTermLower) && !e.assignment_archived) { return true }
+      else { return false};
     })
-    props.getResults(searchResultsAssignments, searchResultsCourses);
-    navigate('/search-results')
+    navigate('/search-results', {state: {searchResultsAssignments: searchResultsAssignments, searchResultsCourses: searchResultsCourses}})
   }
-
-
 
   return (
     <form className="row" onSubmit={handleSubmit} style={{ "marginLeft": "10em", "width": "80%" }}>

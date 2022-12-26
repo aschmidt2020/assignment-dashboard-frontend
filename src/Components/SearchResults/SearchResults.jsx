@@ -1,31 +1,30 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SearchResults = (props) => {
     const navigate = useNavigate();
     const [show, setShow] = useState({ show: false, assignmentId: '' });
+    const { state } = useLocation();
 
     function toggleShow(assignmentId) {
         setShow({ show: !show.show, assignmentId: assignmentId })
     }
 
-
     function navigateCourse(course) {
         navigate(`/course/${course.course.course_name.split(' ').join('')}`, { state: { ...course } });
-
     }
 
     return (
         <div>
             <h5>Assignments:</h5>
-            {props.searchResultsAssignments && props.searchResultsAssignments.length > 0 && props.searchResultsAssignments.map((result, index) => {
+            {state.searchResultsAssignments && state.searchResultsAssignments.length > 0 && state.searchResultsAssignments.map((result, index) => {
                 return (
-                    <div>
+                    <div key={index}>
                         <button className="btn btn-link" onClick={() => toggleShow(result.id)}>
                             {result.assignment_name}
                         </button>
 
-                        {show.show === true && show.assignmentId === result.id &&
+                        {show.show && show.assignmentId === result.id &&
                             <div className='row' style={{ 'marginLeft': '1em' }}>
                                 <li><strong>Due Date:</strong> {result.assignment_due_date}</li>
                                 <li><strong>Description:</strong> {result.assignment_desc}</li>
@@ -40,17 +39,15 @@ const SearchResults = (props) => {
                     </div>
                 );
             })}
-            {props.searchResultsAssignments && props.searchResultsAssignments.length === 0 && <li>No matching assignments.</li>}
+            {state.searchResultsAssignments && state.searchResultsAssignments.length === 0 && <li key='noAssignments'>No matching assignments.</li>}
             <br></br>
             <h5>Courses:</h5>
-            {props.searchResultsCourses && props.searchResultsCourses.length > 0 && props.searchResultsCourses.map((result, index) => {
+            {state.searchResultsCourses && state.searchResultsCourses.length > 0 && state.searchResultsCourses.map((result, index) => {
                 return (
-                    <li><button className='btn btn-link' onClick={() => navigateCourse(result)}>{result.course.course_name}</button></li>
+                    <li key={index}><button className='btn btn-link' onClick={() => navigateCourse(result)}>{result.course.course_name}</button></li>
                 );
             })}
-
-            {props.searchResultsCourses && props.searchResultsCourses.length === 0 && <li>No matching courses.</li>}
-
+            {state.searchResultsCourses && state.searchResultsCourses.length === 0 && <li key='noCourses'>No matching courses.</li>}
         </div>
     )
 

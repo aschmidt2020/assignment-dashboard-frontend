@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from './Components/NavBar/NavBar';
-import axios from "axios";
+import axios from 'axios';
 import Axios from "axios";
 import jwt_decode from "jwt-decode";
 import { Routes, Route, useNavigate } from "react-router-dom";
@@ -20,22 +20,33 @@ import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import EducatorDashboard from './Components/EducatorDashboard/EducatorDashboard';
 import swal from 'sweetalert';
 import LandingPage from './Components/LandingPage/LandingPage';
+import { useStore } from './app/store';
 
 function App() {
-  Axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+  Axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
   const navigate = useNavigate();
-  const [user, setUser] = useState();
-  const [userInfo, setUserInfo] = useState();
-  const [educatorInfo, setEducatorInfo] = useState();
-  const [studentInfo, setStudentInfo] = useState();
-  const [courses, setCourses] = useState();
-  const [assignments, setAssignments] = useState();
-  const [studentAssignmentStatus, setStudentAssignmentStatus] = useState();
-  const [searchResultsAssignments, setSearchResultsAssignments] = useState([]);
-  const [searchResultsCourses, setSearchResultsCourses] = useState([]);
-  const [lightMode, setLightMode] = useState(true);
-
+  const store = useStore();
+  const userInfo = useStore((state) => state.userInfo);
+  const assignments = useStore((state) => state.assignments);
   const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    const tokenFromStorage = localStorage.getItem("token");
+    const userIsStaff = localStorage.getItem("user_is_staff");
+    try {
+      const decodedUser = jwt_decode(tokenFromStorage);
+      useStore.setState({user: decodedUser.user_id, userIsStaff: userIsStaff});
+      useStore.getState().getUserInfo(decodedUser.user_id);
+      if(userIsStaff === "true"){
+        getEducatorInfo(decodedUser.user_id, tokenFromStorage)
+      } else {
+        getStudentInfo(decodedUser.user_id, tokenFromStorage)
+      }
+    } catch (e) { 
+      console.log(e)
+    }
+    // eslint-disable-next-line
+  }, [])
 
   //needed to automatically re-render calendar
   useEffect(() => {
@@ -45,21 +56,6 @@ function App() {
       window.removeEventListener("resize", onResize)
     }
   }, [setWidth])
-
-  useEffect(() => {
-    const tokenFromStorage = localStorage.getItem("token");
-    try {
-      const decodedUser = jwt_decode(tokenFromStorage);
-      setUser(decodedUser);
-      getUserInfo(decodedUser, tokenFromStorage);
-    } catch { }
-    // eslint-disable-next-line
-  }, [])
-
-  useEffect(() => {
-    getEnrolledCourses();
-    // eslint-disable-next-line
-  }, [studentInfo, educatorInfo])
 
   useEffect(() => {
     try {
@@ -106,231 +102,50 @@ function App() {
 
       calendar.render()
     }
-    catch {
-      console.log('Not logged in.')
-    }
+    catch { }
   }, [assignments, width]);
 
-  function getResults(assignments, courses) {
-    setSearchResultsAssignments(assignments);
-    setSearchResultsCourses(courses)
-  }
-
-  async function getEnrolledCourses() {
-    if (studentInfo !== undefined) {
-      const jwt = localStorage.getItem("token");
-      await axios({
-        method: "get",
-        url: `assignment/student/getcourses/student_id/${studentInfo.id}/`,
-        headers: {
-          Authorization: "Bearer " + jwt
-        },
-      }).then(response => {
-        setCourses(response.data);
-        getAssignments();
-      }).catch(error => {
-        swal({
-          title: "Oops something went wrong!",
-          text: error.message,
-          icon: "error"
-        })
-      })
-    }
-    else if (educatorInfo !== undefined) {
-      const jwt = localStorage.getItem("token");
-      await axios({
-        method: "get",
-        url: `assignment/educator/getcourses/educator_id/${educatorInfo.id}/`,
-        headers: {
-          Authorization: "Bearer " + jwt
-        },
-      }).then(response => {
-        setCourses(response.data);
-        getAssignments();
-      }).catch(error => {
-        swal({
-          title: "Oops something went wrong!",
-          text: error.message,
-          icon: "error"
-        })
-      })
-    }
-  }
-
-  async function getAssignments() {
-    if (studentInfo !== undefined) {
-      const jwt = localStorage.getItem("token");
-      await axios({
-        method: "get",
-        url: `assignment/student/getassignments/student_id/${studentInfo.id}/`,
-        headers: {
-          Authorization: "Bearer " + jwt
-        },
-      }).then(response => {
-        setAssignments(response.data);
-        getAssignmentsStatus();
-
-      }).catch(error => {
-        swal({
-          title: "Oops something went wrong!",
-          text: error.message,
-          icon: "error"
-        })
-      })
-    }
-    else if (educatorInfo !== undefined) {
-      const jwt = localStorage.getItem("token");
-      await axios({
-        method: "get",
-        url: `assignment/educator/getassignments/educator_id/${educatorInfo.id}/`,
-        headers: {
-          Authorization: "Bearer " + jwt
-        },
-      }).then(response => {
-        setAssignments(response.data);
-        getAssignmentsStatus();
-      }).catch(error => {
-        swal({
-          title: "Oops something went wrong!",
-          text: error.message,
-          icon: "error"
-        })
-      })
-    }
-  }
-
-  async function getAssignmentsStatus() {
-    if (studentInfo !== undefined) {
-      const jwt = localStorage.getItem("token");
-      await axios({
-        method: "get",
-        url: `assignment/student/getassignmentstatus/student_id/${studentInfo.id}/`,
-        headers: {
-          Authorization: "Bearer " + jwt
-        },
-      }).then(response => {
-        setStudentAssignmentStatus(response.data);
-      }).catch(error => {
-        swal({
-          title: "Oops something went wrong!",
-          text: error.message,
-          icon: "error"
-        })
-      })
-    }
-    else if (educatorInfo !== undefined) {
-      const jwt = localStorage.getItem("token");
-      await axios({
-        method: "get",
-        url: `assignment/educator/getassignmentstatus/`,
-        headers: {
-          Authorization: "Bearer " + jwt
-        },
-      }).then(response => {
-        setStudentAssignmentStatus(response.data);
-      }).catch(error => {
-        swal({
-          title: "Oops something went wrong!",
-          text: error.message,
-          icon: "error"
-        })
-      })
-    }
-  }
-
-  async function login(username, password) {
+  async function getEducatorInfo(user_id, token){
     await axios({
-      method: "post",
-      url: "auth/login/",
-      headers: {},
-      data: {
-        "username": username,
-        "password": password
-      }
-    }).then(response => {
-      localStorage.setItem("token", response.data.access);
-      window.location = "/";
-    }
-    ).catch(error => {
-      swal({
-        title: "Oops something went wrong!",
-        text: error.message,
-        icon: "error"
+        method: "get",
+        url: `/assignment/educator/user_id/${user_id}/`,
+        headers: {
+          Authorization: "Bearer " + token
+        },
+      }).then(response => {
+        if(response.status === 200){
+            useStore.setState({studentInfo: null, educatorInfo: response.data});
+            useStore.getState().getEnrolledCourses(response.data.id, true);
+            return true
+        } else {
+            navigate('/complete-registration-educator')
+        }
+      }).catch(error => {
+        swal({
+            title: "Oops something went wrong!",
+            text: error.message,
+            icon: "error"
+          })
       })
-    })
+    
   }
 
-  async function getUserInfo(user, token) {
+  async function getStudentInfo(user_id, token){
     await axios({
-      method: "get",
-      url: `assignment/user/user_id/${user.user_id}/`,
-      headers: {
-        Authorization: "Bearer " + token
-      },
-    }).then(response => {
-      setUserInfo(response.data);
-      if (response.data.is_staff === true) {
-        getEducatorInfo(response.data.id);
-      }
-      else {
-        getStudentInfo(response.data.id);
-      }
-    })
-  }
-
-  async function getStudentInfo(user_id) {
-    const jwt = localStorage.getItem("token");
-    await axios({
-      method: "get",
-      url: `assignment/student/user_id/${user_id}/`,
-      headers: {
-        Authorization: "Bearer " + jwt
-      },
-    }).then(response => {
-      setStudentInfo(response.data);
-      setEducatorInfo(undefined)
-    }).catch(error => {
-      navigate(`/complete-registration-student`, { state: { ...userInfo } });
-    })
-  }
-
-  async function getEducatorInfo(user_id) {
-    const jwt = localStorage.getItem("token");
-    await axios({
-      method: "get",
-      url: `assignment/educator/user_id/${user_id}/`,
-      headers: {
-        Authorization: "Bearer " + jwt
-      },
-    }).then(response => {
-      setEducatorInfo(response.data);
-      setStudentInfo(undefined)
-    }).catch(error => {
-      navigate(`/complete-registration-educator`, { state: { ...userInfo } });
-    })
-  }
-
-  async function logout() {
-    localStorage.removeItem("token");
-    window.location = "/";
-  }
-
-  async function register(userInfo) {
-    await axios({
-      method: "post",
-      url: "auth/register/",
-      headers: {},
-      data: userInfo
-    }).then(response => {
-      login(userInfo.username, userInfo.password)
-    }
-    ).catch(error => {
-      swal({
-        title: "Oops something went wrong!",
-        text: error.message,
-        icon: "error"
+        method: "get",
+        url: `/assignment/student/user_id/${user_id}/`,
+        headers: {
+          Authorization: "Bearer " + token
+        },
+      }).then(response => {
+        if(response.status === 200){
+          useStore.setState({studentInfo: response.data, educatorInfo: null});
+          useStore.getState().getEnrolledCourses(response.data.id, false);
+          return true
+        } else {
+            navigate('/complete-registration-student')
+        }
       })
-    })
 
   }
 
@@ -338,40 +153,38 @@ function App() {
     return (
       <div className='container-fluid'>
         <div className='row'>
-          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} courses={courses} getAssignments={getAssignments} assignments={assignments} getResults={getResults} />
+          <NavBar />
 
           <div className='col-2 sidebar-border' style={{ 'height': '90vh', 'paddingTop': '2%' }} >
-            <SideBar userInfo={userInfo} courses={courses} />
+            <SideBar />
           </div>
 
           <div className='col-6' style={{ 'paddingTop': '2%' }}>
             <Routes>
-              {userInfo && userInfo.is_staff === false && <Route exact path='/' element={<StudentDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus} getAssignmentsStatus={getAssignmentsStatus}/>} />}
-              {userInfo && userInfo.is_staff === true && <Route exact path='/' element={<EducatorDashboard user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} getAssignments={getAssignments} courses={courses} assignments={assignments} studentAssignmentStatus={studentAssignmentStatus} />} />}
-              <Route path='/course/:courseName' element={<CourseViewer userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} getAssignments={getAssignments} />} />
-              <Route path='/course/enroll' element={<EnrollButton userInfo={userInfo} educatorInfo={educatorInfo} studentInfo={studentInfo} courses={courses} getEnrolledCourses={getEnrolledCourses} />} />
-              <Route path='/complete-registration-student' element={<StudentRegister userInfo={userInfo} getStudentInfo={getStudentInfo} />} />
-              <Route path='/complete-registration-educator' element={<EducatorRegister userInfo={userInfo} getEducatorInfo={getEducatorInfo} />} />
-              <Route path='/assignments/archived' element={<DisplayArchived assignments={assignments} />} />
-              <Route path='/search-results' element={<SearchResults userInfo={userInfo} searchResultsAssignments={searchResultsAssignments} searchResultsCourses={searchResultsCourses} />} />
+              {userInfo && !userInfo.is_staff && <Route exact path='/' element={<StudentDashboard />} />}
+              {userInfo && userInfo.is_staff && <Route exact path='/' element={<EducatorDashboard />} />}
+              <Route path='/course/:courseName' element={<CourseViewer />} />
+              <Route path='/course/enroll' element={<EnrollButton />} />
+              <Route path='/complete-registration-student' element={<StudentRegister getStudentInfo={getStudentInfo}/>} />
+              <Route path='/complete-registration-educator' element={<EducatorRegister getEducatorInfo={getEducatorInfo}/>} />
+              <Route path='/assignments/archived' element={<DisplayArchived />} />
+              <Route path='/search-results' element={<SearchResults />} />
             </Routes>
           </div>
 
           <div className='col-4' style={{ 'paddingLeft': '2%', 'paddingRight': '2%', 'paddingTop': '2%' }}>
             <div id='calendar'></div>
-            <Notepad user={user} userInfo={userInfo} studentInfo={studentInfo} educatorInfo={educatorInfo} />
+            <Notepad />
           </div>
         </div>
       </div>
     )
-  }
-
-  else {
+  } else {
     return (
       <div className='container-fluid'>
         <div className='row'>
           <Routes>
-            {userInfo === undefined && <Route exact path='/' element={<LandingPage register={register} login={login} />} />}
+            <Route exact path='/' element={<LandingPage />} />
           </Routes>
         </div>
       </div>

@@ -3,38 +3,35 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import useForm from "../CustomHooks/useForm";
+import { useStore } from '../../app/store';
 
 const RegistrationForm = (props) => {
-
   const { formValues, handleChange, handleSubmit, handleReset } = useForm(register);
   const [show, setShow] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [staff, setStaff] = useState(false);
 
-  //   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   function handleClose() {
     setShow(false);
-    handleReset()
+    handleReset();
   }
+  
   function register() {
     if (formValues.password === formValues.passwordCheck) {
-      if (staff === false) {
-        let userInfo = { ...formValues, "is_staff": 0 }
-        props.register(userInfo);
-      }
-      else {
-        let userInfo = { ...formValues, "is_staff": 1 }
-        props.register(userInfo);
+      if (!staff) {
+        let userInfo = { ...formValues, is_staff: 0 };
+        useStore.getState().register(userInfo);
+      } else {
+        let userInfo = { ...formValues, is_staff: 1 };
+        useStore.getState().register(userInfo);
       }
       setPasswordError(false);
-    }
-    else {
+    } else {
       alert("Passwords must match.");
       setPasswordError(true);
     }
-
   }
 
   return (
@@ -53,47 +50,47 @@ const RegistrationForm = (props) => {
           <Form onSubmit={handleSubmit}>
             <div className="input-group mb-3">
               <span className="input-group-text">First name</span>
-              <input className="form-control" type="text" name="first_name" value={formValues.first_name} onChange={handleChange} required={true}></input>
+              <input className="form-control" type="text" name="first_name" value={formValues.first_name || ''} onChange={handleChange} required={true}></input>
             </div>
 
             <div className="input-group mb-3">
               <span className="input-group-text">Last name</span>
-              <input className="form-control" type="text" name="last_name" value={formValues.last_name} onChange={handleChange} required={true}></input>
+              <input className="form-control" type="text" name="last_name" value={formValues.last_name || ''} onChange={handleChange} required={true}></input>
             </div>
 
             <div className="input-group mb-3">
               <span className="input-group-text">Email</span>
-              <input className="form-control" type="email" name="email" value={formValues.email} onChange={handleChange} required={true}></input>
+              <input className="form-control" type="email" name="email" value={formValues.email || ''} onChange={handleChange} required={true}></input>
             </div>
 
             <div className="input-group mb-3">
               <span className="input-group-text">Username</span>
-              <input className="form-control" type="text" name="username" value={formValues.username} onChange={handleChange} required={true}></input>
+              <input className="form-control" type="text" name="username" value={formValues.username || ''} onChange={handleChange} required={true}></input>
             </div>
 
             {!passwordError &&
               <div className="input-group mb-3">
                 <span className="input-group-text">Password</span>
-                <input className="form-control" type="password" name="password" value={formValues.password} onChange={handleChange} required={true}></input>
+                <input className="form-control" type="password" name="password" value={formValues.password || ''} onChange={handleChange} required={true}></input>
               </div>
             }
             {passwordError &&
               <div className="input-group mb-3">
                 <span className="input-group-text">Password</span>
-                <input className="form-control is-invalid" type="password" name="password" value={formValues.password} onChange={handleChange} required={true}></input>
+                <input className="form-control is-invalid" type="password" name="password" value={formValues.password || ''} onChange={handleChange} required={true}></input>
               </div>
             }
 
             {!passwordError &&
               <div className="input-group mb-3">
                 <span className="input-group-text">Re-type Password</span>
-                <input className="form-control" type="password" name="passwordCheck" value={formValues.passwordCheck} onChange={handleChange} required={true}></input>
+                <input className="form-control" type="password" name="passwordCheck" value={formValues.passwordCheck || ''} onChange={handleChange} required={true}></input>
               </div>
             }
             {passwordError &&
               <div className="input-group mb-3">
                 <span className="input-group-text">Re-type Password</span>
-                <input className="form-control is-invalid" type="password" name="passwordCheck" value={formValues.passwordCheck} onChange={handleChange} required={true}></input>
+                <input className="form-control is-invalid" type="password" name="passwordCheck" value={formValues.passwordCheck || ''} onChange={handleChange} required={true}></input>
               </div>
             }
 

@@ -4,14 +4,13 @@ import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import swal from 'sweetalert';
-import UpdateAssignmentStatus from '../UpdateAssignmentStatus/UpdateAssignmentStatus';
-// import useForm from "../CustomHooks/useForm";
+import { useStore } from '../../app/store';
 
 const CourseViewer = (props) => {
     const { state } = useLocation();
-    const { course } = state;
+    const userInfo = useStore((state) => state.userInfo);
+    const educatorInfo = useStore((state) => state.educatorInfo);
     const [assignments, setAssignments] = useState();
-
     const [courseInfo, setCourseInfo] = useState();
     const [assignmentName, setAssignmentName] = useState();
     const [assignmentDesc, setAssignmentDesc] = useState();
@@ -22,10 +21,7 @@ const CourseViewer = (props) => {
     const [completed, setCompleted] = useState(0)
     const [assignmentLink, setAssignmentLink] = useState();
     const [assignmentsNotArchived, setAssignmentsNotArchived] = useState();
-    const [archived, setArchived] = useState();
     const [show, setShow] = useState(false);
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
 
     function handleShow(index) {
         setShow(true);
@@ -56,33 +52,16 @@ const CourseViewer = (props) => {
     }
 
     useEffect(() => {
-        getAssignmentsOneCourse(course.id)
+        if(state && state.course){
+            getAssignmentsOneCourse(state?.course?.id)
+        }
         // eslint-disable-next-line
     }, [state])
 
     useEffect(() => {
         if (assignments) {
-            let today = new Date();
-            today.setDate(today.getDate() + 0);
-
-            let threeDaysPast = new Date();
-            threeDaysPast.setDate(threeDaysPast.getDate() - 3)
-
-            let assignmentsNotArchived = [];
-            let archived = [];
-
-            for (let i = 0; i < assignments.length; i++) {
-                let assignment_date = new Date(assignments[i].assignment_due_date + "T23:59:59");
-                if (assignment_date < today && assignment_date <= threeDaysPast) {
-                    archived.push(assignments[i])
-                }
-                else {
-                    assignmentsNotArchived.push(assignments[i])
-                }
-            }
-
-            setAssignmentsNotArchived(assignmentsNotArchived);
-            setArchived(archived)
+            let assignmentsNotArchived = assignments.filter(assignment =>  assignment.assignment_archived ? false : true)
+            setAssignmentsNotArchived(assignmentsNotArchived)
         }
         // eslint-disable-next-line
     }, [assignments])
@@ -102,7 +81,7 @@ const CourseViewer = (props) => {
         })
     }
 
-    async function deleteAssignment(assignment_id, course_id) {
+    async function deleteAssignment(assignment_id) {
         const jwt = localStorage.getItem("token");
         swal({
             title: "Are you sure?",
@@ -122,8 +101,8 @@ const CourseViewer = (props) => {
                         Authorization: "Bearer " + jwt
                     },
                 }).then(response => {
-                    props.getAssignments();
-                    window.location.reload();
+                    useStore.getState().getAssignments(educatorInfo.id, true);
+                    getAssignmentsOneCourse(state?.course?.id);
                 }).catch(error => {
                     alert(error)
                 })
@@ -152,9 +131,10 @@ const CourseViewer = (props) => {
                 assignment_link: assignmentLink,
             }
         }).then(response => {
-            props.getAssignments();
-            getAssignmentsOneCourse(courseInfo);
-            window.location.reload()
+            debugger
+            useStore.getState().getAssignments(educatorInfo.id, true);
+            getAssignmentsOneCourse(state?.course?.id);
+            setShow(false);
         }).catch(error => {
             alert(error)
         })
@@ -179,20 +159,19 @@ const CourseViewer = (props) => {
                         return (
                             <tr key={assignment.id}>
                                 <td style={{'width':'20%'}}>{assignment.assignment_name} 
-                                {assignment.assignment_link && <a href={assignment.assignment_link}  target = "_blank"><i className="bi bi-paperclip"></i></a>}
+                                {assignment.assignment_link && <a href={assignment.assignment_link}  target = "_blank" rel="noreferrer"><i className="bi bi-paperclip"></i></a>}
                                 </td>
                                 <td style={{'width':'15%'}}>{assignment.assignment_due_date}</td>
                                 <td style={{'width':'40%'}}>{assignment.assignment_instructions}</td>
                                 <td style={{'textAlign': 'center', 'width':'10%'}}>{assignment.assignment_course.number_of_students}</td>
                                 <td style={{ 'textAlign': 'left','width':'15%' }}>
                                     <span>
-                                        {props.userInfo && props.userInfo.is_staff === true &&
+                                        {userInfo && userInfo.is_staff &&
                                             <span>
                                                 <button className='btn btn-outline-dark' onClick={() => deleteAssignment(assignment.id)} data-toggle='popover' title='Delete Assignment' data-content='Delete Assignment' trigger='hover'><i className="bi bi-trash3"></i></button>
                                                 <Button variant='btn btn-outline-dark' onClick={() => handleShow(index)} style={{ "marginLeft": "1em" }} data-toggle='popover' title='Edit Assignment' data-content='Edit Assignment' trigger='hover'>
                                                     <i className="bi bi-pencil"></i>
                                                 </Button>
-
                                             </span>}
 
                                         <span>
@@ -204,8 +183,6 @@ const CourseViewer = (props) => {
                                                 <Modal.Body>
 
                                                     <form onSubmit={() => updateAssignment(assignment.id)}>
-
-
                                                         <div className="input-group mb-3">
                                                             <span className="input-group-text">Assignment Name</span>
                                                             <input className="form-control" type="text" name="assignment_name" value={assignmentName} onChange={(event) => setAssignmentName(event.target.value)}></input>
@@ -243,16 +220,12 @@ const CourseViewer = (props) => {
                                                 </Modal.Footer>
                                             </Modal>
                                         </span>
-
                                     </span>
                                 </td>
                             </tr>
-                        )
-                    }
-                    )}
+                        )})}
                 </tbody>
             </table>
-
         </div>
     );
 }
